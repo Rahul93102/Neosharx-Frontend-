@@ -10,8 +10,8 @@
     "clean": "rimraf dist",
     "build-css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
     "build-css-prod": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
-    "build:copy": "cp index.html dist/ && cp -r assets dist/ && cp -r auth dist/ && cp navigation.html dist/ && cp global-auth.js dist/",
-    "build": "npm run clean && npm run build-css-prod && npm run build:copy",
+    "build:copy": "bash build.sh",
+    "build": "bash build.sh",
     "deploy": "npm run build",
     "serve": "python3 -m http.server 8000",
     "test": "echo \"No tests specified\" && exit 0"
