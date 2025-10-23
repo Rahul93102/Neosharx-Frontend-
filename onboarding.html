@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to NeoSharX - Tell us about yourself</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="auth-styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: #007fff;
+        min-height: 100vh;
+        font-family: "Inter", sans-serif;
+        color: #1a1a1a;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .onboarding-outer {
+        width: 100vw;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #007fff;
+      }
+      .onboarding-container {
+        width: 100%;
+        max-width: 420px;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(0, 123, 255, 0.1);
+        border: 1px solid #e3f2fd;
+        padding: 2rem 1.5rem;
+        margin: 2rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .welcome-header {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .welcome-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #007fff;
+        margin-bottom: 0.5rem;
+      }
+      .welcome-header p {
+        color: #222;
+        font-size: 1.05rem;
+        margin-bottom: 0.5rem;
+      }
+      .onboarding-content {
+        width: 100%;
+      }
+      .question-section {
+        margin-bottom: 2rem;
+      }
+      .question-section h3 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #007fff;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      .options-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      .option-card {
+        background: #fff;
+        border: 2px solid #e3f2fd;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+        text-align: center;
+        padding: 1rem 0.5rem;
+        color: #222;
+        font-size: 1rem;
+        position: relative;
+        outline: none;
+      }
+      .option-card .icon {
+        font-size: 1.7rem;
+        margin-bottom: 0.3rem;
+        display: block;
+      }
+      .option-card .label {
+        font-weight: 600;
+        color: #222;
+        font-size: 1rem;
+      }
+      .option-card.selected {
+        border-color: #007fff;
+        background: #e3f2fd;
+        color: #0056b3;
+      }
+      .option-card.selected::after {
+        content: "✓";
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        background: #007fff;
+        color: #fff;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+      .option-card:hover,
+      .option-card:focus {
+        border-color: #007fff;
+        box-shadow: 0 4px 16px rgba(0, 123, 255, 0.1);
+        background: #f0f8ff;
+        color: #0056b3;
+      }
+      .continue-btn {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(90deg, #007fff 0%, #0056b3 100%);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+        transition: background 0.2s, box-shadow 0.2s;
+      }
+      .continue-btn:disabled {
+        background: #e3e3e3;
+        color: #aaa;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+      .continue-btn:focus {
+        outline: 2px solid #007fff;
+        outline-offset: 2px;
+      }
+      .skip-link {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+        color: #222;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .skip-link:hover {
+        color: #007fff;
+        text-decoration: underline;
+      }
+      @media (max-width: 600px) {
+        .onboarding-container {
+          max-width: 98vw;
+          padding: 1.2rem 0.5rem;
+        }
+        .options-grid {
+          grid-template-columns: 1fr;
+          gap: 0.7rem;
+        }
+        .welcome-header h1 {
+          font-size: 1.3rem;
+        }
+        .question-section h3 {
+          font-size: 1rem;
+        }
+      }
+      @media (max-width: 400px) {
+        .onboarding-container {
+          padding: 0.7rem 0.2rem;
+        }
+        .welcome-header h1 {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="onboarding-outer">
+      <div class="onboarding-container">
+        <div class="welcome-header">
+          <h1>Welcome to NeoSharX!</h1>
+          <p>
+            Help us personalize your experience by telling us a bit about
+            yourself
+          </p>
+        </div>
+        <div class="onboarding-content">
+          <form id="onboardingForm">
+            <!-- Question 1: What are you looking for? -->
+            <div class="question-section">
+              <h3>What are you looking for?</h3>
+              <div class="options-grid" id="interestsGrid">
+                <div class="option-card" data-value="neo-stories" tabindex="0">
+                  <span class="icon">&#128196;</span>
+                  <div class="label">Neo Stories</div>
+                </div>
+                <div class="option-card" data-value="projects" tabindex="0">
+                  <span class="icon">&#128736;</span>
+                  <div class="label">Projects</div>
+                </div>
+                <div class="option-card" data-value="tech-news" tabindex="0">
+                  <span class="icon">&#128240;</span>
+                  <div class="label">Tech News</div>
+                </div>
+                <div
+                  class="option-card"
+                  data-value="robotics-news"
+                  tabindex="0"
+                >
+                  <span class="icon">&#129302;</span>
+                  <div class="label">Robotics News</div>
+                </div>
+                <div class="option-card" data-value="sharxthon" tabindex="0">
+                  <span class="icon">&#127942;</span>
+                  <div class="label">SharXathon</div>
+                </div>
+                <div class="option-card" data-value="talks" tabindex="0">
+                  <span class="icon">&#128172;</span>
+                  <div class="label">Talks & Events</div>
+                </div>
+              </div>
+            </div>
+            <!-- Question 2: Who are you? -->
+            <div class="question-section">
+              <h3>Who are you?</h3>
+              <div class="options-grid" id="userTypeGrid">
+                <div class="option-card" data-value="student" tabindex="0">
+                  <span class="icon">&#127891;</span>
+                  <div class="label">Student</div>
+                </div>
+                <div
+                  class="option-card"
+                  data-value="working-professional"
+                  tabindex="0"
+                >
+                  <span class="icon">&#128188;</span>
+                  <div class="label">Working Professional</div>
+                </div>
+                <div
+                  class="option-card"
+                  data-value="startup-founder"
+                  tabindex="0"
+                >
+                  <span class="icon">&#128200;</span>
+                  <div class="label">Startup Founder</div>
+                </div>
+                <div
+                  class="option-card"
+                  data-value="tech-enthusiast"
+                  tabindex="0"
+                >
+                  <span class="icon">&#9889;</span>
+                  <div class="label">Tech Enthusiast</div>
+                </div>
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="continue-btn"
+              id="continueBtn"
+              disabled
+            >
+              Continue to NeoSharX →
+            </button>
+            <a href="http://localhost:3000/index.html" class="skip-link"
+              >Skip for now</a
+            >
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Load Navigation Script -->
+    <script>
+      // Load navigation component
+      fetch("navigation.html")
+        .then((response) => response.text())
+        .then((html) => {
+          const container = document.getElementById("navigation-container");
+          if (container) {
+            container.innerHTML = html;
+
+            // Load global-auth.js after navigation is loaded
+            const authScript = document.createElement("script");
+            authScript.src = "global-auth.js";
+            authScript.onload = () =>
+              console.log("Global auth loaded successfully");
+            authScript.onerror = () =>
+              console.error("Failed to load global-auth.js");
+            document.head.appendChild(authScript);
+          }
+        })
+        .catch((error) => {
+          console.error("Error loading navigation:", error);
+        });
+    </script>
+
+    <!-- Onboarding Logic Script -->
+    <script>
+      // FIRST: Check for auth data from OAuth callback (passed via URL)
+      (function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const authData = urlParams.get("auth");
+
+        if (authData) {
+          try {
+            const decoded = JSON.parse(decodeURIComponent(authData));
+            console.log("===== RECEIVING AUTH DATA FROM CALLBACK =====");
+            console.log("Received auth data:", decoded);
+
+            // Store in localStorage on port 3000
+            localStorage.setItem("authToken", decoded.token);
+            localStorage.setItem("currentUser", JSON.stringify(decoded.user));
+
+            console.log("Saved to localStorage (port 3000):");
+            console.log("- authToken:", localStorage.getItem("authToken"));
+            console.log("- currentUser:", localStorage.getItem("currentUser"));
+
+            // Remove auth parameter from URL for security
+            window.history.replaceState(
+              {},
+              document.title,
+              window.location.pathname
+            );
+          } catch (e) {
+            console.error("Error parsing auth data:", e);
+          }
+        }
+      })();
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const interestsGrid = document.getElementById("interestsGrid");
+        const userTypeGrid = document.getElementById("userTypeGrid");
+        const continueBtn = document.getElementById("continueBtn");
+        const form = document.getElementById("onboardingForm");
+
+        let selectedInterests = [];
+        let selectedUserType = null;
+
+        // Handle interest selection (multiple selection allowed)
+        interestsGrid.addEventListener("click", function (e) {
+          const card = e.target.closest(".option-card");
+          if (!card) return;
+
+          const value = card.dataset.value;
+          card.classList.toggle("selected");
+
+          if (card.classList.contains("selected")) {
+            selectedInterests.push(value);
+          } else {
+            selectedInterests = selectedInterests.filter(
+              (item) => item !== value
+            );
+          }
+
+          updateContinueButton();
+        });
+
+        // Handle user type selection (single selection)
+        userTypeGrid.addEventListener("click", function (e) {
+          const card = e.target.closest(".option-card");
+          if (!card) return;
+
+          const value = card.dataset.value;
+
+          // Remove selected class from all cards
+          userTypeGrid.querySelectorAll(".option-card").forEach((c) => {
+            c.classList.remove("selected");
+          });
+
+          // Add selected class to clicked card
+          card.classList.add("selected");
+          selectedUserType = value;
+
+          updateContinueButton();
+        });
+
+        function updateContinueButton() {
+          const isValid = selectedInterests.length > 0 && selectedUserType;
+          continueBtn.disabled = !isValid;
+        }
+
+        // Handle form submission
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          if (selectedInterests.length === 0 || !selectedUserType) {
+            return;
+          }
+
+          // Get current user data
+          const currentUser = JSON.parse(
+            localStorage.getItem("currentUser") || "{}"
+          );
+          const authToken = localStorage.getItem("authToken");
+
+          // Store user preferences in localStorage
+          const userPreferences = {
+            interests: selectedInterests,
+            userType: selectedUserType,
+            onboardingCompleted: true,
+            timestamp: new Date().toISOString(),
+          };
+
+          localStorage.setItem(
+            "userPreferences",
+            JSON.stringify(userPreferences)
+          );
+
+          // Show loading state
+          continueBtn.textContent = "Saving your preferences...";
+          continueBtn.disabled = true;
+
+          try {
+            // Send preferences to backend for each interest
+            const savePromises = selectedInterests.map((interest) =>
+              fetch("http://localhost:8001/api/auth/user-preferences/", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Token ${authToken}`,
+                },
+                body: JSON.stringify({
+                  user_type: selectedUserType,
+                  interest: interest,
+                  email: currentUser.email || "",
+                  provider: currentUser.login_method || "google",
+                }),
+              })
+            );
+
+            // Wait for all preferences to be saved
+            await Promise.all(savePromises);
+
+            // Show success message
+            continueBtn.textContent = "Preferences saved! Redirecting...";
+
+            // Redirect to index.html after a short delay
+            setTimeout(() => {
+              window.location.href =
+                "http://localhost:3000/index.html?welcome=true";
+            }, 1500);
+          } catch (error) {
+            console.error("Error saving preferences:", error);
+            // Still redirect even if backend save fails
+            continueBtn.textContent = "Setting up your experience...";
+            setTimeout(() => {
+              window.location.href = "index.html?welcome=true";
+            }, 1500);
+          }
+        });
+
+        // Check if user is authenticated (with delay for callback processing)
+        setTimeout(() => {
+          const authToken = localStorage.getItem("authToken");
+          const currentUser = localStorage.getItem("currentUser");
+
+          console.log("=== ONBOARDING AUTH CHECK ===");
+          console.log("authToken:", authToken ? "EXISTS ✓" : "MISSING ✗");
+          console.log("currentUser:", currentUser ? "EXISTS ✓" : "MISSING ✗");
+
+          if (currentUser) {
+            try {
+              const user = JSON.parse(currentUser);
+              console.log("User Email:", user.email);
+              console.log("Login Method:", user.login_method);
+              console.log("User authenticated, showing onboarding ✓");
+
+              // Dispatch auth state change event
+              console.log(
+                "Dispatching authStateChanged event from onboarding..."
+              );
+              window.dispatchEvent(
+                new CustomEvent("authStateChanged", {
+                  detail: {
+                    isAuthenticated: true,
+                    user: user,
+                    token: authToken,
+                  },
+                })
+              );
+              console.log("Event dispatched ✓");
+            } catch (e) {
+              console.error("Error parsing currentUser:", e);
+            }
+          }
+
+          if (!authToken || !currentUser) {
+            console.log("No authentication found, redirecting to login");
+            // Show error message before redirecting
+            alert("Authentication required. Redirecting to login...");
+            // Redirect to login if not authenticated
+            window.location.href = "login.html";
+            return;
+          }
+
+          console.log("============================");
+        }, 500); // Reduced delay since we increased callback delay
+      });
+    </script>
+  </body>
+</html>

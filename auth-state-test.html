@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auth State Test - NeoSharX</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .card {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #007fff;
+      }
+      .status {
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+      }
+      .success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      pre {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 4px;
+        overflow-x: auto;
+      }
+      button {
+        background: #007fff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      button.danger {
+        background: #dc3545;
+      }
+      button.danger:hover {
+        background: #c82333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔐 NeoSharX Authentication State Test</h1>
+
+    <div class="card">
+      <h2>Current Auth Status</h2>
+      <div id="auth-status"></div>
+    </div>
+
+    <div class="card">
+      <h2>LocalStorage Data</h2>
+      <pre id="storage-data"></pre>
+    </div>
+
+    <div class="card">
+      <h2>Actions</h2>
+      <button onclick="checkAuth()">🔄 Refresh Auth Status</button>
+      <button onclick="testCommentSystem()">💬 Test Comment System</button>
+      <button onclick="clearAuth()" class="danger">🗑️ Clear Auth Data</button>
+      <button onclick="window.location.href='login.html'">
+        🔑 Go to Login
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>Event Listener Test</h2>
+      <div id="event-log"></div>
+    </div>
+
+    <script>
+      // Listen for auth state changes
+      document.addEventListener("authStateChanged", (e) => {
+        const log = document.getElementById("event-log");
+        const entry = document.createElement("div");
+        entry.className = "status success";
+        entry.innerHTML = `
+                <strong>✓ authStateChanged Event Received!</strong><br>
+                Time: ${new Date().toLocaleTimeString()}<br>
+                User: ${
+                  e.detail.user?.username || e.detail.user?.email || "Unknown"
+                }<br>
+                Token: ${e.detail.token ? "Present" : "Missing"}
+            `;
+        log.appendChild(entry);
+      });
+
+      function checkAuth() {
+        const authToken = localStorage.getItem("authToken");
+        const currentUserStr = localStorage.getItem("currentUser");
+        const statusDiv = document.getElementById("auth-status");
+        const storageDiv = document.getElementById("storage-data");
+
+        if (authToken && currentUserStr) {
+          try {
+            const user = JSON.parse(currentUserStr);
+            statusDiv.innerHTML = `
+                        <div class="status success">
+                            <strong>✓ Authenticated</strong><br>
+                            Username: ${user.username || "N/A"}<br>
+                            Email: ${user.email || "N/A"}<br>
+                            Login Method: ${user.login_method || "N/A"}<br>
+                            User ID: ${user.id || "N/A"}
+                        </div>
+                    `;
+            storageDiv.textContent = JSON.stringify(
+              {
+                authToken: authToken.substring(0, 20) + "...",
+                currentUser: user,
+              },
+              null,
+              2
+            );
+          } catch (e) {
+            statusDiv.innerHTML = `
+                        <div class="status error">
+                            <strong>✗ Error parsing user data</strong><br>
+                            ${e.message}
+                        </div>
+                    `;
+          }
+        } else {
+          statusDiv.innerHTML = `
+                    <div class="status error">
+                        <strong>✗ Not Authenticated</strong><br>
+                        Missing: ${!authToken ? "Token" : ""} ${
+            !currentUserStr ? "User Data" : ""
+          }
+                    </div>
+                `;
+          storageDiv.textContent = "No auth data in localStorage";
+        }
+      }
+
+      function testCommentSystem() {
+        if (typeof CommentSystem === "undefined") {
+          alert(
+            "CommentSystem not loaded. Please include comment-system.js first."
+          );
+          return;
+        }
+
+        const testContainer = document.createElement("div");
+        testContainer.id = "test-comments-container";
+        document.body.appendChild(testContainer);
+
+        try {
+          const testSystem = new CommentSystem(
+            "test",
+            "auth-test",
+            "test-comments-container",
+            {
+              apiBaseUrl: "http://localhost:8001/api/auth",
+              showLoginPrompt: true,
+            }
+          );
+          alert(
+            "Comment System initialized successfully! Check console for details."
+          );
+        } catch (e) {
+          alert("Error initializing Comment System: " + e.message);
+          console.error(e);
+        }
+      }
+
+      function clearAuth() {
+        if (confirm("Clear all authentication data?")) {
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("currentUser");
+          localStorage.removeItem("google_state");
+          checkAuth();
+          alert("Auth data cleared!");
+        }
+      }
+
+      // Check auth on page load
+      checkAuth();
+
+      // Dispatch test event after 1 second
+      setTimeout(() => {
+        const authToken = localStorage.getItem("authToken");
+        const currentUserStr = localStorage.getItem("currentUser");
+
+        if (authToken && currentUserStr) {
+          const user = JSON.parse(currentUserStr);
+          console.log("Auto-dispatching authStateChanged event...");
+          window.dispatchEvent(
+            new CustomEvent("authStateChanged", {
+              detail: {
+                isAuthenticated: true,
+                user: user,
+                token: authToken,
+              },
+            })
+          );
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>NeoSharX - Neo Stories</title>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./dist/output.css" rel="stylesheet" />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #666;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Color palette: black, gray, white only */
+      :root {
+        --black: #000000;
+        --gray-dark: #333333;
+        --gray-medium: #666666;
+        --gray-light: #999999;
+        --gray-lighter: #cccccc;
+        --gray-bg: #f5f5f5;
+        --white: #ffffff;
+      }
+
+      body {
+        font-family: "Newsreader", serif;
+        background: var(--gray-bg);
+        color: var(--black);
+      }
+
+      /* Featured Screen Slider */
+      .featured-screens-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: var(--white);
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 32px;
+        border: 1px solid var(--gray-lighter);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .featured-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .featured-media {
+        background: #007fff;
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .featured-media img,
+      .featured-media iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .featured-content {
+        padding: 32px;
+        color: var(--black);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .featured-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--black);
+        color: var(--white);
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+
+      .featured-category {
+        color: var(--gray-medium);
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+      }
+
+      .featured-title {
+        color: var(--black);
+        font-weight: 700;
+        font-size: 1.75rem;
+        margin-bottom: 12px;
+        line-height: 1.3;
+      }
+
+      .featured-intro {
+        color: var(--gray-dark);
+        font-weight: 400;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .meta-row {
+        display: flex;
+        gap: 16px;
+        color: var(--gray-medium);
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        align-items: center;
+      }
+
+      .read-btn {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        background: #007fff;
+        color: var(--white);
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+
+      .read-btn:hover {
+        background: #0066cc;
+      }
+
+      /* Slider controls */
+      .slider-controls {
+        position: absolute;
+        inset: auto 16px 16px 16px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        z-index: 40;
+      }
+
+      .nav-btn {
+        background: rgba(0, 127, 255, 0.7);
+        color: var(--white);
+        border: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .nav-btn:hover {
+        background: rgba(0, 102, 204, 0.9);
+      }
+
+      .dots {
+        display: flex;
+        gap: 6px;
+        margin-top: 12px;
+        justify-content: center;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        background: var(--gray-lighter);
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .dot.active {
+        background: var(--gray-dark);
+      }
+
+      /* Story cards */
+      .story-card {
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--gray-lighter);
+        transition: all 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .story-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transform: translateY(-4px);
+      }
+
+      .story-card-image {
+        height: 200px;
+        overflow: hidden;
+        background: var(--gray-lighter);
+        position: relative;
+      }
+
+      .story-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+      }
+
+      .story-card:hover .story-card-image img {
+        transform: scale(1.05);
+      }
+
+      .story-card-content {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .story-category {
+        display: inline-block;
+        padding: 4px 12px;
+        background: var(--gray-bg);
+        color: var(--gray-medium);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        border-radius: 999px;
+        margin-bottom: 12px;
+        letter-spacing: 0.5px;
+        width: fit-content;
+      }
+
+      .story-title {
+        color: var(--black);
+        font-weight: 600;
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+        line-height: 1.4;
+      }
+
+      .story-intro {
+        color: var(--gray-dark);
+        font-weight: 400;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 16px;
+        flex: 1;
+      }
+
+      .story-meta {
+        display: flex;
+        gap: 12px;
+        color: var(--gray-medium);
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding-top: 12px;
+        border-top: 1px solid var(--gray-lighter);
+      }
+
+      .story-featured-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: var(--black);
+        color: var(--white);
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .featured-card {
+          grid-template-columns: 1fr;
+        }
+        .featured-media {
+          min-height: 240px;
+        }
+        .featured-content {
+          padding: 20px;
+        }
+        .featured-title {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="relative flex flex-col min-h-screen w-full">
+      <div id="nav-container"></div>
+
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="max-w-6xl mx-auto">
+          <!-- Header -->
+          <div class="text-center mb-12 mt-12">
+            <h1
+              style="
+                font-size: 3rem;
+                font-weight: 700;
+                color: #007fff;
+                margin-bottom: 16px;
+              "
+            >
+              Neo Stories
+            </h1>
+            <p
+              style="
+                font-size: 1.1rem;
+                color: var(--gray-dark);
+                max-width: 600px;
+                margin: 0 auto;
+                font-weight: 400;
+              "
+            >
+              Where Innovation Meets Inspiration. Discover stories of
+              groundbreaking ideas and the minds shaping tomorrow.
+            </p>
+          </div>
+
+          <!-- Featured Screens Slider -->
+          <div id="featuredScreensSection" class="hidden">
+            <div class="featured-screens-container">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 12px;
+                "
+              >
+                <span
+                  style="font-weight: 600; color: var(--black); font-size: 1rem"
+                  >Featured Highlight</span
+                >
+                <span
+                  style="
+                    color: var(--gray-medium);
+                    font-weight: 500;
+                    font-size: 0.9rem;
+                  "
+                ></span>
+              </div>
+
+              <div id="featuredSlider" class="featured-slider">
+                <div
+                  id="featuredInner"
+                  class="featured-card"
+                  aria-live="polite"
+                >
+                  <!-- Single featured item will render here -->
+                </div>
+                <div class="dots" id="featuredDots"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 16px;
+              margin-bottom: 40px;
+              flex-wrap: wrap;
+            "
+          >
+            <select
+              id="categoryFilter"
+              style="
+                padding: 10px 20px;
+                border: 1px solid var(--gray-lighter);
+                border-radius: 999px;
+                background: var(--white);
+                color: var(--black);
+                font-weight: 500;
+                cursor: pointer;
+              "
+            >
+              <option value="">All Categories</option>
+              <option value="technology">Technology</option>
+              <option value="innovation">Innovation</option>
+              <option value="design">Design</option>
+              <option value="entrepreneurship">Entrepreneurship</option>
+              <option value="leadership">Leadership</option>
+              <option value="other">Other</option>
+            </select>
+
+            <select
+              id="sortFilter"
+              style="
+                padding: 10px 20px;
+                border: 1px solid var(--gray-lighter);
+                border-radius: 999px;
+                background: var(--white);
+                color: var(--black);
+                font-weight: 500;
+                cursor: pointer;
+              "
+            >
+              <option value="recent">Sort by: Recent</option>
+              <option value="popular">Most Popular</option>
+              <option value="alphabetical">Alphabetical</option>
+            </select>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loadingState" class="text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p style="color: var(--gray-medium)">Loading stories...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="hidden text-center py-12">
+            <p style="color: #c00; font-size: 1.1rem; margin-bottom: 16px">
+              Failed to load stories
+            </p>
+            <button
+              onclick="location.reload()"
+              style="
+                background: #007fff;
+                color: var(--white);
+                padding: 12px 24px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                font-weight: 600;
+              "
+              onmouseover="this.style.background='#0056b3'"
+              onmouseout="this.style.background='#007fff'"
+            >
+              Retry
+            </button>
+          </div>
+
+          <!-- Stories Grid -->
+          <h2
+            style="
+              font-size: 2rem;
+              font-weight: 600;
+              text-align: center;
+              margin-bottom: 32px;
+              color: var(--black);
+            "
+          >
+            All Stories
+          </h2>
+          <div
+            id="storiesGrid"
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+              gap: 24px;
+            "
+          >
+            <!-- Stories will be loaded here -->
+          </div>
+
+          <!-- Empty State -->
+          <div id="emptyState" class="hidden text-center py-12">
+            <p style="font-size: 1.2rem; color: var(--gray-medium)">
+              No stories found
+            </p>
+            <p style="color: var(--gray-light); margin-top: 8px">
+              Try adjusting your filters
+            </p>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-black text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Social Media -->
+            <div class="space-y-4">
+              <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+              <div class="flex gap-4">
+                <a
+                  href="https://instagram.com/neosharx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://linkedin.com/company/neosharx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://twitter.com/neosharx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://youtube.com/@neosharx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="bg-gray-800 hover:bg-red-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Communities -->
+            <div class="space-y-4">
+              <h3 class="text-lg font-semibold mb-4">Join Communities</h3>
+              <div class="space-y-2">
+                <a
+                  href="#"
+                  class="block text-gray-300 hover:text-white transition-colors"
+                >
+                  <span class="flex items-center gap-2">
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                      />
+                    </svg>
+                    Discord Community
+                  </span>
+                </a>
+                <a
+                  href="#"
+                  class="block text-gray-300 hover:text-white transition-colors"
+                >
+                  <span class="flex items-center gap-2">
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                      />
+                    </svg>
+                    Slack Workspace
+                  </span>
+                </a>
+                <a
+                  href="#"
+                  class="block text-gray-300 hover:text-white transition-colors"
+                >
+                  <span class="flex items-center gap-2">
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                      />
+                    </svg>
+                    Telegram Group
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            <!-- About Us -->
+            <div class="space-y-4">
+              <h3 class="text-lg font-semibold mb-4">About Us</h3>
+              <p class="text-gray-300 leading-relaxed text-sm">
+                NeoSharX empowers startups through innovation, collaboration,
+                and community-driven growth. Join our ecosystem of entrepreneurs
+                and innovators.
+              </p>
+              <a
+                href="about.html"
+                class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-medium"
+              >
+                Learn More
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </a>
+            </div>
+
+            <!-- Contact -->
+            <div class="space-y-4">
+              <h3 class="text-lg font-semibold mb-4">Contact</h3>
+              <div class="space-y-3">
+                <div class="flex items-center gap-3 text-gray-300">
+                  <svg
+                    class="w-5 h-5 text-blue-400 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <a
+                    href="mailto:hello@neosharx.com"
+                    class="hover:text-white transition-colors"
+                    >hello@neosharx.com</a
+                  >
+                </div>
+                <div class="flex items-center gap-3 text-gray-300">
+                  <svg
+                    class="w-5 h-5 text-blue-400 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                    />
+                  </svg>
+                  <a
+                    href="tel:+1234567890"
+                    class="hover:text-white transition-colors"
+                    >+1 (234) 567-890</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-700 pt-8 mt-8">
+            <div
+              class="flex flex-col md:flex-row justify-between items-center gap-4"
+            >
+              <div class="flex items-center gap-2">
+                <img src="logo27.png" alt="NeoSharX Logo" class="h-6 w-6" />
+                <span class="text-gray-400 text-sm"
+                  >© 2025 NeoSharX. All rights reserved.</span
+                >
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="logo27.png" alt="NeoSharX Logo" class="h-5 w-5" />
+                <span class="text-gray-400 text-sm"
+                  >Built with ❤️ for innovators</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Typing animation
+      (function () {
+        const taglines = [
+          "Real stories from creators and builders...",
+          "Human lessons behind technology projects...",
+          "Narratives that inspire product thinking...",
+        ];
+        let ti = 0,
+          ci = 0,
+          del = false;
+        function step() {
+          const el = document.getElementById("typingText");
+          if (!el) return;
+          const txt = taglines[ti];
+          if (!del) {
+            el.textContent = txt.slice(0, ci + 1);
+            ci++;
+            if (ci === txt.length) {
+              del = true;
+              setTimeout(step, 2000);
+              return;
+            }
+          } else {
+            el.textContent = txt.slice(0, ci - 1);
+            ci--;
+            if (ci === 0) {
+              del = false;
+              ti = (ti + 1) % taglines.length;
+              setTimeout(step, 500);
+              return;
+            }
+          }
+          setTimeout(step, del ? 50 : 100);
+        }
+        window.addEventListener("load", () => setTimeout(step, 500));
+      })();
+
+      const API_BASE_URL = "http://localhost:8001/api/auth";
+      let allStories = [];
+      let filteredStories = [];
+
+      async function loadStories() {
+        console.log("loadStories function called");
+        const loadingState = document.getElementById("loadingState");
+        const errorState = document.getElementById("errorState");
+        const emptyState = document.getElementById("emptyState");
+        const storiesGrid = document.getElementById("storiesGrid");
+
+        console.log("DOM elements found:", {
+          loadingState: !!loadingState,
+          errorState: !!errorState,
+          emptyState: !!emptyState,
+          storiesGrid: !!storiesGrid,
+        });
+
+        try {
+          console.log("Fetching stories from:", `${API_BASE_URL}/neo-stories/`);
+          const response = await fetch(`${API_BASE_URL}/neo-stories/`);
+          console.log("Response status:", response.status);
+          console.log("Response ok:", response.ok);
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          allStories = await response.json();
+          console.log("Data received:", allStories);
+          console.log("allStories length:", allStories.length);
+
+          // If no data from API, use sample startup stories
+          if (!allStories || allStories.length === 0) {
+            console.log("No data from API, using sample startup stories");
+            allStories = [
+              {
+                id: 1,
+                slug: "tech-startup-journey-from-garage-to-unicorn",
+                header: "From Garage to Unicorn: A Tech Startup Journey",
+                introduction:
+                  "How a small team of passionate developers built a billion-dollar company from scratch, overcoming challenges and embracing innovation.",
+                author_name: "Sarah Chen",
+                category: "Startup Stories",
+                read_time: 8,
+                views_count: 2450,
+                published_date: "2025-01-15",
+                tags: "startup,tech,innovation,entrepreneurship",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "It all started in a small garage in Silicon Valley back in 2018. Three friends with a shared vision decided to quit their jobs and pursue their dream of revolutionizing the way people interact with technology.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "The journey wasn't easy. We faced countless rejections, technical challenges, and moments of doubt. But our persistence and belief in our vision kept us going.",
+                  },
+                ],
+              },
+              {
+                id: 2,
+                slug: "sustainable-tech-greener-future",
+                header: "Building Sustainable Tech for a Greener Future",
+                introduction:
+                  "How our startup is using AI and IoT to reduce carbon emissions and create a more sustainable planet for future generations.",
+                author_name: "Marcus Rodriguez",
+                category: "Startup Stories",
+                read_time: 6,
+                views_count: 1890,
+                published_date: "2025-01-10",
+                tags: "sustainability,tech,environment,AI",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "Climate change is the biggest challenge of our generation. At EcoTech Solutions, we believe technology can be part of the solution, not just the problem.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "Our platform uses AI-powered analytics to help businesses reduce their carbon footprint by up to 40%. From smart energy management to waste reduction, we're making sustainability accessible and profitable.",
+                  },
+                ],
+              },
+              {
+                id: 3,
+                slug: "fintech-revolution-mobile-banking",
+                header: "The FinTech Revolution: Democratizing Mobile Banking",
+                introduction:
+                  "How we're making financial services accessible to everyone, everywhere, with our innovative mobile banking platform.",
+                author_name: "Priya Patel",
+                category: "Startup Stories",
+                read_time: 7,
+                views_count: 3120,
+                published_date: "2025-01-08",
+                tags: "fintech,banking,mobile,financial-inclusion",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "Financial inclusion is not just a buzzword for us—it's our mission. In many parts of the world, traditional banking systems leave millions behind.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "Our mobile-first approach eliminates barriers to financial services. With just a smartphone, anyone can open an account, send money, and access credit—all with the security and convenience they deserve.",
+                  },
+                ],
+              },
+              {
+                id: 4,
+                slug: "healthtech-ai-medical-diagnosis",
+                header:
+                  "AI-Powered Medical Diagnosis: Saving Lives Through Technology",
+                introduction:
+                  "How our AI platform is helping doctors make faster, more accurate diagnoses, revolutionizing healthcare delivery.",
+                author_name: "Dr. James Wilson",
+                category: "Startup Stories",
+                read_time: 9,
+                views_count: 2780,
+                published_date: "2025-01-05",
+                tags: "healthtech,AI,medical,diagnosis",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "In the medical field, time is often the difference between life and death. Our AI-powered diagnostic platform helps doctors make critical decisions faster and more accurately.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "By analyzing medical images, patient data, and historical cases, our system provides doctors with evidence-based insights, reducing diagnostic errors and improving patient outcomes.",
+                  },
+                ],
+              },
+              {
+                id: 5,
+                slug: "edtech-learning-personalized-education",
+                header: "Personalized Learning: The Future of Education",
+                introduction:
+                  "How adaptive learning technology is transforming education, making it more effective and engaging for every student.",
+                author_name: "Dr. Lisa Thompson",
+                category: "Startup Stories",
+                read_time: 5,
+                views_count: 1650,
+                published_date: "2025-01-03",
+                tags: "edtech,education,personalized-learning,AI",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "Every student learns differently. Traditional one-size-fits-all education often leaves many students behind. Our platform adapts to each student's learning style and pace.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "Using advanced AI algorithms, we create personalized learning paths that maximize engagement and knowledge retention, helping students achieve their full potential.",
+                  },
+                ],
+              },
+              {
+                id: 6,
+                slug: "agritech-smart-farming-solutions",
+                header: "Smart Farming: Feeding the World with Technology",
+                introduction:
+                  "How IoT and AI are revolutionizing agriculture, making farming more efficient and sustainable for farmers worldwide.",
+                author_name: "Carlos Mendoza",
+                category: "Startup Stories",
+                read_time: 6,
+                views_count: 1980,
+                published_date: "2025-01-01",
+                tags: "agritech,IoT,smart-farming,sustainability",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "Agriculture feeds the world, but traditional farming methods are inefficient and environmentally taxing. Our smart farming solutions are changing that.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "From soil sensors to drone-based crop monitoring, our IoT platform helps farmers optimize water usage, reduce pesticide application, and increase yields by up to 30%.",
+                  },
+                ],
+              },
+            ];
+          }
+
+          filteredStories = [...allStories];
+
+          // Load featured screens from stories that have them
+          loadFeaturedScreens(allStories);
+
+          loadingState.classList.add("hidden");
+          renderStories();
+        } catch (error) {
+          console.error("Error loading stories:", error);
+          console.error("Error details:", error.message);
+          console.error("Error stack:", error.stack);
+          loadingState.classList.add("hidden");
+          errorState.classList.remove("hidden");
+        }
+      }
+
+      function loadFeaturedScreens(stories) {
+        // Collect featured screens from all stories
+        const allScreens = [];
+        stories.forEach((story) => {
+          if (
+            story.featured_screen &&
+            story.featured_screen.url &&
+            story.featured_screen.is_featured
+          ) {
+            allScreens.push({
+              url: story.featured_screen.url,
+              type: story.featured_screen.type || "image",
+              story: story,
+            });
+          }
+        });
+
+        if (allScreens.length === 0) return;
+
+        // State for slider
+        window._featuredState = {
+          items: allScreens,
+          index: 0,
+        };
+
+        const section = document.getElementById("featuredScreensSection");
+        section.classList.remove("hidden");
+
+        renderFeaturedItem();
+        setupFeaturedControls();
+      }
+
+      function renderFeaturedItem() {
+        const state = window._featuredState;
+        if (!state || !state.items || state.items.length === 0) return;
+
+        const idx = Math.max(0, Math.min(state.index, state.items.length - 1));
+        const item = state.items[idx];
+        const story = item.story || {};
+
+        const inner = document.getElementById("featuredInner");
+        const dots = document.getElementById("featuredDots");
+
+        // Build media HTML
+        let mediaHtml = "";
+        if (item.type === "video") {
+          let embed = item.url;
+          if (embed.includes("youtube.com/watch")) {
+            const v = new URL(embed).searchParams.get("v");
+            if (v) embed = `https://www.youtube.com/embed/${v}`;
+          } else if (embed.includes("youtu.be/")) {
+            const parts = embed.split("youtu.be/");
+            embed = `https://www.youtube.com/embed/${parts[1]}`;
+          }
+          mediaHtml = `<iframe src="${embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        } else {
+          mediaHtml = `<img src="${item.url}" alt="Featured screen" loading="lazy" />`;
+        }
+
+        inner.innerHTML = `
+          <div class="featured-media">
+            <div class="featured-badge">Featured</div>
+            ${mediaHtml}
+          </div>
+          <div class="featured-content">
+            <div class="featured-category">${story.category || "Story"}</div>
+            <div class="featured-title">${
+              story.header || "Featured Story"
+            }</div>
+            <div class="featured-intro">${story.introduction || ""}</div>
+            <div class="meta-row">
+              <div>${story.author_name || ""}</div>
+              ${story.read_time ? `<div>${story.read_time} min read</div>` : ""}
+            </div>
+            <a href="${
+              story.slug ? `neo-detail.html?slug=${story.slug}` : "#"
+            }" class="read-btn">
+              Read Story
+              <span>→</span>
+            </a>
+          </div>
+        `;
+
+        // Render dots
+        dots.innerHTML = "";
+        state.items.forEach((i, k) => {
+          const d = document.createElement("div");
+          d.className = "dot" + (k === idx ? " active" : "");
+          d.addEventListener("click", () => {
+            state.index = k;
+            renderFeaturedItem();
+          });
+          dots.appendChild(d);
+        });
+      }
+
+      function setupFeaturedControls() {
+        const prev = document.getElementById("prevFeatured");
+        const next = document.getElementById("nextFeatured");
+
+        if (!prev || !next) {
+          console.warn("Featured controls not found, skipping setup");
+          return;
+        }
+
+        prev.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index - 1 + s.items.length) % s.items.length;
+          renderFeaturedItem();
+        };
+
+        next.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index + 1) % s.items.length;
+          renderFeaturedItem();
+        };
+      }
+
+      function renderStories() {
+        const storiesGrid = document.getElementById("storiesGrid");
+        const emptyState = document.getElementById("emptyState");
+
+        if (filteredStories.length === 0) {
+          storiesGrid.innerHTML = "";
+          emptyState.classList.remove("hidden");
+          return;
+        }
+
+        emptyState.classList.add("hidden");
+        storiesGrid.innerHTML = filteredStories
+          .map((story) => renderStoryCard(story))
+          .join("");
+      }
+
+      function renderStoryCard(story) {
+        const hasFeaturedScreen =
+          story.featured_screen &&
+          story.featured_screen.url &&
+          story.featured_screen.is_featured;
+
+        return `
+          <a href="neo-detail.html?slug=${story.slug}" class="story-card">
+            <div class="story-card-image">
+              ${
+                hasFeaturedScreen
+                  ? '<div class="story-featured-badge">Featured</div>'
+                  : ""
+              }
+              <img src="${story.main_image}" alt="${
+          story.header
+        }" loading="lazy" />
+            </div>
+            <div class="story-card-content">
+              <div class="story-category">${story.category || "Story"}</div>
+              <h3 class="story-title">${story.header}</h3>
+              <p class="story-intro">${story.introduction || ""}</p>
+              <div class="story-meta">
+                <span>${story.author_name || "NeoSharX"}</span>
+                <span>•</span>
+                <span>${story.read_time || 5} min read</span>
+              </div>
+            </div>
+          </a>
+        `;
+      }
+
+      function applyFilters() {
+        const categoryFilter = document.getElementById("categoryFilter").value;
+        const sortFilter = document.getElementById("sortFilter").value;
+
+        // Filter by category
+        filteredStories = allStories.filter((story) => {
+          if (categoryFilter && story.category !== categoryFilter) return false;
+          return true;
+        });
+
+        // Sort
+        if (sortFilter === "popular") {
+          filteredStories.sort((a, b) => b.views_count - a.views_count);
+        } else if (sortFilter === "alphabetical") {
+          filteredStories.sort((a, b) => a.header.localeCompare(b.header));
+        } else {
+          // Recent (default)
+          filteredStories.sort(
+            (a, b) => new Date(b.created_at) - new Date(a.created_at)
+          );
+        }
+
+        renderStories();
+      }
+
+      // Event listeners
+      document
+        .getElementById("categoryFilter")
+        .addEventListener("change", applyFilters);
+      document
+        .getElementById("sortFilter")
+        .addEventListener("change", applyFilters);
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === "function") {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton =
+                document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener("click", function (event) {
+                  if (
+                    !mobileMenuButton.contains(event.target) &&
+                    !mobileMenu.contains(event.target) &&
+                    isMenuOpen
+                  ) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  }
+                });
+              }
+            }
+          }, 100);
+
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () =>
+            console.log("Global auth loaded successfully");
+          authScript.onerror = () =>
+            console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      // Load stories on page load
+      loadStories();
+    </script>
+  </body>
+</html>

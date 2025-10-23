@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comment System Test</title>
+    <link href="./dist/output.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .test-status {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      .success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      .warning {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+      }
+      .info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+      pre {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-size: 12px;
+      }
+      .test-section {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 p-6">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-3xl font-bold mb-6">🧪 Comment System Full Test</h1>
+
+      <!-- Auth Status Section -->
+      <div class="test-section bg-white">
+        <h2 class="text-xl font-bold mb-4">1. Authentication Status</h2>
+        <div id="auth-status"></div>
+        <button
+          onclick="simulateLogin()"
+          class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Simulate Login
+        </button>
+        <button
+          onclick="clearAuth()"
+          class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2"
+        >
+          Clear Auth
+        </button>
+      </div>
+
+      <!-- API Test Section -->
+      <div class="test-section bg-white">
+        <h2 class="text-xl font-bold mb-4">2. API Connection Test</h2>
+        <div id="api-status"></div>
+        <button
+          onclick="testAPI()"
+          class="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Test API Connection
+        </button>
+      </div>
+
+      <!-- Comment System Section -->
+      <div class="test-section bg-white">
+        <h2 class="text-xl font-bold mb-4">3. Comment System</h2>
+        <div id="comments-container"></div>
+      </div>
+
+      <!-- Test Results -->
+      <div class="test-section bg-white">
+        <h2 class="text-xl font-bold mb-4">4. Test Results Log</h2>
+        <div id="test-log"></div>
+      </div>
+    </div>
+
+    <script src="comment-system.js"></script>
+    <script>
+      const API_BASE_URL = "http://localhost:8001/api/auth";
+      let testLog = [];
+
+      function log(message, type = "info") {
+        const timestamp = new Date().toLocaleTimeString();
+        testLog.push({ timestamp, message, type });
+        updateTestLog();
+        console.log(`[${timestamp}] ${message}`);
+      }
+
+      function updateTestLog() {
+        const logDiv = document.getElementById("test-log");
+        logDiv.innerHTML = testLog
+          .map(
+            (entry) =>
+              `<div class="test-status ${entry.type}">[${entry.timestamp}] ${entry.message}</div>`
+          )
+          .join("");
+      }
+
+      function updateAuthStatus() {
+        const authDiv = document.getElementById("auth-status");
+        const token = localStorage.getItem("authToken");
+        const user = localStorage.getItem("currentUser");
+
+        let html = "";
+
+        if (token && user) {
+          const userData = JSON.parse(user);
+          html += '<div class="test-status success">✓ Logged in</div>';
+          html += `<pre>Token: ${token.substring(0, 20)}...
+User: ${JSON.stringify(userData, null, 2)}</pre>`;
+          log("Auth check: Logged in as " + userData.username, "success");
+        } else {
+          html += '<div class="test-status warning">⚠ Not logged in</div>';
+          html +=
+            '<p class="text-sm mt-2">Click "Simulate Login" to create test credentials</p>';
+          log("Auth check: Not logged in", "warning");
+        }
+
+        authDiv.innerHTML = html;
+      }
+
+      function simulateLogin() {
+        // Use the actual token from our test
+        const testToken = "2200af00d9d90027cb8b6d9eec306932768183fd";
+        const testUser = {
+          id: 2,
+          username: "otp_test_user",
+          email: "otptest@neosharx.com",
+          phone_verified: true,
+          login_method: "test",
+        };
+
+        localStorage.setItem("authToken", testToken);
+        localStorage.setItem("currentUser", JSON.stringify(testUser));
+
+        log("Simulated login with test user", "success");
+        updateAuthStatus();
+
+        // Dispatch auth state change event
+        document.dispatchEvent(
+          new CustomEvent("authStateChanged", {
+            detail: { action: "login", method: "test" },
+          })
+        );
+
+        // Reinitialize comment system
+        initCommentSystem();
+      }
+
+      function clearAuth() {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("currentUser");
+        log("Cleared authentication", "info");
+        updateAuthStatus();
+
+        // Dispatch auth state change event
+        document.dispatchEvent(
+          new CustomEvent("authStateChanged", {
+            detail: { action: "logout" },
+          })
+        );
+
+        // Reinitialize comment system
+        initCommentSystem();
+      }
+
+      async function testAPI() {
+        const statusDiv = document.getElementById("api-status");
+        statusDiv.innerHTML =
+          '<div class="test-status info">⏳ Testing API...</div>';
+
+        try {
+          // Test 1: GET comments (no auth required)
+          log("Testing GET /api/auth/comments/", "info");
+          const getResponse = await fetch(
+            `${API_BASE_URL}/comments/?content_type=sharxathon&content_slug=test-hackathon`
+          );
+          const getData = await getResponse.json();
+
+          let html = `<div class="test-status success">✓ GET Request Success (${getResponse.status})</div>`;
+          html += `<pre>Found ${getData.count} comments</pre>`;
+
+          // Test 2: POST comment (auth required)
+          const token = localStorage.getItem("authToken");
+          if (token) {
+            log("Testing POST /api/auth/comments/ with auth", "info");
+            const postResponse = await fetch(`${API_BASE_URL}/comments/`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+              },
+              body: JSON.stringify({
+                content_type: "sharxathon",
+                content_slug: "test-hackathon",
+                text: `Test comment from UI - ${new Date().toLocaleTimeString()}`,
+              }),
+            });
+
+            if (postResponse.ok) {
+              const postData = await postResponse.json();
+              html += `<div class="test-status success">✓ POST Request Success (${postResponse.status})</div>`;
+              html += `<pre>${JSON.stringify(postData, null, 2)}</pre>`;
+              log("POST comment successful", "success");
+            } else {
+              const errorData = await postResponse.json();
+              html += `<div class="test-status error">✗ POST Request Failed (${postResponse.status})</div>`;
+              html += `<pre>${JSON.stringify(errorData, null, 2)}</pre>`;
+              log("POST comment failed: " + JSON.stringify(errorData), "error");
+            }
+          } else {
+            html +=
+              '<div class="test-status warning">⚠ Skipped POST test (not logged in)</div>';
+            log("Skipped POST test - not logged in", "warning");
+          }
+
+          statusDiv.innerHTML = html;
+        } catch (error) {
+          statusDiv.innerHTML = `<div class="test-status error">✗ API Error: ${error.message}</div>`;
+          log("API test error: " + error.message, "error");
+        }
+      }
+
+      function initCommentSystem() {
+        const container = document.getElementById("comments-container");
+        container.innerHTML = ""; // Clear existing
+
+        try {
+          log("Initializing comment system", "info");
+          const commentSystem = new CommentSystem(
+            "sharxathon",
+            "test-hackathon",
+            "comments-container",
+            {
+              apiBaseUrl: API_BASE_URL,
+              showLoginPrompt: true,
+              enableReplies: true,
+              enableLikes: true,
+              theme: "light",
+            }
+          );
+          log("Comment system initialized successfully", "success");
+        } catch (error) {
+          container.innerHTML = `<div class="test-status error">✗ Failed to initialize: ${error.message}</div>`;
+          log("Comment system init error: " + error.message, "error");
+        }
+      }
+
+      // Initialize on page load
+      window.addEventListener("DOMContentLoaded", () => {
+        log("Page loaded", "info");
+        updateAuthStatus();
+        initCommentSystem();
+      });
+
+      // Listen for auth changes
+      document.addEventListener("authStateChanged", (e) => {
+        log("Auth state changed: " + JSON.stringify(e.detail), "info");
+        setTimeout(() => {
+          updateAuthStatus();
+        }, 100);
+      });
+    </script>
+  </body>
+</html>

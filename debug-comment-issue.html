@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug Comment Issue</title>
+    <style>
+      body {
+        font-family: monospace;
+        padding: 20px;
+        background: #1e1e1e;
+        color: #d4d4d4;
+      }
+      .section {
+        margin: 20px 0;
+        padding: 15px;
+        border: 2px solid #444;
+        border-radius: 8px;
+        background: #252526;
+      }
+      .success {
+        border-color: #4caf50;
+        background: #1b2e1b;
+      }
+      .error {
+        border-color: #f44336;
+        background: #2e1b1b;
+      }
+      .warning {
+        border-color: #ff9800;
+        background: #2e2b1b;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+      .btn-primary {
+        background: #007acc;
+        color: white;
+      }
+      .btn-success {
+        background: #4caf50;
+        color: white;
+      }
+      .btn-danger {
+        background: #f44336;
+        color: white;
+      }
+      pre {
+        background: #1e1e1e;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+        border: 1px solid #444;
+      }
+      .log {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      h2 {
+        color: #4ec9b0;
+      }
+      h3 {
+        color: #dcdcaa;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔍 Comment System Debug Console</h1>
+
+    <div class="section">
+      <h2>Step 1: Check localStorage</h2>
+      <button class="btn-primary" onclick="checkLocalStorage()">
+        Check Auth State
+      </button>
+      <button class="btn-success" onclick="setTestAuth()">Set Test Auth</button>
+      <button class="btn-danger" onclick="clearAllAuth()">Clear All</button>
+      <div id="localStorage-result"></div>
+    </div>
+
+    <div class="section">
+      <h2>Step 2: Test Backend API</h2>
+      <button class="btn-primary" onclick="testGetComments()">Test GET</button>
+      <button class="btn-primary" onclick="testPostComment()">Test POST</button>
+      <div id="api-result"></div>
+    </div>
+
+    <div class="section">
+      <h2>Step 3: Load Comment System</h2>
+      <button class="btn-primary" onclick="initCommentSystem()">
+        Initialize Comment System
+      </button>
+      <div id="init-result"></div>
+    </div>
+
+    <div class="section">
+      <h2>Step 4: Comment System (if loaded)</h2>
+      <div id="comments-container"></div>
+    </div>
+
+    <div class="section">
+      <h2>Console Log</h2>
+      <div id="console-log" class="log"></div>
+    </div>
+
+    <script src="comment-system.js"></script>
+    <script>
+      const API_BASE_URL = "http://localhost:8001/api/auth";
+      let logs = [];
+
+      function log(message, type = "info") {
+        const timestamp = new Date().toLocaleTimeString();
+        const color =
+          type === "error"
+            ? "#f44336"
+            : type === "success"
+            ? "#4caf50"
+            : type === "warning"
+            ? "#ff9800"
+            : "#61dafb";
+        logs.push(
+          `<div style="color: ${color}">[${timestamp}] ${message}</div>`
+        );
+        document.getElementById("console-log").innerHTML = logs.join("");
+        console.log(`[${timestamp}] ${message}`);
+      }
+
+      function checkLocalStorage() {
+        const result = document.getElementById("localStorage-result");
+        const authToken = localStorage.getItem("authToken");
+        const currentUser = localStorage.getItem("currentUser");
+        const userData = localStorage.getItem("userData");
+        const userId = localStorage.getItem("userId");
+
+        let html = "<h3>localStorage Contents:</h3><pre>";
+        html += `authToken: ${
+          authToken ? authToken.substring(0, 20) + "..." : "NULL"
+        }\n`;
+        html += `currentUser: ${currentUser || "NULL"}\n`;
+        html += `userData (old): ${userData || "NULL"}\n`;
+        html += `userId (old): ${userId || "NULL"}\n`;
+        html += "</pre>";
+
+        if (authToken && currentUser) {
+          result.className = "section success";
+          log("✅ Auth state looks good!", "success");
+        } else if (authToken && !currentUser) {
+          result.className = "section error";
+          log("❌ ERROR: Token exists but currentUser is missing!", "error");
+        } else {
+          result.className = "section warning";
+          log("⚠️ Not logged in", "warning");
+        }
+
+        result.innerHTML = html;
+      }
+
+      function setTestAuth() {
+        const testToken = "2200af00d9d90027cb8b6d9eec306932768183fd";
+        const testUser = {
+          id: 2,
+          username: "otp_test_user",
+          email: "otptest@neosharx.com",
+          phone_verified: true,
+          login_method: "test",
+        };
+
+        localStorage.setItem("authToken", testToken);
+        localStorage.setItem("currentUser", JSON.stringify(testUser));
+
+        log("✅ Set test authentication", "success");
+
+        // Dispatch event
+        document.dispatchEvent(
+          new CustomEvent("authStateChanged", {
+            detail: { action: "login", method: "test" },
+          })
+        );
+
+        checkLocalStorage();
+      }
+
+      function clearAllAuth() {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("userData");
+        localStorage.removeItem("userId");
+
+        log("🗑️ Cleared all auth data", "info");
+        checkLocalStorage();
+      }
+
+      async function testGetComments() {
+        const result = document.getElementById("api-result");
+        result.innerHTML = "<p>Testing GET request...</p>";
+
+        try {
+          log("Testing GET /api/auth/comments/", "info");
+          const response = await fetch(
+            `${API_BASE_URL}/comments/?content_type=sharxathon&content_slug=test-demo`
+          );
+          const data = await response.json();
+
+          result.className = "section success";
+          result.innerHTML = `<h3>✅ GET Success (${
+            response.status
+          })</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+          log(
+            `✅ GET request successful: ${data.count} comments found`,
+            "success"
+          );
+        } catch (error) {
+          result.className = "section error";
+          result.innerHTML = `<h3>❌ GET Failed</h3><pre>${error.message}</pre>`;
+          log(`❌ GET request failed: ${error.message}`, "error");
+        }
+      }
+
+      async function testPostComment() {
+        const result = document.getElementById("api-result");
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+          result.className = "section error";
+          result.innerHTML =
+            "<h3>❌ No Auth Token</h3><p>Please set test auth first!</p>";
+          log("❌ Cannot POST: No auth token", "error");
+          return;
+        }
+
+        result.innerHTML = "<p>Testing POST request...</p>";
+
+        try {
+          log("Testing POST /api/auth/comments/", "info");
+          const response = await fetch(`${API_BASE_URL}/comments/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Token ${token}`,
+            },
+            body: JSON.stringify({
+              content_type: "sharxathon",
+              content_slug: "test-demo",
+              text: `Debug test comment - ${new Date().toLocaleTimeString()}`,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            result.className = "section success";
+            result.innerHTML = `<h3>✅ POST Success (${
+              response.status
+            })</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            log(`✅ POST successful: Comment ID ${data.id}`, "success");
+          } else {
+            result.className = "section error";
+            result.innerHTML = `<h3>❌ POST Failed (${
+              response.status
+            })</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            log(`❌ POST failed: ${JSON.stringify(data)}`, "error");
+          }
+        } catch (error) {
+          result.className = "section error";
+          result.innerHTML = `<h3>❌ POST Failed</h3><pre>${error.message}</pre>`;
+          log(`❌ POST request failed: ${error.message}`, "error");
+        }
+      }
+
+      function initCommentSystem() {
+        const result = document.getElementById("init-result");
+        const container = document.getElementById("comments-container");
+
+        if (typeof CommentSystem === "undefined") {
+          result.className = "section error";
+          result.innerHTML =
+            "<h3>❌ CommentSystem not loaded!</h3><p>Check comment-system.js</p>";
+          log("❌ CommentSystem class not found", "error");
+          return;
+        }
+
+        try {
+          log("Initializing CommentSystem...", "info");
+
+          const commentSystem = new CommentSystem(
+            "sharxathon",
+            "test-demo",
+            "comments-container",
+            {
+              apiBaseUrl: API_BASE_URL,
+              showLoginPrompt: true,
+              enableReplies: true,
+              enableLikes: true,
+              theme: "light",
+            }
+          );
+
+          result.className = "section success";
+          result.innerHTML =
+            "<h3>✅ Comment System Initialized!</h3><p>Check the section below</p>";
+          log("✅ CommentSystem initialized successfully", "success");
+
+          // Check auth state
+          setTimeout(() => {
+            const token = localStorage.getItem("authToken");
+            const user = localStorage.getItem("currentUser");
+            log(
+              `Auth state: token=${!!token}, user=${!!user}`,
+              token && user ? "success" : "warning"
+            );
+          }, 500);
+        } catch (error) {
+          result.className = "section error";
+          result.innerHTML = `<h3>❌ Init Failed</h3><pre>${error.message}\n${error.stack}</pre>`;
+          log(`❌ CommentSystem init failed: ${error.message}`, "error");
+        }
+      }
+
+      // Auto-check on load
+      window.addEventListener("DOMContentLoaded", () => {
+        log("🚀 Debug page loaded", "info");
+        checkLocalStorage();
+      });
+
+      // Listen for auth changes
+      document.addEventListener("authStateChanged", (e) => {
+        log(`🔔 Auth state changed: ${JSON.stringify(e.detail)}`, "info");
+      });
+
+      // Capture console errors
+      window.addEventListener("error", (e) => {
+        log(
+          `💥 JavaScript Error: ${e.message} at ${e.filename}:${e.lineno}`,
+          "error"
+        );
+      });
+    </script>
+  </body>
+</html>

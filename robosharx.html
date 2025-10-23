@@ -1,0 +1,1505 @@
+<!DOCTYPE html><!DOCTYPE html>
+
+<html lang="en"><html lang="en">
+
+<head>  <head>
+
+    <meta charset="UTF-8">    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>RoboSharX - Robotics News & Innovation</title>    <title>RoboSharX - Robotics News & Innovation</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    <link
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+
+    <link href="./dist/output.css" rel="stylesheet" />      rel="stylesheet"
+
+    <style>    />
+
+        * {    <link href="./dist/output.css" rel="stylesheet" />
+
+            margin: 0;    <script>
+
+            padding: 0;      tailwind.config = {
+
+            box-sizing: border-box;        theme: {
+
+            font-family: 'Space Grotesk', sans-serif;          extend: {
+
+        }            colors: {
+
+              primary: "#007fff",
+
+        body {              "background-light": "#fafafa",
+
+            background: #fafafa;              "content-light": "#111827",
+
+            color: #111827;              "subtle-light": "#6b7280",
+
+        }            },
+
+            fontFamily: {
+
+        /* Loading Spinner */              display: ["Space Grotesk"],
+
+        .loading-spinner {            },
+
+            border: 4px solid #f3f3f3;          },
+
+            border-top: 4px solid #007fff;        },
+
+            border-radius: 50%;      };
+
+            width: 50px;    </script>
+
+            height: 50px;    <style>
+
+            animation: spin 1s linear infinite;      .material-symbols-outlined {
+
+        }        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+
+      }
+
+        @keyframes spin {      .loading-spinner {
+
+            0% { transform: rotate(0deg); }        border: 4px solid #f3f3f3;
+
+            100% { transform: rotate(360deg); }        border-top: 4px solid #007fff;
+
+        }        border-radius: 50%;
+
+        width: 50px;
+
+        @keyframes blink {        height: 50px;
+
+            0%, 50% { opacity: 1; }        animation: spin 1s linear infinite;
+
+            51%, 100% { opacity: 0; }      }
+
+        }      @keyframes spin {
+
+        0% { transform: rotate(0deg); }
+
+        /* Featured Section */        100% { transform: rotate(360deg); }
+
+        .featured-container {      }
+
+            background: white;
+
+            border-radius: 16px;      @keyframes blink {
+
+            overflow: hidden;        0%, 50% { opacity: 1; }
+
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);        51%, 100% { opacity: 0; }
+
+            margin-bottom: 3rem;      }
+
+        }
+
+      /* Color palette - black/gray/white only */
+
+        .featured-slider {      :root {
+
+            position: relative;        --black: #000000;
+
+            width: 100%;        --white: #ffffff;
+
+            overflow: hidden;        --gray-50: #f9fafb;
+
+        }        --gray-100: #f3f4f6;
+
+        --gray-200: #e5e7eb;
+
+        .featured-slide {        --gray-300: #d1d5db;
+
+            display: none;        --gray-400: #9ca3af;
+
+            grid-template-columns: 1fr 1fr;        --gray-500: #6b7280;
+
+            gap: 0;        --gray-600: #4b5563;
+
+            align-items: stretch;        --gray-700: #374151;
+
+            animation: fadeIn 0.5s ease-in;        --gray-800: #1f2937;
+
+        }        --gray-900: #111827;
+
+      }
+
+        .featured-slide.active {
+
+            display: grid;      /* Featured Screens Slider */
+
+        }      .featured-screens-container {
+
+        position: relative;
+
+        @keyframes fadeIn {        width: 100%;
+
+            from { opacity: 0; }        overflow: hidden;
+
+            to { opacity: 1; }        background: var(--white);
+
+        }        border-radius: 1rem;
+
+        padding: 1.5rem;
+
+        .featured-image {        margin-bottom: 2.5rem;
+
+            position: relative;        border: 1px solid var(--gray-200);
+
+            background: #f3f4f6;        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+
+            min-height: 400px;      }
+
+            overflow: hidden;
+
+        }      .featured-slider {
+
+        display: grid;
+
+        .featured-image img {        grid-template-columns: 1fr;
+
+            width: 100%;        gap: 0;
+
+            height: 100%;        align-items: center;
+
+            object-fit: cover;      }
+
+        }
+
+      .featured-card {
+
+        .featured-badge {        display: grid;
+
+            position: absolute;        grid-template-columns: 1fr 1fr;
+
+            top: 20px;        gap: 0;
+
+            left: 20px;        align-items: stretch;
+
+            background: #007fff;        background: var(--white);
+
+            color: white;        border-radius: 0.75rem;
+
+            padding: 8px 16px;        overflow: hidden;
+
+            border-radius: 8px;      }
+
+            font-weight: 600;
+
+            font-size: 0.875rem;      .featured-media {
+
+            letter-spacing: 0.5px;        background: var(--gray-100);
+
+        }        min-height: 360px;
+
+        display: flex;
+
+        .breaking-badge {        align-items: center;
+
+            position: absolute;        justify-content: center;
+
+            top: 20px;        position: relative;
+
+            right: 20px;      }
+
+            background: #ef4444;
+
+            color: white;      .featured-media img,
+
+            padding: 8px 16px;      .featured-media iframe {
+
+            border-radius: 8px;        width: 100%;
+
+            font-weight: 600;        height: 100%;
+
+            font-size: 0.875rem;        object-fit: cover;
+
+            letter-spacing: 0.5px;        display: block;
+
+            animation: pulse 2s infinite;      }
+
+        }
+
+      .featured-content {
+
+        @keyframes pulse {        padding: 2.5rem;
+
+            0%, 100% { opacity: 1; }        color: var(--gray-900);
+
+            50% { opacity: 0.8; }        background: var(--gray-50);
+
+        }        display: flex;
+
+        flex-direction: column;
+
+        .featured-content {        justify-content: center;
+
+            padding: 3rem;      }
+
+            display: flex;
+
+            flex-direction: column;      .featured-badge {
+
+            justify-content: center;        position: absolute;
+
+            background: #f9fafb;        top: 16px;
+
+        }        left: 16px;
+
+        background: var(--black);
+
+        .featured-category {        color: var(--white);
+
+            color: #007fff;        padding: 8px 16px;
+
+            font-weight: 600;        border-radius: 6px;
+
+            font-size: 0.875rem;        font-weight: 500;
+
+            text-transform: uppercase;        font-size: 0.875rem;
+
+            letter-spacing: 1px;        letter-spacing: 0.025em;
+
+            margin-bottom: 1rem;      }
+
+        }
+
+      .featured-epnum {
+
+        .featured-title {        color: var(--gray-600);
+
+            font-size: 2rem;        font-weight: 500;
+
+            font-weight: 700;        font-size: 0.875rem;
+
+            color: #111827;        text-transform: uppercase;
+
+            margin-bottom: 1rem;        letter-spacing: 0.05em;
+
+            line-height: 1.2;        margin-bottom: 0.75rem;
+
+        }      }
+
+
+
+        .featured-summary {      .featured-title {
+
+            color: #6b7280;        color: var(--black);
+
+            font-size: 1.0625rem;        font-weight: 600;
+
+            line-height: 1.6;        font-size: 1.875rem;
+
+            margin-bottom: 1.5rem;        margin-bottom: 0.75rem;
+
+        }        line-height: 1.2;
+
+      }
+
+        .featured-meta {
+
+            display: flex;      .featured-header {
+
+            flex-wrap: wrap;        color: var(--gray-600);
+
+            gap: 1.5rem;        font-weight: 400;
+
+            margin-bottom: 1.5rem;        margin-bottom: 1.5rem;
+
+            font-size: 0.875rem;        line-height: 1.6;
+
+            color: #6b7280;      }
+
+        }
+
+      .meta-row {
+
+        .featured-meta-item {        display: flex;
+
+            display: flex;        gap: 1.5rem;
+
+            align-items: center;        color: var(--gray-500);
+
+            gap: 0.5rem;        font-weight: 400;
+
+        }        font-size: 0.875rem;
+
+        margin-bottom: 1.5rem;
+
+        .featured-cta {        align-items: center;
+
+            display: inline-block;      }
+
+            padding: 14px 32px;
+
+            background: #007fff;      .watch-btn {
+
+            color: white;        display: inline-flex;
+
+            text-decoration: none;        gap: 0.5rem;
+
+            border-radius: 10px;        align-items: center;
+
+            font-weight: 600;        background: var(--black);
+
+            font-size: 1rem;        color: var(--white);
+
+            transition: all 0.3s ease;        padding: 12px 24px;
+
+            align-self: flex-start;        border-radius: 8px;
+
+        }        font-weight: 500;
+
+        text-decoration: none;
+
+        .featured-cta:hover {        transition: all 0.2s;
+
+            background: #0051cc;        width: fit-content;
+
+            transform: translateY(-2px);      }
+
+            box-shadow: 0 8px 20px rgba(0, 127, 255, 0.3);
+
+        }      .watch-btn:hover {
+
+        background: var(--gray-800);
+
+        /* Slider Dots */        transform: translateY(-1px);
+
+        .slider-dots {      }
+
+            display: flex;
+
+            justify-content: center;      /* Slider controls */
+
+            gap: 10px;      .slider-controls {
+
+            padding: 1.5rem 0;        position: absolute;
+
+        }        inset: auto 16px 16px 16px;
+
+        display: flex;
+
+        .dot {        justify-content: space-between;
+
+            width: 10px;        gap: 8px;
+
+            height: 10px;        z-index: 40;
+
+            border-radius: 50%;      }
+
+            background: #d1d5db;
+
+            cursor: pointer;      .nav-btn {
+
+            transition: all 0.3s ease;        background: rgba(0,0,0,0.7);
+
+        }        color: var(--white);
+
+        border: none;
+
+        .dot.active {        width: 40px;
+
+            background: #007fff;        height: 40px;
+
+            width: 32px;        border-radius: 50%;
+
+            border-radius: 5px;        display: inline-flex;
+
+        }        align-items: center;
+
+        justify-content: center;
+
+        /* Cards Grid */        cursor: pointer;
+
+        .cards-grid {        transition: all 0.2s;
+
+            display: grid;        font-size: 1.25rem;
+
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));      }
+
+            gap: 2rem;
+
+            margin-top: 2rem;      .nav-btn:hover {
+
+        }        background: rgba(0,0,0,0.9);
+
+        transform: scale(1.1);
+
+        .card {      }
+
+            background: white;
+
+            border-radius: 12px;      .dots {
+
+            overflow: hidden;        display: flex;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);        gap: 8px;
+
+            transition: all 0.3s ease;        justify-content: center;
+
+            cursor: pointer;        margin-top: 1rem;
+
+            border: 1px solid #e5e7eb;      }
+
+        }
+
+      .dot {
+
+        .card:hover {        width: 8px;
+
+            transform: translateY(-6px);        height: 8px;
+
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);        background: var(--gray-300);
+
+            border-color: #007fff;        border-radius: 50%;
+
+        }        cursor: pointer;
+
+        transition: all 0.2s;
+
+        .card-image {      }
+
+            width: 100%;
+
+            height: 240px;      .dot:hover {
+
+            object-fit: cover;        background: var(--gray-400);
+
+            background: #f3f4f6;      }
+
+        }
+
+      .dot.active {
+
+        .card-content {        background: var(--black);
+
+            padding: 1.5rem;        width: 24px;
+
+        }        border-radius: 4px;
+
+      }
+
+        .card-category {
+
+            display: inline-block;      /* Episode card featured badge */
+
+            color: #007fff;      .episode-featured-badge {
+
+            background: #eff6ff;        position: absolute;
+
+            padding: 4px 12px;        top: 12px;
+
+            border-radius: 6px;        right: 12px;
+
+            font-weight: 600;        background: var(--black);
+
+            font-size: 0.75rem;        color: var(--white);
+
+            text-transform: uppercase;        padding: 4px 10px;
+
+            letter-spacing: 0.5px;        border-radius: 4px;
+
+            margin-bottom: 0.75rem;        font-size: 0.75rem;
+
+        }        font-weight: 500;
+
+        z-index: 10;
+
+        .card-title {      }
+
+            font-size: 1.25rem;
+
+            font-weight: 600;      /* Responsive */
+
+            color: #111827;      @media (max-width: 768px) {
+
+            margin-bottom: 0.75rem;        .featured-card {
+
+            line-height: 1.3;          grid-template-columns: 1fr;
+
+            display: -webkit-box;        }
+
+            -webkit-line-clamp: 2;        .featured-media { min-height: 240px; }
+
+            -webkit-box-orient: vertical;        .featured-content { padding: 1.5rem; }
+
+            overflow: hidden;        .featured-title { font-size: 1.5rem; }
+
+        }      }
+
+    </style>
+
+        .card-summary {    <link
+
+            color: #6b7280;      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+
+            font-size: 0.9375rem;      rel="stylesheet"
+
+            line-height: 1.5;    />
+
+            margin-bottom: 1rem;  </head>
+
+            display: -webkit-box;  <body class="bg-background-light font-display text-content-light">
+
+            -webkit-line-clamp: 2;    <div class="relative flex flex-col min-h-screen w-full">
+
+            -webkit-box-orient: vertical;      <div id="nav-container"></div>
+
+            overflow: hidden;
+
+        }      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+
+        <div class="max-w-6xl mx-auto">
+
+        .card-meta {          <div class="text-center mb-8">
+
+            display: flex;            <h1 class="text-5xl font-bold tracking-tight mb-4 text-black">
+
+            align-items: center;              RoboSharX
+
+            gap: 1rem;            </h1>
+
+            font-size: 0.875rem;            <div style="font-size:1.125rem; color:#007fff; min-height:48px; display:flex; align-items:center; justify-content:center; gap:8px;">
+
+            color: #9ca3af;              <span id="typingText"></span>
+
+        }              <span id="cursor" style="animation: blink 1s infinite">|</span>
+
+            </div>
+
+        .card-meta-item {            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-normal">
+
+            display: flex;              Discover the latest in robotics innovation, research breakthroughs, and maker projects. 
+
+            align-items: center;              Stay updated with cutting-edge robotics trends and community builds.
+
+            gap: 0.375rem;            </p>
+
+        }          </div>
+
+
+
+        /* Filter Section */          <!-- Featured Screens Carousel -->
+
+        .filter-section {          <div id="featuredScreensSection" class="hidden">
+
+            display: flex;            <div class="featured-screens-container">
+
+            justify-content: space-between;              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+
+            align-items: center;                <h2 style="font-weight:600; font-size:1.25rem; color:var(--black);">Featured RoboSharX</h2>
+
+            margin-bottom: 2rem;                <div style="color:var(--gray-500); font-weight:400; font-size:0.875rem;"></div>
+
+            flex-wrap: wrap;              </div>
+
+            gap: 1rem;
+
+        }              <div id="featuredSlider" class="featured-slider">
+
+                <div id="featuredInner" class="featured-card" aria-live="polite">
+
+        .filter-select {                  <!-- Single featured item will render here -->
+
+            padding: 10px 16px;                </div>
+
+            border: 2px solid #e5e7eb;                <div class="slider-controls">
+
+            border-radius: 10px;                 
+
+            background: white;                 
+
+            color: #111827;                </div>
+
+            font-size: 0.9375rem;                <div id="featuredDots" class="dots"></div>
+
+            font-weight: 500;              </div>
+
+            cursor: pointer;            </div>
+
+            transition: all 0.3s ease;          </div>
+
+        }
+
+          <!-- Filters -->
+
+        .filter-select:hover,          <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+
+        .filter-select:focus {            <select
+
+            border-color: #007fff;              id="sortFilter"
+
+            outline: none;              class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+
+        }            >
+
+              <option value="recent">Sort by: Recent</option>
+
+        /* Responsive */              <option value="episode">Episode Number</option>
+
+        @media (max-width: 768px) {              <option value="duration">Duration</option>
+
+            .featured-slide {            </select>
+
+                grid-template-columns: 1fr;          </div>
+
+            }
+
+          <!-- Loading State -->
+
+            .featured-image {          <div id="loadingState" class="text-center py-12">
+
+                min-height: 280px;            <div class="loading-spinner mx-auto mb-4"></div>
+
+            }            <p class="text-gray-500">Loading episodes...</p>
+
+          </div>
+
+            .featured-content {
+
+                padding: 2rem;          <!-- Error State -->
+
+            }          <div id="errorState" class="hidden text-center py-12">
+
+            <p class="text-red-500 text-lg mb-4">Failed to load episodes</p>
+
+            .featured-title {            <button
+
+                font-size: 1.5rem;              onclick="location.reload()"
+
+            }              class="text-white font-medium px-6 py-3 rounded-lg transition-colors"
+
+              style="background: #007fff; border-radius: 8px;"
+
+            .cards-grid {              onmouseover="this.style.background='#0066cc'"
+
+                grid-template-columns: 1fr;              onmouseout="this.style.background='#007fff'"
+
+            }            >
+
+        }              Retry
+
+    </style>            </button>
+
+</head>          </div>
+
+<body>        </div>
+
+    <!-- Navigation -->
+
+    <div id="navigation-placeholder"></div>        <!-- More Episodes Section -->
+
+        <h2 class="text-3xl font-semibold tracking-tight text-center mb-10 text-black">
+
+    <!-- Main Content -->          All RoboSharX Articles
+
+    <main class="min-h-screen pt-24 pb-16">        </h2>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">        <div
+
+                      id="moreEpisodes"
+
+            <!-- Hero Section -->          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+
+            <div class="text-center mb-12">        >
+
+                <h1 class="text-5xl font-bold mb-4 text-gray-900">RoboSharX</h1>          <!-- Episodes will be loaded here -->
+
+                <div class="text-xl text-blue-600 mb-4 min-h-[32px] flex items-center justify-center gap-2">        </div>
+
+                    <span id="typingText"></span>
+
+                    <span id="cursor" style="animation: blink 1s infinite">|</span>        <!-- Empty State -->
+
+                </div>        <div id="emptyState" class="hidden text-center py-12">
+
+                <p class="text-gray-600 max-w-3xl mx-auto text-lg">          <p class="text-xl text-gray-500">No articles found</p>
+
+                    Discover the latest in robotics innovation, research breakthroughs, and AI-powered automation.           <p class="text-gray-500 mt-2">Check back soon for new robotics content</p>
+
+                    Stay updated with cutting-edge robotics trends and technological advancements.        </div>
+
+                </p>      </main>
+
+            </div>
+
+      <footer class="bg-white border-t border-gray-200">
+
+            <!-- Featured Section -->        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <section id="featuredSection" class="featured-container" style="display: none;">          <div
+
+                <div id="featuredSlider" class="featured-slider">            class="flex flex-col md:flex-row justify-between items-center gap-6"
+
+                    <!-- Featured slides will be inserted here -->          >
+
+                </div>            <div class="flex items-center gap-2 text-black">
+
+                <div id="sliderDots" class="slider-dots">              <svg
+
+                    <!-- Dots will be inserted here -->                class="h-6 w-6"
+
+                </div>                fill="none"
+
+            </section>                viewBox="0 0 48 48"
+
+                xmlns="http://www.w3.org/2000/svg"
+
+            <!-- All Articles -->              >
+
+            <section>                <path
+
+                <div class="filter-section">                  d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+
+                    <h2 class="text-3xl font-bold text-gray-900">Latest Robotics News</h2>                  fill="currentColor"
+
+                    <div class="flex gap-3">                ></path>
+
+                        <select id="categoryFilter" class="filter-select">              </svg>
+
+                            <option value="">All Categories</option>              <h2 class="text-lg font-semibold">NeoSharX</h2>
+
+                            <option value="ai_robotics">AI Robotics</option>            </div>
+
+                            <option value="MEDICAL">Medical</option>            <div
+
+                            <option value="INDUSTRIAL">Industrial</option>              class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+
+                            <option value="CONSUMER">Consumer</option>            >
+
+                            <option value="RESEARCH">Research</option>              <a
+
+                        </select>                class="text-sm text-gray-600 hover:text-black transition-colors"
+
+                        <select id="sortFilter" class="filter-select">                href="#"
+
+                            <option value="latest">Latest First</option>                >About</a
+
+                            <option value="popular">Most Popular</option>              >
+
+                            <option value="trending">Trending</option>              <a
+
+                        </select>                class="text-sm text-gray-600 hover:text-black transition-colors"
+
+                    </div>                href="#"
+
+                </div>                >Contact</a
+
+              >
+
+                <!-- Loading State -->              <a
+
+                <div id="loadingState" class="flex items-center justify-center py-20">                class="text-sm text-gray-600 hover:text-black transition-colors"
+
+                    <div class="loading-spinner"></div>                href="#"
+
+                </div>                >Terms of Service</a
+
+              >
+
+                <!-- Articles Grid -->              <a
+
+                <div id="articlesGrid" class="cards-grid" style="display: none;">                class="text-sm text-gray-600 hover:text-black transition-colors"
+
+                    <!-- Cards will be inserted here -->                href="#"
+
+                </div>                >Privacy Policy</a
+
+              >
+
+                <!-- Empty State -->            </div>
+
+                <div id="emptyState" class="text-center py-20" style="display: none;">            <p class="text-sm text-gray-500">
+
+                    <div class="text-6xl mb-4">🤖</div>              © 2023 NeoSharX. All rights reserved.
+
+                    <p class="text-xl text-gray-500 mb-2">No articles found</p>            </p>
+
+                    <p class="text-gray-400">Check back soon for new robotics content</p>          </div>
+
+                </div>        </div>
+
+            </section>      </footer>
+
+    </div>
+
+        </div>
+
+    </main>    <script>
+
+      const API_BASE_URL = "http://localhost:8001";
+
+    <!-- Footer -->      let allEpisodes = [];
+
+    <div id="footer-placeholder"></div>
+
+      async function loadEpisodes() {
+
+    <script>        const loadingState = document.getElementById("loadingState");
+
+        // Load navigation        const errorState = document.getElementById("errorState");
+
+        fetch('navigation.html')        const emptyState = document.getElementById("emptyState");
+
+            .then(res => res.text())        const moreEpisodesContainer = document.getElementById("moreEpisodes");
+
+            .then(html => {
+
+                document.getElementById('navigation-placeholder').innerHTML = html;        try {
+
+                const script = document.querySelector('#navigation-placeholder script');          console.log("Fetching robotics articles from:", `${API_BASE_URL}/events/type/robosharx/`);
+
+                if (script) eval(script.innerHTML);          const response = await fetch(`${API_BASE_URL}/events/type/robosharx/`);
+
+            })
+
+            .catch(err => console.error('Navigation load error:', err));          if (!response.ok) {
+
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+        // Load footer          }
+
+        fetch('footer.html')
+
+            .then(res => res.text())          const data = await response.json();
+
+            .then(html => {          console.log("Articles loaded:", data);
+
+                document.getElementById('footer-placeholder').innerHTML = html;
+
+            })          allEpisodes = data.results || data || [];
+
+            .catch(err => console.error('Footer load error:', err));
+
+          if (allEpisodes.length === 0) {
+
+        // Typing animation            loadingState.classList.add("hidden");
+
+        const phrases = [            emptyState.classList.remove("hidden");
+
+            'Building the Future with Robots...',            return;
+
+            'AI-Powered Automation & Innovation...',          }
+
+            'Robotics Research & Development...',
+
+            'Industrial & Consumer Robotics...'          // Load featured screens from episodes with is_featured = true
+
+        ];          loadFeaturedScreens(allEpisodes);
+
+        let phraseIndex = 0;
+
+        let charIndex = 0;          // Show all episodes
+
+        let isDeleting = false;          renderMoreEpisodes(allEpisodes);
+
+
+
+        function typeWriter() {          loadingState.classList.add("hidden");
+
+            const currentPhrase = phrases[phraseIndex];
+
+            const typingTextEl = document.getElementById('typingText');          // Comment system removed from listing page
+
+        } catch (error) {
+
+            if (!isDeleting && charIndex < currentPhrase.length) {          console.error("Error loading episodes:", error);
+
+                typingTextEl.textContent += currentPhrase.charAt(charIndex);          loadingState.classList.add("hidden");
+
+                charIndex++;          errorState.classList.remove("hidden");
+
+                setTimeout(typeWriter, 100);        }
+
+            } else if (isDeleting && charIndex > 0) {      }
+
+                typingTextEl.textContent = currentPhrase.substring(0, charIndex - 1);
+
+                charIndex--;      function loadFeaturedScreens(episodes) {
+
+                setTimeout(typeWriter, 50);        // Collect featured screens from episodes where is_featured = true
+
+            } else if (!isDeleting && charIndex === currentPhrase.length) {        const featuredScreens = [];
+
+                isDeleting = true;        episodes.forEach((episode) => {
+
+                setTimeout(typeWriter, 2000);          if (episode.featured_screen && 
+
+            } else if (isDeleting && charIndex === 0) {              episode.featured_screen.url && 
+
+                isDeleting = false;              episode.featured_screen.is_featured === true) {
+
+                phraseIndex = (phraseIndex + 1) % phrases.length;            featuredScreens.push({
+
+                setTimeout(typeWriter, 500);              url: episode.featured_screen.url,
+
+            }              type: episode.featured_screen.type || 'image',
+
+        }              episode: episode
+
+            });
+
+        setTimeout(typeWriter, 1000);          }
+
+        });
+
+        // Global variables
+
+        let allArticles = [];        if (featuredScreens.length === 0) return;
+
+        let featuredArticles = [];
+
+        let currentSlide = 0;        // State for slider
+
+        let slideInterval;        window._featuredState = {
+
+          items: featuredScreens,
+
+        // Fetch articles          index: 0
+
+        async function loadArticles() {        };
+
+            const loadingState = document.getElementById('loadingState');
+
+            const articlesGrid = document.getElementById('articlesGrid');        const section = document.getElementById('featuredScreensSection');
+
+            const emptyState = document.getElementById('emptyState');        section.classList.remove('hidden');
+
+
+
+            try {        renderFeaturedItem();
+
+                const response = await fetch('http://127.0.0.1:8000/robotics-news/');        setupFeaturedControls();
+
+                      }
+
+                if (!response.ok) {
+
+                    throw new Error(`HTTP ${response.status}`);      function renderFeaturedItem() {
+
+                }        const state = window._featuredState;
+
+        if (!state || !state.items || state.items.length === 0) return;
+
+                const data = await response.json();        
+
+                allArticles = data.results || [];        const idx = Math.max(0, Math.min(state.index, state.items.length - 1));
+
+        const item = state.items[idx];
+
+                if (allArticles.length === 0) {        const inner = document.getElementById('featuredInner');
+
+                    loadingState.style.display = 'none';        const dots = document.getElementById('featuredDots');
+
+                    emptyState.style.display = 'block';
+
+                    return;        // Build media HTML
+
+                }        let mediaHtml = '';
+
+        if (item.type === 'video') {
+
+                // Filter featured articles          let embed = item.url;
+
+                featuredArticles = allArticles.filter(article =>           if (embed.includes('youtube.com/watch')) {
+
+                    article.is_featured && article.featured_screen && article.featured_screen.url            const v = new URL(embed).searchParams.get('v');
+
+                );            if (v) embed = `https://www.youtube.com/embed/${v}`;
+
+          } else if (embed.includes('youtu.be/')) {
+
+                // Load featured slider            const parts = embed.split('youtu.be/');
+
+                if (featuredArticles.length > 0) {            embed = `https://www.youtube.com/embed/${parts[1].split('?')[0]}`;
+
+                    loadFeaturedSlider();          }
+
+                }          mediaHtml = `<iframe src="${embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+
+        } else {
+
+                // Display all articles          mediaHtml = `<img src="${item.url}" alt="Featured screen" loading="lazy" />`;
+
+                renderArticles(allArticles);        }
+
+
+
+                loadingState.style.display = 'none';        const episode = item.episode || {};
+
+                articlesGrid.style.display = 'grid';
+
+        inner.innerHTML = `
+
+            } catch (error) {          <div class="featured-media">
+
+                console.error('Error loading articles:', error);            <div class="featured-badge">Featured</div>
+
+                loadingState.style.display = 'none';            ${mediaHtml}
+
+                emptyState.style.display = 'block';          </div>
+
+                document.getElementById('emptyState').innerHTML = `          <div class="featured-content">
+
+                    <div class="text-6xl mb-4">⚠️</div>            <div class="featured-epnum">Episode ${episode.episode_number || ''}</div>
+
+                    <p class="text-xl text-gray-500 mb-2">Unable to load articles</p>            <div class="featured-title">${episode.title || 'Featured Episode'}</div>
+
+                    <p class="text-gray-400">Please check your connection and try again</p>            <div class="featured-header">${episode.header || ''}</div>
+
+                `;            <div class="meta-row">
+
+            }              <div>${episode.duration_minutes ? episode.duration_minutes + ' min' : ''}</div>
+
+        }              <div>${episode.published_at ? new Date(episode.published_at).toLocaleDateString() : ''}</div>
+
+            </div>
+
+        // Load Featured Slider            <a href="${episode.slug ? `robotics-detail.html?slug=${episode.slug}` : '#'}" class="watch-btn">
+
+        function loadFeaturedSlider() {              <span>Watch Episode</span>
+
+            const featuredSection = document.getElementById('featuredSection');              <span class="material-symbols-outlined">play_circle</span>
+
+            const featuredSlider = document.getElementById('featuredSlider');            </a>
+
+            const sliderDots = document.getElementById('sliderDots');          </div>
+
+        `;
+
+            featuredSection.style.display = 'block';
+
+        // Render dots
+
+            // Create slides        dots.innerHTML = '';
+
+            featuredSlider.innerHTML = featuredArticles.map((article, index) => `        state.items.forEach((i, k) => {
+
+                <div class="featured-slide ${index === 0 ? 'active' : ''}" data-slide="${index}">          const d = document.createElement('div');
+
+                    <div class="featured-image">          d.className = 'dot' + (k === idx ? ' active' : '');
+
+                        ${article.featured_screen && article.featured_screen.url ?           d.addEventListener('click', () => {
+
+                            `<img src="${article.featured_screen.url}" alt="${article.title}">` :            state.index = k;
+
+                            `<img src="${article.featured_image || 'https://via.placeholder.com/800x400?text=RoboSharX'}" alt="${article.title}">`            renderFeaturedItem();
+
+                        }          });
+
+                        <div class="featured-badge">Featured</div>          dots.appendChild(d);
+
+                        ${article.is_breaking ? '<div class="breaking-badge">🔴 BREAKING</div>' : ''}        });
+
+                    </div>      }
+
+                    <div class="featured-content">
+
+                        <div class="featured-category">${formatCategory(article.category)}</div>      function setupFeaturedControls() {
+
+                        <h3 class="featured-title">${article.title}</h3>        const prev = document.getElementById('prevFeatured');
+
+                        <p class="featured-summary">${article.summary || article.excerpt}</p>        const next = document.getElementById('nextFeatured');
+
+                        <div class="featured-meta">
+
+                            <div class="featured-meta-item">        prev.onclick = () => {
+
+                                <span>📅</span>          const s = window._featuredState;
+
+                                <span>${formatDate(article.published_at)}</span>          if (!s || !s.items) return;
+
+                            </div>          s.index = (s.index - 1 + s.items.length) % s.items.length;
+
+                            <div class="featured-meta-item">          renderFeaturedItem();
+
+                                <span>⏱️</span>        };
+
+                                <span>${article.reading_time} min read</span>
+
+                            </div>        next.onclick = () => {
+
+                            <div class="featured-meta-item">          const s = window._featuredState;
+
+                                <span>👁️</span>          if (!s || !s.items) return;
+
+                                <span>${formatNumber(article.views_count)} views</span>          s.index = (s.index + 1) % s.items.length;
+
+                            </div>          renderFeaturedItem();
+
+                        </div>        };
+
+                        <a href="robotics-detail.html?slug=${article.slug}" class="featured-cta">      }
+
+                            Read Full Article →
+
+                        </a>      function renderMoreEpisodes(episodes) {
+
+                    </div>        const container = document.getElementById("moreEpisodes");
+
+                </div>
+
+            `).join('');        container.innerHTML = episodes
+
+          .map((episode) => {
+
+            // Create dots            const publishedDate = new Date(episode.published_at);
+
+            sliderDots.innerHTML = featuredArticles.map((_, index) =>             const hasFeaturedScreen = episode.featured_screen && episode.featured_screen.url;
+
+                `<div class="dot ${index === 0 ? 'active' : ''}" data-slide="${index}"></div>`            
+
+            ).join('');            return `
+
+            <a
+
+            // Add click events to dots              href="robotics-detail.html?slug=${episode.slug}"
+
+            document.querySelectorAll('.dot').forEach(dot => {              class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+
+                dot.addEventListener('click', () => {            >
+
+                    goToSlide(parseInt(dot.dataset.slide));              <div class="relative h-48 overflow-hidden bg-gray-100">
+
+                });                ${hasFeaturedScreen ? `
+
+            });                  ${episode.featured_screen.type === 'video' ? 
+
+                    `<div class="w-full h-full flex items-center justify-center bg-gray-900">
+
+            // Start auto-rotation (17 seconds)                      <span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+
+            startAutoRotation();                    </div>` : 
+
+        }                    `<img
+
+                      src="${episode.featured_screen.url}"
+
+        // Go to specific slide                      alt="${episode.title}"
+
+        function goToSlide(index) {                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+
+            const slides = document.querySelectorAll('.featured-slide');                      loading="lazy"
+
+            const dots = document.querySelectorAll('.dot');                    />`
+
+                  }
+
+            slides.forEach(slide => slide.classList.remove('active'));                  <div class="episode-featured-badge">Featured</div>
+
+            dots.forEach(dot => dot.classList.remove('active'));                ` : episode.thumbnail_url ? `
+
+                  <img
+
+            slides[index].classList.add('active');                    src="${episode.thumbnail_url}"
+
+            dots[index].classList.add('active');                    alt="${episode.title}"
+
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+
+            currentSlide = index;                    loading="lazy"
+
+        }                  />
+
+                ` : ''}
+
+        // Auto-rotation (17 seconds per slide)                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+
+        function startAutoRotation() {                <span class="absolute top-3 left-3 px-2 py-1 text-white text-xs font-medium rounded" style="background: #007fff;">
+
+            if (slideInterval) clearInterval(slideInterval);                  EP ${episode.episode_number}
+
+                            </span>
+
+            slideInterval = setInterval(() => {              </div>
+
+                currentSlide = (currentSlide + 1) % featuredArticles.length;              <div class="p-6">
+
+                goToSlide(currentSlide);                <h3 class="text-xl font-semibold mb-2 line-clamp-2 text-black group-hover:text-gray-700 transition-colors">
+
+            }, 17000); // 17 seconds                  ${episode.title}
+
+        }                </h3>
+
+                <p class="text-sm text-gray-600 mb-4 line-clamp-2 font-normal">
+
+        // Render articles                  ${episode.header}
+
+        function renderArticles(articles) {                </p>
+
+            const articlesGrid = document.getElementById('articlesGrid');                <div class="flex items-center justify-between text-xs text-gray-500">
+
+                  <div class="flex items-center gap-1">
+
+            articlesGrid.innerHTML = articles.map(article => `                    <span class="material-symbols-outlined text-sm">schedule</span>
+
+                <div class="card" onclick="window.location.href='robotics-detail.html?slug=${article.slug}'">                    <span>${episode.duration_minutes} min</span>
+
+                    <img src="${article.featured_image || 'https://via.placeholder.com/400x240?text=RoboSharX'}"                   </div>
+
+                         alt="${article.title}"                   <span>${publishedDate.toLocaleDateString("en-US", {
+
+                         class="card-image">                    month: "short",
+
+                    <div class="card-content">                    day: "numeric",
+
+                        <span class="card-category">${formatCategory(article.category)}</span>                  })}</span>
+
+                        <h3 class="card-title">${article.title}</h3>                </div>
+
+                        <p class="card-summary">${article.summary || article.excerpt}</p>              </div>
+
+                        <div class="card-meta">            </a>
+
+                            <div class="card-meta-item">          `;
+
+                                <span>📅</span>          })
+
+                                <span>${formatDate(article.published_at)}</span>          .join("");
+
+                            </div>      }
+
+                            <div class="card-meta-item">      // Sort functionality
+
+                                <span>⏱️</span>      document.getElementById("sortFilter")?.addEventListener("change", (e) => {
+
+                                <span>${article.reading_time} min</span>        const sortBy = e.target.value;
+
+                            </div>        let sortedEpisodes = [...allEpisodes];
+
+                            <div class="card-meta-item">
+
+                                <span>👁️</span>        switch (sortBy) {
+
+                                <span>${formatNumber(article.views_count)}</span>          case "episode":
+
+                            </div>            sortedEpisodes.sort((a, b) => a.episode_number - b.episode_number);
+
+                        </div>            break;
+
+                    </div>          case "duration":
+
+                </div>            sortedEpisodes.sort((a, b) => b.duration_minutes - a.duration_minutes);
+
+            `).join('');            break;
+
+        }          case "recent":
+
+          default:
+
+        // Filters            sortedEpisodes.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+
+        document.addEventListener('DOMContentLoaded', () => {            break;
+
+            const categoryFilter = document.getElementById('categoryFilter');        }
+
+            const sortFilter = document.getElementById('sortFilter');
+
+        renderMoreEpisodes(sortedEpisodes);
+
+            categoryFilter.addEventListener('change', applyFilters);      });
+
+            sortFilter.addEventListener('change', applyFilters);
+
+        });      // Load navigation
+
+      fetch("navigation.html")
+
+        function applyFilters() {        .then((res) => res.text())
+
+            const category = document.getElementById('categoryFilter').value;        .then((html) => {
+
+            const sort = document.getElementById('sortFilter').value;          document.getElementById("nav-container").innerHTML = html;
+
+        })
+
+            let filtered = [...allArticles];        .catch((err) => console.error("Navigation load error:", err));
+
+
+
+            // Filter by category      // Load episodes on page load
+
+            if (category) {      document.addEventListener("DOMContentLoaded", loadEpisodes);
+
+                filtered = filtered.filter(article => article.category === category);    </script>
+
+            }    <script>
+
+      (function(){
+
+            // Sort        const taglines = [
+
+            if (sort === 'popular') {          'Building the Future with Robots...',
+
+                filtered.sort((a, b) => b.views_count - a.views_count);          'Robotics Innovation & Research...',
+
+            } else if (sort === 'trending') {          'Maker Projects & DIY Robotics...',
+
+                filtered.sort((a, b) => b.likes_count - a.likes_count);          'AI-Powered Robotics Solutions...'
+
+            } else {        ];
+
+                filtered.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));        let ti = 0, ci = 0, del = false;
+
+            }        function step(){
+
+          const el = document.getElementById('typingText');
+
+            renderArticles(filtered);          if(!el) return;
+
+        }          const txt = taglines[ti];
+
+          if(!del){ el.textContent = txt.slice(0, ci+1); ci++; if(ci===txt.length){ del=true; setTimeout(step,2000); return;} }
+
+        // Helper functions          else{ el.textContent = txt.slice(0, ci-1); ci--; if(ci===0){ del=false; ti=(ti+1)%taglines.length; setTimeout(step,500); return;} }
+
+        function formatDate(dateString) {          setTimeout(step, del?50:100);
+
+            const date = new Date(dateString);        }
+
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });        window.addEventListener('load', ()=> setTimeout(step,500));
+
+        }      })();
+
+    </script>
+
+        function formatNumber(num) {  </body>
+
+            if (num >= 1000) {</html>
+
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        function formatCategory(category) {
+            if (!category) return 'Robotics';
+            return category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        // Load articles on page load
+        loadArticles();
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Social Media -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+            <div class="flex gap-4">
+              <a href="https://instagram.com/neosharx" target="_blank" rel="noopener noreferrer"
+                 class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+              <a href="https://linkedin.com/company/neosharx" target="_blank" rel="noopener noreferrer"
+                 class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+              <a href="https://twitter.com/neosharx" target="_blank" rel="noopener noreferrer"
+                 class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                </svg>
+              </a>
+              <a href="https://youtube.com/@neosharx" target="_blank" rel="noopener noreferrer"
+                 class="bg-gray-800 hover:bg-red-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Communities -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Join Communities</h3>
+            <div class="space-y-2">
+              <a href="#" class="block text-gray-300 hover:text-white transition-colors">
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                  Discord Community
+                </span>
+              </a>
+              <a href="#" class="block text-gray-300 hover:text-white transition-colors">
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                  </svg>
+                  Slack Workspace
+                </span>
+              </a>
+              <a href="#" class="block text-gray-300 hover:text-white transition-colors">
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                  </svg>
+                  Telegram Group
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- About Us -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">About Us</h3>
+            <p class="text-gray-300 leading-relaxed text-sm">
+              NeoSharX empowers startups through innovation, collaboration, and community-driven growth. Join our ecosystem of entrepreneurs and innovators.
+            </p>
+            <a href="about.html" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-medium">
+              Learn More
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Contact -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Contact</h3>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 text-gray-300">
+                <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <a href="mailto:hello@neosharx.com" class="hover:text-white transition-colors">hello@neosharx.com</a>
+              </div>
+              <div class="flex items-center gap-3 text-gray-300">
+                <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                <a href="tel:+1234567890" class="hover:text-white transition-colors">+1 (234) 567-890</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-700 pt-8 mt-8">
+          <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-gray-400 text-sm text-center md:text-left">
+              <img src="logo27.png" alt="NeoSharX Logo" class="h-6 w-6 inline mr-2">© 2025 NeoSharX. All rights reserved.
+            </p>
+            <div class="flex items-center gap-2">
+              <img src="logo27.png" alt="NeoSharX Logo" class="h-5 w-5">
+              <span class="text-gray-400 text-sm">Built with ❤️ for innovators</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

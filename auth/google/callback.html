@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google OAuth Callback</title>
+  </head>
+  <body>
+    <script>
+      const API_BASE_URL = "http://localhost:8001/api"; // Handle Google callback immediately
+      window.addEventListener("load", async function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code");
+        const state = urlParams.get("state");
+        const error = urlParams.get("error");
+        const errorDescription = urlParams.get("error_description");
+
+        if (error) {
+          showError(
+            `Google authentication failed: ${errorDescription || error}`
+          );
+          return;
+        }
+
+        if (!code) {
+          showError("Authorization code not received from Google");
+          return;
+        }
+
+        try {
+          console.log("🔄 Processing Google OAuth callback...");
+          console.log("📋 Code:", code.substring(0, 20) + "...");
+          console.log("🔑 State:", state);
+          console.log("🌐 API URL:", `${API_BASE_URL}/auth/google/callback/`);
+
+          // Send code to backend for processing
+          console.log("📡 Sending request to backend...");
+          const response = await fetch(
+            `${API_BASE_URL}/auth/google/callback/`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                code: code,
+                state: state,
+              }),
+            }
+          );
+
+          console.log(
+            "📥 Response received:",
+            response.status,
+            response.statusText
+          );
+          const data = await response.json();
+          console.log("📦 Response data:", data);
+
+          if (response.ok) {
+            console.log("===== GOOGLE AUTH SUCCESS =====");
+            console.log("Backend response:", data);
+
+            // Store authentication data
+            const authToken = data.token;
+            const userData = {
+              id: data.user.id,
+              username: data.user.username,
+              email: data.user.email,
+              first_name: data.user.first_name || "",
+              last_name: data.user.last_name || "",
+              phone_verified: false,
+              login_method: "google",
+            };
+
+            localStorage.setItem("authToken", authToken);
+            localStorage.setItem("currentUser", JSON.stringify(userData));
+            localStorage.removeItem("google_state");
+
+            console.log("Auth data received from backend");
+            console.log("- authToken:", authToken);
+            console.log("- userData:", userData);
+
+            // Check if this is a signup flow
+            const isSignup = state && state.startsWith("signup_");
+
+            console.log("State value:", state);
+            console.log("Is signup flow:", isSignup);
+
+            // Since callback is on port 8001 but frontend is on port 3000,
+            // we can't use localStorage (different origins)
+            // So we pass the auth data via URL parameters
+            const authData = encodeURIComponent(
+              JSON.stringify({
+                token: authToken,
+                user: userData,
+              })
+            );
+
+            console.log(
+              "🔄 Passing auth data via URL to frontend on port 3000..."
+            );
+            console.log("📋 Auth data length:", authData.length);
+            console.log("👤 User data:", userData);
+
+            if (isSignup) {
+              console.log("📝 Redirecting to onboarding...");
+              const redirectUrl = `http://localhost:3000/onboarding.html?auth=${authData}`;
+              console.log("🎯 Redirect URL:", redirectUrl);
+              window.location.href = redirectUrl;
+            } else {
+              console.log("🏠 Redirecting to home page...");
+              const redirectUrl = `http://localhost:3000/index.html?auth=${authData}`;
+              console.log("🎯 Redirect URL:", redirectUrl);
+              window.location.href = redirectUrl;
+            }
+          } else {
+            console.error("❌ Backend returned error:", response.status, data);
+            throw new Error(data.error || "Authentication failed");
+          }
+        } catch (error) {
+          console.error("💥 Google callback error:", error);
+          console.error("Error details:", error.message);
+          console.error("Error stack:", error.stack);
+          showError(`Login failed: ${error.message}`);
+        }
+      });
+
+      function showError(message) {
+        const alertDiv = document.createElement("div");
+        alertDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #dc3545;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 10000;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                max-width: 400px;
+                text-align: center;
+            `;
+        alertDiv.innerHTML = `
+                <strong>Authentication Error</strong><br>
+                ${message}<br><br>
+                <button onclick="window.location.href='../../login.html'" style="
+                    background: white;
+                    color: #dc3545;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-weight: bold;
+                ">Back to Login</button>
+            `;
+        document.body.appendChild(alertDiv);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>NeoSharX Talks - Podcast Hub</title>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./dist/output.css" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#000000",
+              "background-light": "#fafafa",
+              "content-light": "#111827",
+              "subtle-light": "#6b7280",
+            },
+            fontFamily: {
+              display: ["Newsreader"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #000000;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        s 100% {
+          opacity: 0;
+        }
+      }
+
+      /* Color palette - black/gray/white only */
+      :root {
+        --black: #000000;
+        --white: #ffffff;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-600: #4b5563;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+      }
+
+      /* Featured Screens Slider */
+      .featured-screens-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: var(--white);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2.5rem;
+        border: 1px solid var(--gray-200);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .featured-slider {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        align-items: center;
+      }
+
+      .featured-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
+        background: var(--white);
+        border-radius: 0.75rem;
+        overflow: hidden;
+      }
+
+      .featured-media {
+        background: var(--gray-100);
+        min-height: 360px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .featured-media img,
+      .featured-media iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .featured-content {
+        padding: 2.5rem;
+        color: var(--gray-900);
+        background: var(--gray-50);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .featured-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: var(--black);
+        color: var(--white);
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.875rem;
+        letter-spacing: 0.025em;
+      }
+
+      .featured-epnum {
+        color: var(--gray-600);
+        font-weight: 500;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.75rem;
+      }
+
+      .featured-title {
+        color: var(--black);
+        font-weight: 600;
+        font-size: 1.875rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.2;
+      }
+
+      .featured-header {
+        color: var(--gray-600);
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .meta-row {
+        display: flex;
+        gap: 1.5rem;
+        color: var(--gray-500);
+        font-weight: 400;
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+        align-items: center;
+      }
+
+      .watch-btn {
+        display: inline-flex;
+        gap: 0.5rem;
+        align-items: center;
+        background: #007fff;
+        color: var(--white);
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
+        width: fit-content;
+      }
+
+      .watch-btn:hover {
+        background: #0066cc;
+        transform: translateY(-1px);
+      }
+
+      /* Slider controls */
+      .slider-controls {
+        position: absolute;
+        inset: auto 16px 16px 16px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        z-index: 40;
+      }
+
+      .nav-btn {
+        background: rgba(0, 0, 0, 0.7);
+        color: var(--white);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1.25rem;
+      }
+
+      .nav-btn:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: scale(1.1);
+      }
+
+      .dots {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: var(--gray-300);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .dot:hover {
+        background: var(--gray-400);
+      }
+
+      .dot.active {
+        background: var(--black);
+        width: 24px;
+        border-radius: 4px;
+      }
+
+      /* Episode card featured badge */
+      .episode-featured-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: var(--black);
+        color: var(--white);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        z-index: 10;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .featured-card {
+          grid-template-columns: 1fr;
+        }
+        .featured-media {
+          min-height: 240px;
+        }
+        .featured-content {
+          padding: 1.5rem;
+        }
+        .featured-title {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-background-light font-display text-content-light" data-page="talks">
+    <div class="relative flex flex-col min-h-screen w-full">
+      <div id="nav-container"></div>
+
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-8 mt-12">
+            <h1
+              class="text-6xl font-bold tracking-tight mb-4"
+              style="color: #007fff"
+            >
+              NeoSharX Talks
+            </h1>
+           
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-normal">
+              Conversations that inspire innovation. Join industry leaders and
+              innovators as they share insights on technology, entrepreneurship,
+              and the future.
+            </p>
+          </div>
+
+          <!-- Featured Screens Carousel -->
+          <div id="featuredScreensSection" class="hidden">
+            <div class="featured-screens-container">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 1rem;
+                "
+              >
+                <h2
+                  style="
+                    font-weight: 600;
+                    font-size: 1.25rem;
+                    color: var(--black);
+                  "
+                >
+                  Featured Episodes
+                </h2>
+                <div
+                  style="
+                    color: var(--gray-500);
+                    font-weight: 400;
+                    font-size: 0.875rem;
+                  "
+                >
+                </div>
+              </div>
+
+              <div id="featuredSlider" class="featured-slider">
+                <div
+                  id="featuredInner"
+                  class="featured-card"
+                  aria-live="polite"
+                >
+                  <!-- Single featured item will render here -->
+                </div>
+                <div id="featuredDots" class="dots"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+            <select
+              id="sortFilter"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+            >
+              <option value="recent">Sort by: Recent</option>
+              <option value="episode">Episode Number</option>
+              <option value="duration">Duration</option>
+            </select>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loadingState" class="text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-gray-500">Loading episodes...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="hidden text-center py-12">
+            <p class="text-red-500 text-lg mb-4">Failed to load episodes</p>
+            <button
+              onclick="location.reload()"
+              class="text-white font-medium px-6 py-3 rounded-lg transition-colors"
+              style="background: #007fff; border-radius: 8px"
+              onmouseover="this.style.background='#0066cc'"
+              onmouseout="this.style.background='#007fff'"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+
+        <!-- More Episodes Section -->
+        <h2
+          class="text-3xl font-semibold tracking-tight text-center mb-10 text-black"
+        >
+          All Episodes
+        </h2>
+        <div
+          id="moreEpisodes"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <!-- Episodes will be loaded here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-12">
+          <p class="text-xl text-gray-500">No episodes found</p>
+          <p class="text-gray-500 mt-2">Check back soon for new episodes</p>
+        </div>
+      </main>
+
+    <script>
+      console.log("Talks dynamic script loaded");
+      const API_BASE_URL = "http://localhost:8001/api/auth";
+      let allEpisodes = [];
+
+      async function loadEpisodes() {
+        console.log("loadEpisodes function called");
+        const loadingState = document.getElementById("loadingState");
+        const errorState = document.getElementById("errorState");
+        const emptyState = document.getElementById("emptyState");
+        const moreEpisodesContainer = document.getElementById("moreEpisodes");
+
+        console.log("DOM elements found:", {
+          loadingState: !!loadingState,
+          errorState: !!errorState,
+          emptyState: !!emptyState,
+          moreEpisodesContainer: !!moreEpisodesContainer,
+        });
+
+        try {
+          console.log(
+            "Fetching episodes from:",
+            `${API_BASE_URL}/talk-episodes/`
+          );
+          const response = await fetch(`${API_BASE_URL}/talk-episodes/`);
+          console.log("Response status:", response.status);
+          console.log("Response ok:", response.ok);
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          console.log("Data received:", data);
+          console.log("Episodes in data:", data.episodes);
+
+          allEpisodes = data.episodes || [];
+          console.log("allEpisodes length:", allEpisodes.length);
+          console.log("allEpisodes:", allEpisodes);
+
+          if (allEpisodes.length === 0) {
+            console.log("No episodes found, showing empty state");
+            loadingState.classList.add("hidden");
+            emptyState.classList.remove("hidden");
+            return;
+          }
+
+          console.log("Loading featured screens and rendering episodes");
+          // Load featured screens from episodes with is_featured = true
+          loadFeaturedScreens(allEpisodes);
+
+          // Show all episodes
+          renderMoreEpisodes(allEpisodes);
+
+          loadingState.classList.add("hidden");
+
+          // Comment system removed from listing page
+        } catch (error) {
+          console.error("Error loading episodes:", error);
+          console.error("Error details:", error.message);
+          console.error("Error stack:", error.stack);
+          loadingState.classList.add("hidden");
+          errorState.classList.remove("hidden");
+        }
+      }
+
+      function loadFeaturedScreens(episodes) {
+        const featuredScreens = [];
+        episodes.forEach((episode) => {
+          if (
+            episode.featured_screen &&
+            episode.featured_screen.url &&
+            episode.featured_screen.is_featured === true
+          ) {
+            featuredScreens.push({
+              url: episode.featured_screen.url,
+              type: episode.featured_screen.type || "image",
+              episode: episode,
+            });
+          }
+        });
+
+        if (featuredScreens.length === 0) return;
+
+        // State for slider
+        window._featuredState = {
+          items: featuredScreens,
+          index: 0,
+        };
+
+        const section = document.getElementById("featuredScreensSection");
+        section.classList.remove("hidden");
+
+        renderFeaturedItem();
+        // setupFeaturedControls(); // Removed chevron navigation
+      }
+
+      function renderFeaturedItem() {
+        const state = window._featuredState;
+        if (!state || !state.items || state.items.length === 0) return;
+
+        const idx = Math.max(0, Math.min(state.index, state.items.length - 1));
+        const item = state.items[idx];
+        const inner = document.getElementById("featuredInner");
+        const dots = document.getElementById("featuredDots");
+
+        // Build media HTML
+        let mediaHtml = "";
+        if (item.type === "video") {
+          let embed = item.url;
+          if (embed.includes("youtube.com/watch")) {
+            const v = new URL(embed).searchParams.get("v");
+            if (v) embed = `https://www.youtube.com/embed/${v}`;
+          } else if (embed.includes("youtu.be/")) {
+            const parts = embed.split("youtu.be/");
+            embed = `https://www.youtube.com/embed/${parts[1].split("?")[0]}`;
+          }
+          mediaHtml = `<iframe src="${embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        } else {
+          mediaHtml = `<img src="${item.url}" alt="Featured screen" loading="lazy" />`;
+        }
+
+        const episode = item.episode || {};
+
+        inner.innerHTML = `
+          <div class="featured-media">
+            <div class="featured-badge">Featured</div>
+            ${mediaHtml}
+          </div>
+          <div class="featured-content">
+            <div class="featured-epnum">Episode ${
+              episode.episode_number || ""
+            }</div>
+            <div class="featured-title">${
+              episode.title || "Featured Episode"
+            }</div>
+            <div class="featured-header">${episode.header || ""}</div>
+            <div class="meta-row">
+              <div>${
+                episode.duration_minutes
+                  ? episode.duration_minutes + " min"
+                  : ""
+              }</div>
+              <div>${
+                episode.published_at
+                  ? new Date(episode.published_at).toLocaleDateString()
+                  : ""
+              }</div>
+            </div>
+            <a href="${
+              episode.slug ? `talks-detail.html?slug=${episode.slug}` : "#"
+            }" class="watch-btn">
+              <span>Watch Episode</span>
+              <span class="material-symbols-outlined">play_circle</span>
+            </a>
+          </div>
+        `;
+
+        // Render dots
+        dots.innerHTML = "";
+        state.items.forEach((i, k) => {
+          const d = document.createElement("div");
+          d.className = "dot" + (k === idx ? " active" : "");
+          d.addEventListener("click", () => {
+            state.index = k;
+            renderFeaturedItem();
+          });
+          dots.appendChild(d);
+        });
+      }
+
+      function setupFeaturedControls() {
+        const controlsDiv = document.querySelector(".slider-controls");
+        if (!controlsDiv) return;
+
+        // Clear existing controls
+        controlsDiv.innerHTML = "";
+
+        // Create prev button
+        const prev = document.createElement("button");
+        prev.id = "prevFeatured";
+        prev.className = "nav-btn";
+        prev.innerHTML = '<span class="material-symbols-outlined">_lechevronft</span>';
+        prev.setAttribute("aria-label", "Previous featured episode");
+
+        // Create next button
+        const next = document.createElement("button");
+        next.id = "nextFeatured";
+        next.className = "nav-btn";
+        next.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
+        next.setAttribute("aria-label", "Next featured episode");
+
+        // Add click handlers
+        prev.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index - 1 + s.items.length) % s.items.length;
+          renderFeaturedItem();
+        };
+
+        next.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index + 1) % s.items.length;
+          renderFeaturedItem();
+        };
+
+        // Add to DOM
+        controlsDiv.appendChild(prev);
+        controlsDiv.appendChild(next);
+      }
+
+      function renderMoreEpisodes(episodes) {
+        const container = document.getElementById("moreEpisodes");
+
+        container.innerHTML = episodes
+          .map((episode) => {
+            const publishedDate = new Date(episode.published_at);
+            const hasFeaturedScreen =
+              episode.featured_screen && episode.featured_screen.url;
+
+            return `
+            <a
+              href="talks-detail.html?slug=${episode.slug}"
+              class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <div class="relative h-48 overflow-hidden bg-gray-100">
+                ${
+                  hasFeaturedScreen
+                    ? `
+                  ${
+                    episode.featured_screen.type === "video"
+                      ? `<div class="w-full h-full flex items-center justify-center bg-gray-900">
+                      <span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+                    </div>`
+                      : `<img
+                      src="${episode.featured_screen.url}"
+                      alt="${episode.title}"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      loading="lazy"
+                    />`
+                  }
+                  <div class="episode-featured-badge">Featured</div>
+                `
+                    : episode.thumbnail_url
+                    ? `
+                  <img
+                    src="${episode.thumbnail_url}"
+                    alt="${episode.title}"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                `
+                    : ""
+                }
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <span class="absolute top-3 left-3 px-2 py-1 text-white text-xs font-medium rounded" style="background: #007fff;">
+                  EP ${episode.episode_number}
+                </span>
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2 line-clamp-2 text-black group-hover:text-gray-700 transition-colors">
+                  ${episode.title}
+                </h3>
+                <p class="text-sm text-gray-600 mb-4 line-clamp-2 font-normal">
+                  ${episode.header}
+                </p>
+                <div class="flex items-center justify-between text-xs text-gray-500">
+                  <div class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">schedule</span>
+                    <span>${episode.duration_minutes} min</span>
+                  </div>
+                  <span>${publishedDate.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })}</span>
+                </div>
+              </div>
+            </a>
+          `;
+          })
+          .join("");
+      }
+      // Sort functionality
+      document.getElementById("sortFilter")?.addEventListener("change", (e) => {
+        const sortBy = e.target.value;
+        let sortedEpisodes = [...allEpisodes];
+
+        switch (sortBy) {
+          case "episode":
+            sortedEpisodes.sort((a, b) => a.episode_number - b.episode_number);
+            break;
+          case "duration":
+            sortedEpisodes.sort(
+              (a, b) => b.duration_minutes - a.duration_minutes
+            );
+            break;
+          case "recent":
+          default:
+            sortedEpisodes.sort(
+              (a, b) => new Date(b.published_at) - new Date(a.published_at)
+            );
+            break;
+        }
+
+        renderMoreEpisodes(sortedEpisodes);
+      });
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === 'function') {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton = document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+              }
+            }
+          }, 100);
+          
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () => console.log("Global auth loaded successfully");
+          authScript.onerror = () => console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      // Load episodes on page load
+      document.addEventListener("DOMContentLoaded", loadEpisodes);
+    </script>
+    <script>
+      (function () {
+        // Typing animation removed - now using static text
+      })();
+
+      // Load episodes on page load
+      loadEpisodes();
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Social Media -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+            <div class="flex gap-4">
+              <a href="https://instagram.com/neosharx" target="_blank" rel="noopener noreferrer"
+                 class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+              <a href="https://linkedin.com/company/neosharx" target="_blank" rel="noopener noreferrer"
+                 class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+              <a href="https://twitter.com/neosharx" target="_blank" rel="noopener noreferrer"
+                 class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                </svg>
+              </a>
+              <a href="https://youtube.com/@neosharx" target="_blank" rel="noopener noreferrer"
+                 class="bg-gray-800 hover:bg-red-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Communities -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Join Communities</h3>
+            <div class="space-y-2">
+              <a href="#" class="block text-gray-300 hover:text-white transition-colors">
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                  Discord Community
+                </span>
+              </a>
+              <a href="#" class="block text-gray-300 hover:text-white transition-colors">
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                  </svg>
+                  Slack Workspace
+                </span>
+              </a>
+              <a href="#" class="block text-gray-300 hover:text-white transition-colors">
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                  </svg>
+                  Telegram Group
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- About Us -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">About Us</h3>
+            <p class="text-gray-300 leading-relaxed text-sm">
+              NeoSharX empowers startups through innovation, collaboration, and community-driven growth. Join our ecosystem of entrepreneurs and innovators.
+            </p>
+            <a href="about.html" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-medium">
+              Learn More
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Contact -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Contact</h3>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 text-gray-300">
+                <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <a href="mailto:hello@neosharx.com" class="hover:text-white transition-colors">hello@neosharx.com</a>
+              </div>
+              <div class="flex items-center gap-3 text-gray-300">
+                <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                <a href="tel:+1234567890" class="hover:text-white transition-colors">+1 (234) 567-890</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-700 pt-8 mt-8">
+          <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+              <img src="logo27.png" alt="NeoSharX Logo" class="h-6 w-6">
+              <span class="text-gray-400 text-sm">© 2025 NeoSharX. All rights reserved.</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"/>
+              </svg>
+              <span class="text-gray-400 text-sm">Built with ❤️ for innovators</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,2015 @@
+<!DOCTYPE html><!DOCTYPE html><!DOCTYPE html>
+
+<html lang="en">
+
+<head><html lang="en"><html lang="en">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <head>  <head>
+
+    <title>Tech News - NeoSharX</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">    <meta charset="utf-8" />    <meta charset="utf-8" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">    <meta content="width=device-width, initial-scale=1.0" name="viewport" />    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+
+    <link href="./dist/output.css" rel="stylesheet" />
+
+    <style>    <title>NeoSharX - Tech News</title>    <link
+
+        * {
+
+            margin: 0;    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />      as="style"
+
+            padding: 0;
+
+            box-sizing: border-box;    <link      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Newsreader%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+
+            font-family: 'Space Grotesk', sans-serif;
+
+        }      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;700;800&display=swap"      onload="this.rel='stylesheet'"
+
+
+
+        body {      rel="stylesheet"      rel="stylesheet"
+
+            background: #ffffff;
+
+            color: #000000;    />    />
+
+        }
+
+    <link href="./dist/output.css" rel="stylesheet" />    <title>What's Up Tech - NeoSharX</title>
+
+        /* Color palette - black/gray/white only */
+
+        :root {    <script>    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+
+            --black: #000000;
+
+            --white: #ffffff;      tailwind.config = {    <link href="./dist/output.css" rel="stylesheet" />
+
+            --gray-50: #f9fafb;
+
+            --gray-100: #f3f4f6;        darkMode: "class",    <script>
+
+            --gray-200: #e5e7eb;
+
+            --gray-300: #d1d5db;        theme: {      tailwind.config = {
+
+            --gray-400: #9ca3af;
+
+            --gray-500: #6b7280;          extend: {        darkMode: "class",
+
+            --gray-600: #4b5563;
+
+            --gray-700: #374151;            colors: {        theme: {
+
+            --gray-800: #1f2937;
+
+            --gray-900: #111827;              primary: "#067ff9",          extend: {
+
+        }
+
+              "background-light": "#f5f7f8",            colors: {
+
+        /* Loading Spinner */
+
+        .loading-spinner {              "background-dark": "#0f1923",              primary: "#067ff9",
+
+            border: 4px solid var(--gray-200);
+
+            border-top: 4px solid var(--black);              "content-light": "#111418",              "background-light": "#f5f7f8",
+
+            border-radius: 50%;
+
+            width: 50px;              "content-dark": "#f5f7f8",              "background-dark": "#0f1923",
+
+            height: 50px;
+
+            animation: spin 1s linear infinite;              "subtle-light": "#5f758c",            },
+
+        }
+
+              "subtle-dark": "#a0aec0",            fontFamily: {
+
+        @keyframes spin {
+
+            0% { transform: rotate(0deg); }            },              display: ["Newsreader"],
+
+            100% { transform: rotate(360deg); }
+
+        }            fontFamily: {            },
+
+
+
+        /* Featured Screens Slider */              display: ["Newsreader"],            borderRadius: {
+
+        .featured-screens-container {
+
+            position: relative;            },              DEFAULT: "0.25rem",
+
+            width: 100%;
+
+            overflow: hidden;            borderRadius: {              lg: "0.5rem",
+
+            background: var(--gray-50);
+
+            border-radius: 1rem;              DEFAULT: "0.5rem",              xl: "0.75rem",
+
+            padding: 1.5rem;
+
+            margin-bottom: 3rem;              lg: "0.75rem",              full: "9999px",
+
+            border: 1px solid var(--gray-200);
+
+        }              xl: "1rem",            },
+
+
+
+        .featured-slider {              full: "9999px",          },
+
+            position: relative;
+
+            width: 100%;            },        },
+
+            overflow: hidden;
+
+        }          },      };
+
+
+
+        .featured-slide {        },    </script>
+
+            display: none;
+
+            grid-template-columns: 1fr 1fr;      };    <style>
+
+            gap: 2rem;
+
+            align-items: center;    </script>      /* Featured Screen Slider */
+
+            animation: fadeIn 0.5s ease-in;
+
+        }    <style>      .featured-screens-container {
+
+
+
+        .featured-slide.active {      .material-symbols-outlined {        position: relative;
+
+            display: grid;
+
+        }        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;        width: 100%;
+
+
+
+        @keyframes fadeIn {      }        overflow: hidden;
+
+            from { opacity: 0; }
+
+            to { opacity: 1; }      .loading-spinner {        background: #ffffff;
+
+        }
+
+        border: 4px solid #f3f3f3;        border-radius: 16px;
+
+        .featured-image {
+
+            width: 100%;        border-top: 4px solid #067ff9;        padding: 16px;
+
+            height: 400px;
+
+            object-fit: cover;        border-radius: 50%;        margin-bottom: 32px;
+
+            border-radius: 0.75rem;
+
+            border: 1px solid var(--gray-200);        width: 50px;        border: 1px solid #e5e7eb;
+
+        }
+
+        height: 50px;        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+        .featured-content {
+
+            padding: 1rem;        animation: spin 1s linear infinite;      }
+
+        }
+
+      }
+
+        .slider-dots {
+
+            display: flex;      @keyframes spin {      .featured-card {
+
+            justify-content: center;
+
+            gap: 0.75rem;        0% {        display: grid;
+
+            margin-top: 2rem;
+
+        }          transform: rotate(0deg);        grid-template-columns: 1fr 1fr;
+
+
+
+        .slider-dot {        }        gap: 0;
+
+            width: 10px;
+
+            height: 10px;        100% {        align-items: stretch;
+
+            border-radius: 50%;
+
+            background: var(--gray-300);          transform: rotate(360deg);        background: #ffffff;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;        }        border-radius: 12px;
+
+        }
+
+      }        overflow: hidden;
+
+        .slider-dot.active {
+
+            background: var(--black);      }
+
+            width: 32px;
+
+            border-radius: 8px;      /* Featured Screen Slider */
+
+        }
+
+      .featured-screens-container {      .featured-media {
+
+        /* Category Badge */
+
+        .category-badge {        position: relative;        background: #000;
+
+            display: inline-block;
+
+            padding: 0.375rem 0.875rem;        width: 100%;        min-height: 320px;
+
+            background: var(--black);
+
+            color: var(--white);        overflow: hidden;        display: flex;
+
+            font-size: 0.75rem;
+
+            font-weight: 600;        background: #ffffff;        align-items: center;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.05em;        border-radius: 16px;        justify-content: center;
+
+            border-radius: 0.375rem;
+
+            margin-bottom: 1rem;        padding: 16px;        position: relative;
+
+        }
+
+        margin-bottom: 32px;      }
+
+        .breaking-badge {
+
+            display: inline-block;        border: 1px solid #e5e7eb;
+
+            padding: 0.375rem 0.875rem;
+
+            background: var(--gray-900);        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);      .featured-media img,
+
+            color: var(--white);
+
+            font-size: 0.75rem;      }      .featured-media iframe {
+
+            font-weight: 700;
+
+            text-transform: uppercase;        width: 100%;
+
+            letter-spacing: 0.05em;
+
+            border-radius: 0.375rem;      .featured-card {        height: 100%;
+
+            margin-left: 0.5rem;
+
+            animation: pulse 2s ease-in-out infinite;        display: grid;        object-fit: cover;
+
+        }
+
+        grid-template-columns: 1fr 1fr;        display: block;
+
+        @keyframes pulse {
+
+            0%, 100% { opacity: 1; }        gap: 0;      }
+
+            50% { opacity: 0.7; }
+
+        }        align-items: stretch;
+
+
+
+        /* Cards Grid */        background: #ffffff;      .featured-content {
+
+        .articles-grid {
+
+            display: grid;        border-radius: 12px;        padding: 32px;
+
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+
+            gap: 2rem;        overflow: hidden;        color: #000;
+
+            margin-top: 2rem;
+
+        }      }        display: flex;
+
+
+
+        .article-card {        flex-direction: column;
+
+            background: var(--white);
+
+            border: 1px solid var(--gray-200);      .featured-media {        justify-content: center;
+
+            border-radius: 1rem;
+
+            overflow: hidden;        background: #007fff;      }
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;        min-height: 320px;
+
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+        }        display: flex;      .featured-badge {
+
+
+
+        .article-card:hover {        align-items: center;        position: absolute;
+
+            transform: translateY(-6px);
+
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);        justify-content: center;        top: 12px;
+
+            border-color: var(--gray-400);
+
+        }        position: relative;        left: 12px;
+
+
+
+        .article-image {      }        background: #000;
+
+            width: 100%;
+
+            height: 240px;        color: #fff;
+
+            object-fit: cover;
+
+            background: var(--gray-100);      .featured-media img,        padding: 8px 16px;
+
+        }
+
+      .featured-media iframe {        border-radius: 999px;
+
+        .article-content {
+
+            padding: 1.5rem;        width: 100%;        font-weight: 600;
+
+        }
+
+        height: 100%;        font-size: 0.85rem;
+
+        .article-title {
+
+            font-size: 1.25rem;        object-fit: cover;        z-index: 10;
+
+            font-weight: 700;
+
+            color: var(--black);        display: block;      }
+
+            margin-bottom: 0.75rem;
+
+            line-height: 1.4;      }
+
+            display: -webkit-box;
+
+            -webkit-line-clamp: 2;      .featured-category {
+
+            -webkit-box-orient: vertical;
+
+            overflow: hidden;      .featured-content {        color: #666;
+
+        }
+
+        padding: 32px;        font-weight: 600;
+
+        .article-excerpt {
+
+            font-size: 0.9375rem;        color: #000;        font-size: 0.9rem;
+
+            color: var(--gray-600);
+
+            line-height: 1.6;        display: flex;        text-transform: uppercase;
+
+            margin-bottom: 1rem;
+
+            display: -webkit-box;        flex-direction: column;        margin-bottom: 8px;
+
+            -webkit-line-clamp: 2;
+
+            -webkit-box-orient: vertical;        justify-content: center;      }
+
+            overflow: hidden;
+
+        }      }
+
+
+
+        .article-meta {      .featured-title {
+
+            display: flex;
+
+            align-items: center;      .featured-badge {        color: #000;
+
+            gap: 1rem;
+
+            font-size: 0.875rem;        position: absolute;        font-weight: 700;
+
+            color: var(--gray-500);
+
+            margin-top: 1rem;        top: 12px;        font-size: 1.75rem;
+
+            padding-top: 1rem;
+
+            border-top: 1px solid var(--gray-200);        left: 12px;        margin-bottom: 12px;
+
+        }
+
+        background: #007fff;        line-height: 1.3;
+
+        /* Filters */
+
+        .filters-container {        color: #fff;      }
+
+            display: flex;
+
+            gap: 1rem;        padding: 8px 16px;
+
+            margin-bottom: 2rem;
+
+            flex-wrap: wrap;        border-radius: 999px;      .featured-intro {
+
+        }
+
+        font-weight: 600;        color: #333;
+
+        .filter-select {
+
+            padding: 0.75rem 1.25rem;        font-size: 0.85rem;        line-height: 1.6;
+
+            border: 1px solid var(--gray-300);
+
+            border-radius: 0.5rem;        z-index: 10;        margin-bottom: 16px;
+
+            background: var(--white);
+
+            color: var(--black);      }      }
+
+            font-size: 0.9375rem;
+
+            font-weight: 500;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;      .featured-category {      .read-btn {
+
+            font-family: 'Space Grotesk', sans-serif;
+
+        }        color: #666;        display: inline-flex;
+
+
+
+        .filter-select:hover {        font-weight: 600;        gap: 8px;
+
+            border-color: var(--black);
+
+        }        font-size: 0.9rem;        align-items: center;
+
+
+
+        .filter-select:focus {        text-transform: uppercase;        background: #007fff;
+
+            outline: none;
+
+            border-color: var(--black);        margin-bottom: 8px;        color: #fff;
+
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+
+        }      }        padding: 12px 24px;
+
+
+
+        /* Responsive */        border-radius: 8px;
+
+        @media (max-width: 768px) {
+
+            .featured-slide {      .featured-title {        font-weight: 600;
+
+                grid-template-columns: 1fr;
+
+            }        color: #000;        text-decoration: none;
+
+
+
+            .featured-image {        font-weight: 700;        transition: background 0.2s;
+
+                height: 280px;
+
+            }        font-size: 1.75rem;        align-self: flex-start;
+
+
+
+            .articles-grid {        margin-bottom: 12px;      }
+
+                grid-template-columns: 1fr;
+
+                gap: 1.5rem;        line-height: 1.3;
+
+            }
+
+      }      .read-btn:hover {
+
+            .filters-container {
+
+                flex-direction: column;        background: #0066cc;
+
+            }
+
+      .featured-intro {      }
+
+            .filter-select {
+
+                width: 100%;        color: #333;
+
+            }
+
+        }        line-height: 1.6;      .slider-controls {
+
+
+
+        /* Empty State */        margin-bottom: 16px;        display: flex;
+
+        .empty-state {
+
+            text-align: center;      }        gap: 12px;
+
+            padding: 4rem 2rem;
+
+            color: var(--gray-500);        margin-top: 16px;
+
+        }
+
+      .read-btn {        justify-content: center;
+
+        /* Header Section */
+
+        .header-section {        display: inline-flex;      }
+
+            background: var(--black);
+
+            color: var(--white);        gap: 8px;
+
+            padding: 3rem 0 2rem;
+
+            margin-bottom: 3rem;        align-items: center;      .nav-btn {
+
+        }
+
+        background: #007fff;        background: #007fff;
+
+        .header-content {
+
+            max-width: 1400px;        color: #fff;        color: #fff;
+
+            margin: 0 auto;
+
+            padding: 0 2rem;        padding: 12px 24px;        border: none;
+
+        }
+
+        border-radius: 8px;        width: 40px;
+
+        .header-title {
+
+            font-size: 3rem;        font-weight: 600;        height: 40px;
+
+            font-weight: 700;
+
+            margin-bottom: 0.5rem;        text-decoration: none;        border-radius: 50%;
+
+        }
+
+        transition: background 0.2s;        cursor: pointer;
+
+        .header-subtitle {
+
+            font-size: 1.125rem;        align-self: flex-start;        font-weight: bold;
+
+            color: var(--gray-300);
+
+        }      }        transition: background 0.2s;
+
+
+
+        @media (max-width: 768px) {      }
+
+            .header-section {
+
+                padding: 2rem 0 1.5rem;      .read-btn:hover {
+
+            }
+
+        background: #0066cc;      .nav-btn:hover {
+
+            .header-title {
+
+                font-size: 2rem;      }        background: #0066cc;
+
+            }
+
+      }
+
+            .header-subtitle {
+
+                font-size: 1rem;      .slider-controls {
+
+            }
+
+        }        display: flex;      .dots {
+
+    </style>
+
+</head>        gap: 12px;        display: flex;
+
+<body>
+
+    <!-- Navigation (will be loaded via JS) -->        margin-top: 16px;        gap: 8px;
+
+    <div id="navigation-placeholder"></div>
+
+        justify-content: center;        justify-content: center;
+
+    <!-- Header Section -->
+
+    <div class="header-section">      }        margin-top: 16px;
+
+        <div class="header-content">
+
+            <h1 class="header-title">Tech News</h1>      }
+
+            <p class="header-subtitle">Stay updated with the latest technology news, innovations, and breakthroughs</p>
+
+        </div>      .nav-btn {
+
+    </div>
+
+        background: #007fff;      .dot {
+
+    <!-- Main Content -->
+
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem 4rem;">        color: #fff;        width: 10px;
+
+        
+
+        <!-- Loading State -->        border: none;        height: 10px;
+
+        <div id="loadingState" style="display: flex; justify-content: center; align-items: center; min-height: 400px;">
+
+            <div class="loading-spinner"></div>        width: 40px;        border-radius: 50%;
+
+        </div>
+
+        height: 40px;        background: #ccc;
+
+        <!-- Error State -->
+
+        <div id="errorState" style="display: none; text-align: center; padding: 4rem 2rem;">        border-radius: 50%;        cursor: pointer;
+
+            <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+
+            <h3 style="font-size: 1.5rem; font-weight: 600; color: var(--gray-900); margin-bottom: 0.5rem;">Unable to load articles</h3>        cursor: pointer;        transition: background 0.2s;
+
+            <p style="color: var(--gray-600);">Please check your connection and try again</p>
+
+        </div>        font-weight: bold;      }
+
+
+
+        <!-- Content Container -->        transition: background 0.2s;
+
+        <div id="contentContainer" style="display: none;">
+
+                  }      .dot.active {
+
+            <!-- Featured Screens Slider -->
+
+            <div id="featuredSection" class="featured-screens-container" style="display: none;">        background: #000;
+
+                <div class="featured-slider" id="featuredSlider">
+
+                    <!-- Featured slides will be inserted here -->      .nav-btn:hover {      }
+
+                </div>
+
+                <div class="slider-dots" id="sliderDots">        background: #0066cc;
+
+                    <!-- Dots will be inserted here -->
+
+                </div>      }      @media (max-width: 768px) {
+
+            </div>
+
+        .featured-card {
+
+            <!-- Filters -->
+
+            <div class="filters-container">      .dots {          grid-template-columns: 1fr;
+
+                <select id="categoryFilter" class="filter-select">
+
+                    <option value="all">All Categories</option>        display: flex;        }
+
+                    <option value="ai_ml">AI & Machine Learning</option>
+
+                    <option value="blockchain">Blockchain & Crypto</option>        gap: 8px;      }
+
+                    <option value="cybersecurity">Cybersecurity</option>
+
+                    <option value="funding">Funding & Investment</option>        justify-content: center;    </style>
+
+                    <option value="product_launch">Product Launch</option>
+
+                </select>        margin-top: 16px;  </head>
+
+
+
+                <select id="sortFilter" class="filter-select">      }  <body
+
+                    <option value="latest">Latest First</option>
+
+                    <option value="popular">Most Popular</option>    class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200"
+
+                    <option value="trending">Trending</option>
+
+                </select>      .dot {  >
+
+            </div>
+
+        width: 10px;    <div class="min-h-screen">
+
+            <!-- Articles Grid -->
+
+            <div id="articlesGrid" class="articles-grid">        height: 10px;      <!-- Navigation Container -->
+
+                <!-- Article cards will be inserted here -->
+
+            </div>        border-radius: 50%;      <div id="nav-container"></div>
+
+
+
+            <!-- Empty State -->        background: #ccc;      <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <div id="emptyState" class="empty-state" style="display: none;">
+
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📰</div>        cursor: pointer;        <div class="mb-8">
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; color: var(--gray-700); margin-bottom: 0.5rem;">No articles found</h3>
+
+                <p style="color: var(--gray-500);">Check back soon for new tech content</p>        transition: background 0.2s;          <h2 class="text-4xl font-bold text-gray-900 dark:text-white">
+
+            </div>
+
+      }            What's Up Tech
+
+        </div>
+
+    </div>          </h2>
+
+
+
+    <!-- Footer (will be loaded via JS) -->      .dot.active {        </div>
+
+    <div id="footer-placeholder"></div>
+
+        background: #007fff;
+
+    <script>
+
+        // State      }        <!-- Featured Screens Slider -->
+
+        let allArticles = [];
+
+        let featuredArticles = [];        <div id="featuredScreensSection" class="hidden">
+
+        let currentSlide = 0;
+
+        let slideInterval;      @media (max-width: 768px) {          <div class="featured-screens-container">
+
+
+
+        // Load navigation and footer        .featured-card {            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+
+        async function loadComponents() {
+
+            try {          grid-template-columns: 1fr;              <span style="font-weight: 600; color: #000; font-size: 1rem;">Featured Highlight</span>
+
+                // Load navigation
+
+                const navResponse = await fetch('navigation.html');        }              <span style="color: #666; font-weight: 500; font-size: 0.9rem;">Scroll with arrows</span>
+
+                const navHtml = await navResponse.text();
+
+                document.getElementById('navigation-placeholder').innerHTML = navHtml;      }            </div>
+
+
+
+                // Load footer    </style>
+
+                const footerResponse = await fetch('footer.html');
+
+                const footerHtml = await footerResponse.text();    <link            <div id="featuredSlider" class="featured-slider">
+
+                document.getElementById('footer-placeholder').innerHTML = footerHtml;
+
+            } catch (error) {      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"              <div id="featuredInner" class="featured-card" aria-live="polite">
+
+                console.error('Error loading components:', error);
+
+            }      rel="stylesheet"                <!-- Single featured item will render here -->
+
+        }
+
+    />              </div>
+
+        // Fetch articles from API
+
+        async function fetchArticles() {  </head>              <div class="slider-controls">
+
+            try {
+
+                const response = await fetch('http://127.0.0.1:8000/tech-news/')))))))))
+
+                const data = await response.json();
+
+                    class="bg-background-light dark:bg-background-dark font-display text-content-light dark:text-content-dark"                <button id="nextFeatured" class="nav-btn" aria-label="Next">▶</button>
+
+                allArticles = data.articles || [];
+
+                  >              </div>
+
+                // Filter featured articles
+
+                featuredArticles = allArticles.filter(article =>     <div class="relative flex flex-col min-h-screen w-full">              <div class="dots" id="featuredDots"></div>
+
+                    article.is_featured && 
+
+                    article.featured_screen &&       <div id="nav-container"></div>            </div>
+
+                    article.featured_screen.url
+
+                );          </div>
+
+
+
+                // Hide loading, show content      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">        </div>
+
+                document.getElementById('loadingState').style.display = 'none';
+
+                document.getElementById('contentContainer').style.display = 'block';        <div class="max-w-4xl mx-auto mb-8">
+
+
+
+                // Render content          <div class="text-center mb-8 mt-12">        <!-- Loading State -->
+
+                if (featuredArticles.length > 0) {
+
+                    renderFeaturedSlider();            <h1 class="text-5xl font-extrabold tracking-tighter mb-4">        <div id="loadingState" class="text-center py-12">
+
+                    startAutoSlide();
+
+                }              What's Up Tech          <div
+
+                
+
+                renderArticles(allArticles);            </h1>            class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"
+
+
+
+            } catch (error) {            <p          ></div>
+
+                console.error('Error fetching articles:', error);
+
+                document.getElementById('loadingState').style.display = 'none';              class="text-lg text-subtle-light dark:text-subtle-dark max-w-2xl mx-auto"          <p class="mt-4 text-gray-600 dark:text-gray-400">
+
+                document.getElementById('errorState').style.display = 'block';
+
+            }            >            Loading tech news...
+
+        }
+
+              Stay ahead with the latest tech news, trends, and innovations.          </p>
+
+        // Render featured slider
+
+        function renderFeaturedSlider() {              Your daily dose of technology insights from around the world.        </div>
+
+            const sliderContainer = document.getElementById('featuredSlider');
+
+            const dotsContainer = document.getElementById('sliderDots');            </p>
+
+            
+
+            if (featuredArticles.length === 0) return;          </div>        <!-- Error State -->
+
+
+
+            document.getElementById('featuredSection').style.display = 'block';        <div id="errorState" class="hidden text-center py-12">
+
+
+
+            // Create slides          <!-- Filters -->          <p class="text-red-600 dark:text-red-400 mb-4">
+
+            sliderContainer.innerHTML = featuredArticles.map((article, index) => `
+
+                <div class="featured-slide ${index === 0 ? 'active' : ''}" data-slide="${index}">          <div class="flex flex-wrap items-center justify-center gap-4 mb-12">            Failed to load tech news
+
+                    <div>
+
+                        <img             <select          </p>
+
+                            src="${article.featured_screen.url || article.featured_image || 'https://via.placeholder.com/800x450?text=Tech+News'}" 
+
+                            alt="${article.title}"              id="categoryFilter"          <button
+
+                            class="featured-image"
+
+                            onerror="this.src='https://via.placeholder.com/800x450?text=Tech+News'"              class="flex items-center gap-2 px-7 py-2 text-sm font-medium bg-background-light dark:bg-background-dark border border-subtle-light/20 dark:border-subtle-dark/20 rounded-full hover:bg-primary/10 transition-colors cursor-pointer"            onclick="loadTechNews()"
+
+                        >
+
+                    </div>            >            class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90"
+
+                    <div class="featured-content">
+
+                        <div>              <option value="">All Categories</option>          >
+
+                            <span class="category-badge">${article.category_display || article.category || 'Tech News'}</span>
+
+                            ${article.is_breaking ? '<span class="breaking-badge">🔴 BREAKING</span>' : ''}              <option value="ai">AI</option>            Retry
+
+                        </div>
+
+                        <h2 style="font-size: 2rem; font-weight: 700; color: var(--black); margin: 1.5rem 0 1rem; line-height: 1.3;">              <option value="blockchain">Blockchain</option>          </button>
+
+                            ${article.title}
+
+                        </h2>              <option value="cloud">Cloud</option>        </div>
+
+                        ${article.subtitle ? `<h3 style="font-size: 1.125rem; color: var(--gray-600); margin-bottom: 1rem; line-height: 1.5;">${article.subtitle}</h3>` : ''}
+
+                        <p style="font-size: 1rem; color: var(--gray-700); line-height: 1.7; margin-bottom: 1.5rem;">              <option value="cybersecurity">Cybersecurity</option>
+
+                            ${article.excerpt || article.summary || ''}
+
+                        </p>              <option value="mobile">Mobile</option>        <!-- Main Content -->
+
+                        <div style="display: flex; align-items: center; gap: 1.5rem; color: var(--gray-500); font-size: 0.875rem; margin-bottom: 2rem;">
+
+                            <span>📅 ${formatDate(article.published_at)}</span>              <option value="web">Web</option>        <div
+
+                            <span>⏱️ ${article.read_time_minutes || 5} min read</span>
+
+                            <span>👁️ ${formatNumber(article.views_count || 0)} views</span>              <option value="other">Other</option>          id="mainContent"
+
+                        </div>
+
+                        <a             </select>          class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8"
+
+                            href="tech-detail.html?slug=${article.slug}" 
+
+                            style="display: inline-block; padding: 14px 32px; background: var(--black); color: var(--white); font-weight: 600; border-radius: 0.5rem; text-decoration: none; transition: all 0.2s ease;"        >
+
+                            onmouseover="this.style.background='var(--gray-800)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+
+                            onmouseout="this.style.background='var(--black)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';"            <select          <div class="lg:col-span-2">
+
+                        >
+
+                            Read Full Article →              id="trendFilter"            <div class="mb-6 space-y-4">
+
+                        </a>
+
+                    </div>              class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-background-light dark:bg-background-dark border border-subtle-light/20 dark:border-subtle-dark/20 rounded-full hover:bg-primary/10 transition-colors cursor-pointer"              <div class="relative">
+
+                </div>
+
+            `).join('');            >                <div
+
+
+
+            // Create dots              <option value="">All News</option>                  class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+
+            dotsContainer.innerHTML = featuredArticles.map((_, index) => `
+
+                <div class="slider-dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>              <option value="trending">Trending</option>                >
+
+            `).join('');
+
+        }              <option value="breaking">Breaking</option>                  <svg
+
+
+
+        // Go to specific slide              <option value="featured">Featured</option>                    class="h-5 w-5 text-gray-400 dark:text-gray-500"
+
+        function goToSlide(slideIndex) {
+
+            currentSlide = slideIndex;            </select>                    fill="none"
+
+            
+
+            // Update slides                    stroke="currentColor"
+
+            const slides = document.querySelectorAll('.featured-slide');
+
+            slides.forEach((slide, index) => {            <select                    viewBox="0 0 24 24"
+
+                slide.classList.toggle('active', index === slideIndex);
+
+            });              id="sortFilter"                    xmlns="http://www.w3.org/2000/svg"
+
+
+
+            // Update dots              class="flex items-center gap-2 px-8 py-2 text-sm font-medium bg-background-light dark:bg-background-dark border border-subtle-light/20 dark:border-subtle-dark/20 rounded-full hover:bg-primary/10 transition-colors cursor-pointer"                  >
+
+            const dots = document.querySelectorAll('.slider-dot');
+
+            dots.forEach((dot, index) => {            >                    <path
+
+                dot.classList.toggle('active', index === slideIndex);
+
+            });              <option value="recent">Sort by: Recent</option>                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+
+        }
+
+              <option value="popular">Most Popular</option>                      stroke-linecap="round"
+
+        // Auto slide
+
+        function startAutoSlide() {              <option value="alphabetical">Alphabetical</option>                      stroke-linejoin="round"
+
+            if (featuredArticles.length <= 1) return;
+
+                        </select>                      stroke-width="2"
+
+            slideInterval = setInterval(() => {
+
+                currentSlide = (currentSlide + 1) % featuredArticles.length;          </div>                    ></path>
+
+                goToSlide(currentSlide);
+
+            }, 17000); // 17 seconds        </div>                  </svg>
+
+        }
+
+                </div>
+
+        // Render articles grid
+
+        function renderArticles(articles) {        <!-- Featured Screens Slider (Wider Container) -->                <input
+
+            const grid = document.getElementById('articlesGrid');
+
+            const emptyState = document.getElementById('emptyState');        <div class="max-w-6xl mx-auto mb-12">                  id="searchInput"
+
+
+
+            if (articles.length === 0) {          <div id="featuredScreensSection" class="hidden">                  onkeyup="searchArticles()"
+
+                grid.style.display = 'none';
+
+                emptyState.style.display = 'block';            <div class="featured-screens-container">                  class="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary text-gray-900 dark:text-white"
+
+                return;
+
+            }              <div                  placeholder="Search articles..."
+
+
+
+            grid.style.display = 'grid';                style="                  type="search"
+
+            emptyState.style.display = 'none';
+
+                  display: flex;                />
+
+            grid.innerHTML = articles.map(article => `
+
+                <div class="article-card" onclick="window.location.href='tech-detail.html?slug=${article.slug}'">                  justify-content: space-between;              </div>
+
+                    <img 
+
+                        src="${article.featured_image || article.thumbnail_image || 'https://via.placeholder.com/400x240?text=Tech+News'}"                   align-items: center;              <div class="flex flex-wrap gap-2" id="categoryButtons">
+
+                        alt="${article.title}"
+
+                        class="article-image"                  margin-bottom: 12px;                <button
+
+                        onerror="this.src='https://via.placeholder.com/400x240?text=Tech+News'"
+
+                    >                "                  onclick="filterByCategory('all')"
+
+                    <div class="article-content">
+
+                        <div>              >                  class="category-btn px-4 py-2 rounded-lg text-sm font-medium bg-primary text-white active"
+
+                            <span class="category-badge">${article.category_display || article.category || 'Tech News'}</span>
+
+                            ${article.is_breaking ? '<span class="breaking-badge">🔴 BREAKING</span>' : ''}                <span style="font-weight: 600; color: #000; font-size: 1rem"                >
+
+                        </div>
+
+                        <h3 class="article-title">${article.title}</h3>                  >Featured Highlight</span                  All
+
+                        <p class="article-excerpt">${article.excerpt || article.summary || ''}</p>
+
+                        <div class="article-meta">                >                </button>
+
+                            <span>📅 ${formatDate(article.published_at)}</span>
+
+                            <span>⏱️ ${article.read_time_minutes || 5} min</span>                <span style="color: #666; font-weight: 500; font-size: 0.9rem"              </div>
+
+                            <span>👁️ ${formatNumber(article.views_count || 0)}</span>
+
+                        </div>                  ></span            </div>
+
+                    </div>
+
+                </div>                >
+
+            `).join('');
+
+        }              </div>            <!-- All Articles -->
+
+
+
+        // Filter articles            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Latest Articles</h3>
+
+        function filterArticles() {
+
+            const category = document.getElementById('categoryFilter').value;              <div id="featuredSlider" class="featured-slider">            <div id="moreArticles" class="space-y-4">
+
+            const sort = document.getElementById('sortFilter').value;
+
+                <div              <!-- More articles will be loaded here -->
+
+            let filtered = [...allArticles];
+
+                  id="featuredInner"            </div>
+
+            // Filter by category
+
+            if (category !== 'all') {                  class="featured-card"          </div>
+
+                filtered = filtered.filter(article => article.category === category);
+
+            }                  aria-live="polite"
+
+
+
+            // Sort                >          <!-- Sidebar -->
+
+            if (sort === 'popular') {
+
+                filtered.sort((a, b) => (b.views_count || 0) - (a.views_count || 0));                  <!-- Single featured item will render here -->          <div class="lg:col-span-1">
+
+            } else if (sort === 'trending') {
+
+                filtered.sort((a, b) => (b.likes_count || 0) - (a.likes_count || 0));                </div>            <div
+
+            } else {
+
+                // Latest first (default)                <div class="slider-controls">              class="bg-background-light dark:bg-background-dark/50 p-6 rounded-xl shadow-md sticky top-24"
+
+                filtered.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+
+            }                  <button            >
+
+
+
+            renderArticles(filtered);                    id="prevFeatured"              <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+
+        }
+
+                    class="nav-btn"                Recent Articles
+
+        // Format date
+
+        function formatDate(dateString) {                    aria-label="Previous"              </h3>
+
+            const date = new Date(dateString);
+
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };                  >              <div class="space-y-4" id="recentArticles">
+
+            return date.toLocaleDateString('en-US', options);
+
+        }                                  <!-- Recent articles will be loaded here -->
+
+
+
+        // Format number                  </button>              </div>
+
+        function formatNumber(num) {
+
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';                  <button id="nextFeatured" class="nav-btn" aria-label="Next">            </div>
+
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+
+            return num.toString();                              </div>
+
+        }
+
+                  </button>        </div>
+
+        // Event listeners
+
+        document.addEventListener('DOMContentLoaded', () => {                </div>      </main>
+
+            loadComponents();
+
+            fetchArticles();                <div class="dots" id="featuredDots"></div>    </div>
+
+
+
+            // Filter listeners              </div>
+
+            document.getElementById('categoryFilter').addEventListener('change', filterArticles);
+
+            document.getElementById('sortFilter').addEventListener('change', filterArticles);            </div>    <script>
+
+        });
+
+    </script>          </div>      const API_BASE_URL = "http://localhost:8001/api/auth";
+
+</body>
+
+</html>        </div>      let allArticles = [];
+
+
+      let categories = new Set();
+
+        <!-- Content Container (Back to max-w-4xl) -->
+
+        <div class="max-w-4xl mx-auto">      async function loadTechNews() {
+
+          <!-- Loading State -->        const loadingState = document.getElementById("loadingState");
+
+          <div id="loadingState" class="text-center py-12">        const errorState = document.getElementById("errorState");
+
+            <div class="loading-spinner mx-auto mb-4"></div>        const mainContent = document.getElementById("mainContent");
+
+            <p class="text-subtle-light dark:text-subtle-dark">
+
+              Loading tech news...        try {
+
+            </p>          loadingState.classList.remove("hidden");
+
+          </div>          errorState.classList.add("hidden");
+
+          mainContent.classList.add("hidden");
+
+          <!-- Error State -->
+
+          <div id="errorState" class="hidden text-center py-12">          const response = await fetch(`${API_BASE_URL}/tech-news/`);
+
+            <p class="text-red-500 text-lg mb-4">Failed to load tech news</p>          if (!response.ok) throw new Error("Failed to fetch tech news");
+
+            <button
+
+              onclick="location.reload()"          const data = await response.json();
+
+              class="bg-primary text-white font-bold px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"          allArticles =
+
+            >            data.articles ||
+
+              Retry            data.news ||
+
+            </button>            data.results ||
+
+          </div>            (Array.isArray(data) ? data : []);
+
+        </div>
+
+          // Extract categories
+
+        <!-- More Articles Section -->          allArticles.forEach((article) => {
+
+        <h2 class="text-3xl font-bold tracking-tight text-center mb-10">            if (article.category) categories.add(article.category);
+
+          Latest Tech News          });
+
+        </h2>
+
+        <div          // Populate category buttons
+
+          id="moreArticles"          const categoryButtons = document.getElementById("categoryButtons");
+
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"          categories.forEach((category) => {
+
+        >            const button = document.createElement("button");
+
+          <!-- Articles will be loaded here -->            button.onclick = () => filterByCategory(category);
+
+        </div>            button.className =
+
+              "category-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-primary/30";
+
+        <!-- Empty State -->            button.textContent =
+
+        <div id="emptyState" class="hidden text-center py-12">              category.charAt(0).toUpperCase() +
+
+          <p class="text-xl text-subtle-light dark:text-subtle-dark">              category.slice(1).replace("_", " ");
+
+            No articles found            categoryButtons.appendChild(button);
+
+          </p>          });
+
+          <p class="text-subtle-light dark:text-subtle-dark mt-2">
+
+            Try adjusting your filters          loadingState.classList.add("hidden");
+
+          </p>          mainContent.classList.remove("hidden");
+
+        </div>          loadFeaturedScreens(allArticles);
+
+      </main>          displayArticles(allArticles);
+
+        } catch (error) {
+
+      <!-- Comments Section -->
+      <section class="comments-section mt-12">
+        <h2 class="comments-title">
+          <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+          Comments
+        </h2>
+        <div id="comments-container">
+          <!-- Comments will be loaded here -->
+        </div>
+      </section>
+
+      <footer          console.error("Error loading tech news:", error);
+
+        class="bg-background-light dark:bg-background-dark border-t border-subtle-light/20 dark:border-subtle-dark/20"          loadingState.classList.add("hidden");
+
+      >          errorState.classList.remove("hidden");
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">        }
+
+          <div      }
+
+            class="flex flex-col md:flex-row justify-between items-center gap-6"
+
+          >      function loadFeaturedScreens(items) {
+
+            <div class="flex items-center gap-2 text-primary">        const allScreens = [];
+
+              <svg        items.forEach((item) => {
+
+                class="h-6 w-6"          if (
+
+                fill="none"            item.featured_screen &&
+
+                viewBox="0 0 48 48"            item.featured_screen.url &&
+
+                xmlns="http://www.w3.org/2000/svg"            item.featured_screen.is_featured
+
+              >          ) {
+
+                <path            allScreens.push({
+
+                  d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"              url: item.featured_screen.url,
+
+                  fill="currentColor"              type: item.featured_screen.type || "image",
+
+                ></path>              item: item,
+
+              </svg>            });
+
+              <h2 class="text-lg font-bold">NeoSharX</h2>          }
+
+            </div>        });
+
+            <div
+
+              class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"        if (allScreens.length === 0) return;
+
+            >
+
+              <a        window._featuredState = {
+
+                class="text-sm text-subtle-light dark:text-subtle-dark hover:text-primary transition-colors"          items: allScreens,
+
+                href="#"          index: 0,
+
+                >About</a        };
+
+              >
+
+              <a        const section = document.getElementById("featuredScreensSection");
+
+                class="text-sm text-subtle-light dark:text-subtle-dark hover:text-primary transition-colors"        section.classList.remove("hidden");
+
+                href="#"
+
+                >Contact</a        renderFeaturedItem();
+
+              >        setupFeaturedControls();
+
+              <a      }
+
+                class="text-sm text-subtle-light dark:text-subtle-dark hover:text-primary transition-colors"
+
+                href="#"      function renderFeaturedItem() {
+
+                >Terms of Service</a        const state = window._featuredState;
+
+              >        if (!state || !state.items || state.items.length === 0) return;
+
+              <a
+
+                class="text-sm text-subtle-light dark:text-subtle-dark hover:text-primary transition-colors"        const idx = Math.max(0, Math.min(state.index, state.items.length - 1));
+
+                href="#"        const item = state.items[idx];
+
+                >Privacy Policy</a        const data = item.item || {};
+
+              >
+
+            </div>        const inner = document.getElementById("featuredInner");
+
+            <p class="text-sm text-subtle-light dark:text-subtle-dark">        const dots = document.getElementById("featuredDots");
+
+              © 2023 NeoSharX. All rights reserved.
+
+            </p>        // Build media HTML
+
+          </div>        let mediaHtml = "";
+
+        </div>        if (item.type === "video") {
+
+      </footer>          let embed = item.url;
+
+    </div>          if (embed.includes("youtube.com/watch")) {
+
+            const v = new URL(embed).searchParams.get("v");
+
+    <script>            if (v) embed = `https://www.youtube.com/embed/${v}`;
+
+      const API_BASE_URL = "http://127.0.0.1:8000";          } else if (embed.includes("youtu.be/")) {
+
+      let allArticles = [];            const parts = embed.split("youtu.be/");
+
+      let originalArticles = [];            embed = `https://www.youtube.com/embed/${parts[1].split("?")[0]}`;
+
+          }
+
+      // Fetch tech news from backend          mediaHtml = `<iframe src="${embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+
+      async function loadTechNews() {        } else {
+
+        try {          mediaHtml = `<img src="${item.url}" alt="Featured" loading="lazy" />`;
+
+          const response = await fetch(`${API_BASE_URL}/tech-news/`);        }
+
+
+
+          if (!response.ok) {        const title = data.title || "Featured Content";
+
+            throw new Error("Failed to fetch tech news");        const intro = data.summary || data.description || data.excerpt || "";
+
+          }        const category = data.category || "Featured";
+
+        const slug = data.slug || "";
+
+          const data = await response.json();
+
+          allArticles = data.results || data.articles || data;        inner.innerHTML = `
+
+          originalArticles = [...allArticles];          <div class="featured-media">
+
+            <div class="featured-badge">Featured</div>
+
+          // Hide loading state            ${mediaHtml}
+
+          document.getElementById("loadingState").classList.add("hidden");          </div>
+
+          <div class="featured-content">
+
+          // Load featured screens            <div class="featured-category">${category}</div>
+
+          loadFeaturedScreens(allArticles);            <div class="featured-title">${title}</div>
+
+            <div class="featured-intro">${intro}</div>
+
+          // Display articles            <a href="tech-detail.html?slug=${slug}" class="read-btn">
+
+          displayMoreArticles();              Read More
+
+        } catch (error) {              <span>→</span>
+
+          console.error("Error loading tech news:", error);            </a>
+
+          document.getElementById("loadingState").classList.add("hidden");          </div>
+
+          document.getElementById("errorState").classList.remove("hidden");        `;
+
+        }
+
+      }        // Render dots
+
+        dots.innerHTML = "";
+
+      function loadFeaturedScreens(items) {        state.items.forEach((i, k) => {
+
+        const allScreens = [];          const d = document.createElement("div");
+
+        items.forEach((item) => {          d.className = "dot" + (k === idx ? " active" : "");
+
+          if (          d.addEventListener("click", () => {
+
+            item.featured_screen &&            state.index = k;
+
+            item.featured_screen.url &&            renderFeaturedItem();
+
+            item.featured_screen.is_featured          });
+
+          ) {          dots.appendChild(d);
+
+            allScreens.push({        });
+
+              url: item.featured_screen.url,      }
+
+              type: item.featured_screen.type || "image",
+
+              item: item,      function setupFeaturedControls() {
+
+            });        const prev = document.getElementById("prevFeatured");
+
+          }        const next = document.getElementById("nextFeatured");
+
+        });
+
+        prev.onclick = () => {
+
+        if (allScreens.length === 0) return;          const s = window._featuredState;
+
+          if (!s || !s.items) return;
+
+        window._featuredState = {          s.index = (s.index - 1 + s.items.length) % s.items.length;
+
+          items: allScreens,          renderFeaturedItem();
+
+          index: 0,        };
+
+        };
+
+        next.onclick = () => {
+
+        const section = document.getElementById("featuredScreensSection");          const s = window._featuredState;
+
+        section.classList.remove("hidden");          if (!s || !s.items) return;
+
+          s.index = (s.index + 1) % s.items.length;
+
+        renderFeaturedItem();          renderFeaturedItem();
+
+        setupFeaturedControls();        };
+
+      }      }
+
+
+
+      function renderFeaturedItem() {      function displayArticles(articles) {
+
+        const state = window._featuredState;        if (articles.length === 0) {
+
+        if (!state || !state.items || state.items.length === 0) return;          document.getElementById("moreArticles").innerHTML =
+
+            '<div class="p-6 text-center text-gray-600 dark:text-gray-400">No articles found</div>';
+
+        const idx = Math.max(0, Math.min(state.index, state.items.length - 1));          document.getElementById("recentArticles").innerHTML = "";
+
+        const item = state.items[idx];          return;
+
+        const data = item.item || {};        }
+
+
+
+        const inner = document.getElementById("featuredInner");        // Display all articles
+
+        const dots = document.getElementById("featuredDots");        const moreArticles = articles.slice(0, 6);
+
+        document.getElementById("moreArticles").innerHTML = moreArticles
+
+        // Build media HTML          .map(
+
+        let mediaHtml = "";            (article) => `
+
+        if (item.type === "video") {    <a href="tech-detail.html?slug=${
+
+          let embed = item.url;      article.slug || ""
+
+          if (embed.includes("youtube.com/watch")) {    }" class="group block overflow-hidden rounded-xl bg-background-light dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl p-4">
+
+            const v = new URL(embed).searchParams.get("v");      <div class="flex gap-4">
+
+            if (v) embed = `https://www.youtube.com/embed/${v}`;        <div class="w-24 h-24 flex-shrink-0 bg-center bg-no-repeat bg-cover rounded-lg" style='background-image: url("${
+
+          } else if (embed.includes("youtu.be/")) {          article.featured_image ||
+
+            const parts = embed.split("youtu.be/");          article.image_url ||
+
+            embed = `https://www.youtube.com/embed/${parts[1].split("?")[0]}`;          "https://via.placeholder.com/100"
+
+          }        }")'></div>
+
+          mediaHtml = `<iframe src="${embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;        <div class="flex-1">
+
+        } else {          ${
+
+          mediaHtml = `<img src="${item.url}" alt="Featured" loading="lazy" />`;            article.category
+
+        }              ? `<span class="inline-block px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary mb-1">${article.category}</span>`
+
+              : ""
+
+        const title = data.title || "Featured Content";          }
+
+        const intro = data.summary || data.description || "";          <h4 class="font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2">${
+
+        const category = data.category || "Tech News";            article.title || "Article"
+
+        const slug = data.slug || "";          }</h4>
+
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">${
+
+        inner.innerHTML = `            article.summary || article.description || ""
+
+          <div class="featured-media">          }</p>
+
+            <div class="featured-badge">Featured</div>          <p class="text-xs text-gray-500 dark:text-gray-500 mt-2">${formatDate(
+
+            ${mediaHtml}            article.published_at || article.created_at
+
+          </div>          )}</p>
+
+          <div class="featured-content">        </div>
+
+            <div class="featured-category">${category}</div>      </div>
+
+            <div class="featured-title">${title}</div>    </a>
+
+            <div class="featured-intro">${intro}</div>  `
+
+            <a href="tech-detail.html?slug=${slug}" class="read-btn">          )
+
+              Read More          .join("");
+
+              <span>→</span>
+
+            </a>        // Display recent articles in sidebar
+
+          </div>        const recentArticles = articles.slice(0, 4);
+
+        `;        document.getElementById("recentArticles").innerHTML = recentArticles
+
+          .map(
+
+        // Render dots            (article) => `
+
+        dots.innerHTML = "";    <a class="group flex items-center gap-4" href="tech-detail.html?slug=${
+
+        state.items.forEach((i, k) => {      article.slug || ""
+
+          const d = document.createElement("div");    }">
+
+          d.className = "dot" + (k === idx ? " active" : "");      <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16 flex-shrink-0" style='background-image: url("${
+
+          d.addEventListener("click", () => {        article.featured_image ||
+
+            state.index = k;        article.image_url ||
+
+            renderFeaturedItem();        "https://via.placeholder.com/64"
+
+          });      }")'></div>
+
+          dots.appendChild(d);      <div>
+
+        });        <p class="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors line-clamp-2">${
+
+      }          article.title || "Article"
+
+        }</p>
+
+      function setupFeaturedControls() {        <p class="text-sm text-gray-500 dark:text-gray-500">${formatDate(
+
+        const prev = document.getElementById("prevFeatured");          article.published_at || article.created_at
+
+        const next = document.getElementById("nextFeatured");        )}</p>
+
+      </div>
+
+        prev.onclick = () => {    </a>
+
+          const s = window._featuredState;  `
+
+          if (!s || !s.items) return;          )
+
+          s.index = (s.index - 1 + s.items.length) % s.items.length;          .join("");
+
+          renderFeaturedItem();      }
+
+        };
+
+      function filterByCategory(category) {
+
+        next.onclick = () => {        // Update active button
+
+          const s = window._featuredState;        document.querySelectorAll(".category-btn").forEach((btn) => {
+
+          if (!s || !s.items) return;          btn.classList.remove("bg-primary", "text-white", "active");
+
+          s.index = (s.index + 1) % s.items.length;          btn.classList.add(
+
+          renderFeaturedItem();            "bg-gray-200",
+
+        };            "dark:bg-gray-800",
+
+      }            "text-gray-700",
+
+            "dark:text-gray-300"
+
+      function displayMoreArticles() {          );
+
+        const articles = allArticles        });
+
+          .filter((article) => !article.is_featured)        event.target.classList.remove(
+
+          .slice(0, 9);          "bg-gray-200",
+
+        const container = document.getElementById("moreArticles");          "dark:bg-gray-800",
+
+          "text-gray-700",
+
+        if (articles.length === 0) {          "dark:text-gray-300"
+
+          document.getElementById("emptyState").classList.remove("hidden");        );
+
+          container.innerHTML = "";        event.target.classList.add("bg-primary", "text-white", "active");
+
+          return;
+
+        }        let filtered = allArticles;
+
+        if (category !== "all") {
+
+        document.getElementById("emptyState").classList.add("hidden");          filtered = filtered.filter(
+
+            (article) => article.category === category
+
+        container.innerHTML = articles          );
+
+          .map(        }
+
+            (article) => `
+
+                <div class="group flex flex-col gap-4 bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer" onclick="window.location.href='tech-detail.html?slug=${        displayArticles(filtered);
+
+                  article.slug      }
+
+                }'">
+
+                    <div class="w-full aspect-video bg-cover bg-center" style='background-image: url("${      function searchArticles() {
+
+                      article.featured_image ||        const searchTerm = document
+
+                      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800"          .getElementById("searchInput")
+
+                    }");'></div>          .value.toLowerCase();
+
+                    <div class="p-5 flex flex-col flex-grow">
+
+                        <h3 class="text-lg font-bold mb-2">${article.title}</h3>        if (!searchTerm) {
+
+                        <p class="text-sm text-subtle-light dark:text-subtle-dark flex-grow line-clamp-3">${          displayArticles(allArticles);
+
+                          article.summary || article.description || ""          return;
+
+                        }</p>        }
+
+                        <a class="text-sm font-bold text-primary mt-4 self-start hover:underline" href="tech-detail.html?slug=${
+
+                          article.slug        const filtered = allArticles.filter(
+
+                        }">Read More →</a>          (article) =>
+
+                    </div>            (article.title &&
+
+                </div>              article.title.toLowerCase().includes(searchTerm)) ||
+
+            `            (article.summary &&
+
+          )              article.summary.toLowerCase().includes(searchTerm)) ||
+
+          .join("");            (article.description &&
+
+      }              article.description.toLowerCase().includes(searchTerm)) ||
+
+            (article.author &&
+
+      function filterArticles() {              article.author.toLowerCase().includes(searchTerm))
+
+        const category = document.getElementById("categoryFilter").value;        );
+
+        const trend = document.getElementById("trendFilter").value;
+
+        const sort = document.getElementById("sortFilter").value;        displayArticles(filtered);
+
+      }
+
+        let filteredArticles = [...originalArticles];
+
+      function formatDate(dateString) {
+
+        // Apply filters        if (!dateString) return "";
+
+        if (category) {        const date = new Date(dateString);
+
+          filteredArticles = filteredArticles.filter(        const now = new Date();
+
+            (article) => article.category === category        const diffTime = Math.abs(now - date);
+
+          );        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        }
+
+        if (diffDays === 0) return "Today";
+
+        if (trend) {        if (diffDays === 1) return "1 day ago";
+
+          if (trend === "trending") {        if (diffDays < 7) return `${diffDays} days ago`;
+
+            filteredArticles = filteredArticles.filter(
+
+              (article) => article.is_trending        return date.toLocaleDateString("en-US", {
+
+            );          month: "short",
+
+          } else if (trend === "breaking") {          day: "numeric",
+
+            filteredArticles = filteredArticles.filter(          year: "numeric",
+
+              (article) => article.is_breaking        });
+
+            );      }
+
+          } else if (trend === "featured") {
+
+            filteredArticles = filteredArticles.filter(      // Load tech news on page load
+
+              (article) => article.is_featured      document.addEventListener("DOMContentLoaded", loadTechNews);
+
+            );
+
+          }      // Load navigation
+
+        }      fetch("navigation.html")
+
+        .then((res) => res.text())
+
+        // Apply sorting        .then((html) => {
+
+        if (sort === "popular") {          document.getElementById("nav-container").innerHTML = html;
+
+          filteredArticles.sort((a, b) => (b.views_count || 0) - (a.views_count || 0));        })
+
+        } else if (sort === "alphabetical") {        .catch((err) => console.error("Navigation load error:", err));
+
+          filteredArticles.sort((a, b) => a.title.localeCompare(b.title));    </script>
+
+        } else {    <script>
+
+          filteredArticles.sort(      (function(){
+
+            (a, b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at)        const taglines = [
+
+          );          'Product breakdowns and tech analysis...',
+
+        }          'Explainers for developers and makers...',
+
+          'Keeping you current on tech trends...'
+
+        // Update articles        ];
+
+        allArticles = filteredArticles;        let ti = 0, ci = 0, del = false;
+
+        loadFeaturedScreens(allArticles);        function step(){
+
+        displayMoreArticles();          const el = document.getElementById('typingText');
+
+      }          if(!el) return;
+
+          const txt = taglines[ti];
+
+      // Event listeners          if(!del){ el.textContent = txt.slice(0, ci+1); ci++; if(ci===txt.length){ del=true; setTimeout(step,2000); return;} }
+
+      document          else{ el.textContent = txt.slice(0, ci-1); ci--; if(ci===0){ del=false; ti=(ti+1)%taglines.length; setTimeout(step,500); return;} }
+
+        .getElementById("categoryFilter")          setTimeout(step, del?50:100);
+
+        .addEventListener("change", filterArticles);        }
+
+      document        window.addEventListener('load', ()=> setTimeout(step,500));
+
+        .getElementById("trendFilter")      })();
+
+        .addEventListener("change", filterArticles);    </script>
+
+      document  </body>
+
+        .getElementById("sortFilter")</html>
+
+        .addEventListener("change", filterArticles);
+
+      // Load articles on page load
+      loadTechNews();
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+          
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () => console.log("Global auth loaded successfully");
+          authScript.onerror = () => console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+    </script>
+    <script>
+      (function(){
+        const taglines = [
+          'Breaking tech news and trends...',
+          'Innovation updates from around the world...',
+          'Your daily tech insights...'
+        ];
+        let ti = 0, ci = 0, del = false;
+        function step(){
+          const el = document.getElementById('typingText');
+          if(!el) return;
+          const txt = taglines[ti];
+          if(!del){ el.textContent = txt.slice(0, ci+1); ci++; if(ci===txt.length){ del=true; setTimeout(step,2000); return;} }
+          else{ el.textContent = txt.slice(0, ci-1); ci--; if(ci===0){ del=false; ti=(ti+1)%taglines.length; setTimeout(step,500); return;} }
+          setTimeout(step, del?50:100);
+        }
+        window.addEventListener('load', ()=> setTimeout(step,500));
+      })();
+    </script>
+
+    <!-- Comment System -->
+    <script>
+      // Load comments after content is rendered
+      document.addEventListener("DOMContentLoaded", function() {
+        // Initialize comment system
+        if (window.CommentSystem) {
+          const commentSystem = new CommentSystem(
+            "tech-news", // content type
+            "tech-news-main", // content slug
+            "comments-container",
+            {
+              enableLikes: true,
+              enableReplies: true,
+              maxDepth: 3,
+              enableFlags: true
+            }
+          );
+        }
+      });
+    </script>
+    <script src="comment-system.js"></script>
+  </body>
+</html>

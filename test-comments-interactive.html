@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comment System Test - All Features</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .test-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        text-align: center;
+        color: #1a1a1a;
+        margin-bottom: 1rem;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        text-align: center;
+        color: #6b7280;
+        margin-bottom: 2rem;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .feature-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      }
+      .feature-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+      .feature-card p {
+        font-size: 0.9rem;
+        opacity: 0.95;
+      }
+      .test-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .test-link {
+        display: block;
+        text-align: center;
+        padding: 1rem;
+        background: white;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+      .test-link:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      }
+      .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: #10b981;
+        color: white;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-left: 0.5rem;
+      }
+      .demo-section {
+        background: #f9fafb;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-top: 2rem;
+      }
+      .demo-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #1a1a1a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="test-container">
+      <h1>Comment System Test</h1>
+      <p class="subtitle">
+        Fully Interactive | Light Theme | Admin Delete | All 7 Features
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>✅ Post Comments</h3>
+          <p>1000 character limit, real-time counter, emoji support</p>
+        </div>
+        <div class="feature-card">
+          <h3>Reply System</h3>
+          <p>Nested replies up to 3 levels deep</p>
+        </div>
+        <div class="feature-card">
+          <h3>👍 Like/Dislike</h3>
+          <p>Toggle reactions with visual feedback</p>
+        </div>
+        <div class="feature-card">
+          <h3>🗑️ Delete (Admin)</h3>
+          <p>Users delete own, admins delete any</p>
+        </div>
+        <div class="feature-card">
+          <h3>🚩 Flag Comments</h3>
+          <p>Report inappropriate content</p>
+        </div>
+        <div class="feature-card">
+          <h3>🎨 Light Theme</h3>
+          <p>Clean white design with gradient accents</p>
+        </div>
+      </div>
+
+      <div class="demo-title">🔗 Test on All Features</div>
+      <div class="test-links">
+        <a
+          href="talks-detail.html?slug=episode-2-building-scalable-startups-in-2025"
+          class="test-link"
+          target="_blank"
+        >
+          🎙️ Talk Episodes
+        </a>
+        <a
+          href="story-detail.html?slug=startup-story-1"
+          class="test-link"
+          target="_blank"
+        >
+          🚀 Startup Stories
+        </a>
+        <a
+          href="neo-detail.html?slug=neo-story-1"
+          class="test-link"
+          target="_blank"
+        >
+          📖 Neo Stories
+        </a>
+        <a
+          href="neo-project-detail.html?slug=project-1"
+          class="test-link"
+          target="_blank"
+        >
+          💻 Projects
+        </a>
+        <a
+          href="hackathon-detail.html?slug=hackathon-1"
+          class="test-link"
+          target="_blank"
+        >
+          🏆 SharXathons
+        </a>
+        <a
+          href="robotics-detail.html?slug=robotics-1"
+          class="test-link"
+          target="_blank"
+        >
+          🤖 RoboSharX
+        </a>
+        <a
+          href="tech-detail.html?slug=tech-1"
+          class="test-link"
+          target="_blank"
+        >
+          📰 Tech News
+        </a>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-title">💡 Demo Comment Section</div>
+        <div id="comments-container"></div>
+      </div>
+    </div>
+
+    <script src="comment-system.js"></script>
+    <script>
+      // Initialize test comment system
+      const testCommentSystem = new CommentSystem(
+        "talk_episode",
+        "episode-2-building-scalable-startups-in-2025",
+        "comments-container",
+        {
+          apiBaseUrl: "http://localhost:8001/api/auth",
+          showLoginPrompt: true,
+          enableReplies: true,
+          enableLikes: true,
+          enableFlags: true,
+          maxDepth: 3,
+        }
+      );
+    </script>
+  </body>
+</html>

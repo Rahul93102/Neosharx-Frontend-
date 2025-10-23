@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Neo Stories</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="./dist/output.css" rel="stylesheet" />
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#067ff9",
+            "background-light": "#f5f7f8",
+            "background-dark": "#0f1923",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex flex-col min-h-screen w-full">
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-background-dark/10 dark:border-background-light/10">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-8">
+<div class="flex items-center">
+<a href="index.html"><img src="logo27.png" alt="NeoSharX Logo" class="h-6 object-contain"></a>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="talks.html">NeoSharX Talks</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="startup.html">Startup Stories</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="neo.html">Neo Stories</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Neo Projects</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="hackathon.html">SharXathon</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="robosharx.html">RoboSharX</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="tech.html">What's up Tech</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white rounded-lg px-4 py-2 text-sm font-bold shadow-sm hover:bg-primary/90 transition-colors">
+              Post a story
+            </button>
+<div class="w-10 h-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCqQV_i-5hS699pvygtT6At4hcIdS8gXgff4q5Lv4x_XmYxDe3aVz_5wHCBekM5GvLzJN9KnFIAlpmdynciBE947s2GB0G_9AnpRyzb5KQrQxbHRYRFkC0nK1BtFWQkkg_Tssmuk7hQdE3KIkA_utZwH48xsEckwrsaziEI6LGmTqejVEuVlo6tUZfms3MnNxgjxf2EQMM1T3tOnrQZEoO3IAgKhnippRUUebixPTPr-wecnFLD292Yu7vYlvf8weSg4ZDRGMA5ElY");'></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+<div class="flex flex-col gap-8">
+<div class="text-center">
+<h1 class="text-4xl md:text-5xl font-bold text-background-dark dark:text-background-light tracking-tighter">Neo Stories</h1>
+<p class="mt-2 text-lg text-background-dark/60 dark:text-background-light/60 max-w-2xl mx-auto">Explore personal stories, challenges, and successes from our vibrant startup community.</p>
+</div>
+<div class="flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="relative w-full md:w-2/3 lg:w-1/2">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-background-dark/40 dark:text-background-light/40">search</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-lg border-2 border-transparent bg-background-dark/5 dark:bg-background-light/5 text-background-dark dark:text-background-light focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Search stories..." type="search"/>
+</div>
+<div class="flex items-center gap-2 overflow-x-auto pb-2">
+<button class="px-4 py-1.5 text-sm font-medium rounded-full whitespace-nowrap bg-primary text-white">All</button>
+<button class="px-4 py-1.5 text-sm font-medium rounded-full whitespace-nowrap bg-background-dark/5 dark:bg-background-light/5 text-background-dark/70 dark:text-background-light/70 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-primary">Success Stories</button>
+<button class="px-4 py-1.5 text-sm font-medium rounded-full whitespace-nowrap bg-background-dark/5 dark:bg-background-light/5 text-background-dark/70 dark:text-background-light/70 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-primary">Challenges</button>
+<button class="px-4 py-1.5 text-sm font-medium rounded-full whitespace-nowrap bg-background-dark/5 dark:bg-background-light/5 text-background-dark/70 dark:text-background-light/70 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-primary">Personal Journeys</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden rounded-lg">
+<img alt="Story thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhKVkAGwa_Cy3dhnhwJHvEDfyvKIA5EdFkaZ8MXoSc5k03pB7pwSy5Ie2pLkYOFlJWf4obWmtlVcEbNqcprL5LoI8qh89W6I_73lFaNjuNIIZcgBuRcouGzlhlu6xkd9uLBBwmEOtMXidmKBMd_Pp1y5Lewz_dkPd6gVH8e0SKFvPLwYXnK_v7RgGuMzhW98rPX0Vk9FbVYx9ZuIPUK1uXw6AJb4hTrGWch_3rKp4yOawwkgq6v4RqJAbvN1HyM5nP7acl5QGTrdk"/>
+<div class="absolute top-2 right-2 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm rounded-full px-2 py-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-background-dark dark:text-background-light">article</span>
+<span class="text-xs font-medium text-background-dark dark:text-background-light">Blog</span>
+</div>
+<a href="neo2.html" class="absolute inset-0" aria-label="Open story"></a>
+</div>
+<div class="pt-4">
+<h3 class="text-lg font-bold text-background-dark dark:text-background-light group-hover:text-primary transition-colors">From Startup to Success: The Journey of InnovateTech</h3>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60 mt-1">By Jane Doe • 5 min read</p>
+</div>
+</div>
+<div class="flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden rounded-lg">
+<img alt="Story thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI1tzslK1M4tbf6qn8DshCCHd8jheWhZsmVwZLfAEby47apr8tLD5DUPZ7up87-SDHEl5noiivuQeozd0rVCEed-fMqEui4YuwZhyIGJt0h_AUOgox9PUrSQsCUXLmlQxj0EPek-KTutayfTZuXWO4Ft4LCPVK_ShHxkjdF1MQHOmgy97hk48vhAyadvNzC3ZFB0HV9LZEQYkogw61akeJHqDSkD8UksE-Sa5WUa4L295OVBngmomIAgI61jbJeW_FEnMrrst3xuY"/>
+<div class="absolute top-2 right-2 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm rounded-full px-2 py-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-background-dark dark:text-background-light">play_circle</span>
+<span class="text-xs font-medium text-background-dark dark:text-background-light">Video</span>
+</div>
+<a href="neo2.html" class="absolute inset-0" aria-label="Open story"></a>
+</div>
+<div class="pt-4">
+<h3 class="text-lg font-bold text-background-dark dark:text-background-light group-hover:text-primary transition-colors">Navigating the Challenges: A Founder's Resilience</h3>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60 mt-1">By John Smith • 12:34</p>
+</div>
+</div>
+<div class="flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden rounded-lg">
+<img alt="Story thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDONARkXNY-vUIP3XWQNE4MRdLcJ17tybs1zh-WbWTUSfDaURrVeoIGHApRlQl7fhPV32RXU_ANm8kMWu6QsIFjzW5YeOWeB3_La0msJriq6zjzxbg8zNr8VlM0DJK67-Bxze0Fji0f3L-LWY9YrHxN0ecBpMxLt2f0EhY2zphlWvR037kbIF-EhICNXHJROaBWJ17cIcYeqOL2m5_JpmZf4pNhAsMk9UWIAN0uCPc6y-3bT7Uzt5J0UB9OHRRWA9hRSA9BoHLcl5U"/>
+<div class="absolute top-2 right-2 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm rounded-full px-2 py-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-background-dark dark:text-background-light">article</span>
+<span class="text-xs font-medium text-background-dark dark:text-background-light">Blog</span>
+</div>
+<a href="neo2.html" class="absolute inset-0" aria-label="Open story"></a>
+</div>
+<div class="pt-4">
+<h3 class="text-lg font-bold text-background-dark dark:text-background-light group-hover:text-primary transition-colors">My Path to Innovation: A Personal Reflection</h3>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60 mt-1">By Alex Johnson • 8 min read</p>
+</div>
+</div>
+<div class="flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden rounded-lg">
+<img alt="Story thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHDiSeeozqaNwJbTGiqqYsFRwlgkyWuw_Q8YEDp31ncWadI9UDBvpCj-TC8bbo2KvCc9C_U0RDjz6AL2aZ0v15uNnjEoGEL4tNm9M8mPgZx-wfNgOwTqAdj5pMPZeXz-jMqBJ65neBYU0eYqeaKLKi3eAuvAEWAVWgDCt0PBvyku5ArtvZrag2M5goBi01Fw-sEjYkSqHk0BKlDQet_5-hSaQn88Ij8J9aigixnAsTFg8RMEQJCEeZfZfelsvqp6joo7fUwjU8LZE"/>
+<div class="absolute top-2 right-2 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm rounded-full px-2 py-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-background-dark dark:text-background-light">article</span>
+<span class="text-xs font-medium text-background-dark dark:text-background-light">Blog</span>
+</div>
+<a href="neo2.html" class="absolute inset-0" aria-label="Open story"></a>
+</div>
+<div class="pt-4">
+<h3 class="text-lg font-bold text-background-dark dark:text-background-light group-hover:text-primary transition-colors">The Rise of GreenTech: A Sustainable Startup Story</h3>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60 mt-1">By Emily Chen • 7 min read</p>
+</div>
+</div>
+<div class="flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden rounded-lg">
+<img alt="Story thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2CRb2DuewYJNOB-r2GSivI9ViXjSHgU7nfmgVT7xBuX8O4XV-hXP_G_CRdMeRNlTdAdHdIcSwC6M9c0Suv4eIbte4Pd5d1rkNBMmN6DHdJQ02IiHCMvjBukuh_Hdu3hkBCSPq6y8L9j7x9gpg7Ekz766Y5n4Y-9GlmjTa67YQlwNg_XFdebTPX498c8ncDWKZ0GvdMWBMHvbdf6x8oPWvPfsHcaNAoj3hZHF1Bj8eKyUqlC4agUlcrCcYXnOgW8yFpKic2dwUI80"/>
+<div class="absolute top-2 right-2 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm rounded-full px-2 py-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-background-dark dark:text-background-light">play_circle</span>
+<span class="text-xs font-medium text-background-dark dark:text-background-light">Video</span>
+</div>
+<a href="neo2.html" class="absolute inset-0" aria-label="Open story"></a>
+</div>
+<div class="pt-4">
+<h3 class="text-lg font-bold text-background-dark dark:text-background-light group-hover:text-primary transition-colors">Overcoming Obstacles: A Tale of Perseverance</h3>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60 mt-1">By Michael Brown • 15:02</p>
+</div>
+</div>
+<div class="flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden rounded-lg">
+<img alt="Story thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI5y0igaOAqGx95rcCZ6AgPSX-hNpfUFMlIre7tfeSAukGRVMpxg5BUIJgrtx3ECbsTtaJVQdbheN3X5wgLR0xaIJgnQ8tv_pKOdRd4MoTTA-QfUALgYZ03EQVjfWKtKYXnhI4odjjW1NXH10T1WgKIi0jxsx5hf0qPqDIdDSGXVirjE1Nz_fPEahRq9mmR8uptYDlguJaVRCwQEA5Jkkhf0d3M-JuMhYYocXcu3eQVYKVTpnVCe4NhHnKw8YFoWki0u0-kAZqUPE"/>
+<div class="absolute top-2 right-2 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm rounded-full px-2 py-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-background-dark dark:text-background-light">article</span>
+<span class="text-xs font-medium text-background-dark dark:text-background-light">Blog</span>
+</div>
+<a href="neo2.html" class="absolute inset-0" aria-label="Open story"></a>
+</div>
+<div class="pt-4">
+<h3 class="text-lg font-bold text-background-dark dark:text-background-light group-hover:text-primary transition-colors">Finding My Niche: A Journey of Self-Discovery</h3>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60 mt-1">By Sarah Wilson • 6 min read</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-background-light dark:bg-background-dark mt-auto border-t border-background-dark/10 dark:border-background-light/10">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2 text-background-dark dark:text-background-light">
+<svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path></svg>
+<span class="font-semibold">NeoSharX</span>
+</div>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60">© 2024 NeoSharX. All rights reserved.</p>
+<div class="flex items-center gap-4">
+<a class="text-background-dark/60 dark:text-background-light/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M247.39,68.94A8,8,0,0,0,240,64H209.57A48.66,48.66,0,0,0,168.1,40a46.91,46.91,0,0,0-33.75,13.7A47.9,47.9,0,0,0,120,88v6.09C79.74,83.47,46.81,50.72,46.46,50.37a8,8,0,0,0-13.65,4.92c-4.31,47.79,9.57,79.77,22,98.18a110.93,110.93,0,0,0,21.88,24.2c-15.23,17.53-39.21,26.74-39.47,26.84a8,8,0,0,0-3.85,11.93c.75,1.12,3.75,5.05,11.08,8.72C53.51,229.7,65.48,232,80,232c70.67,0,129.72-54.42,135.75-124.44l29.91-29.9A8,8,0,0,0,247.39,68.94Zm-45,29.41a8,8,0,0,0-2.32,5.14C196,166.58,143.28,216,80,216c-10.56,0-18-1.4-23.22-3.08,11.51-6.25,27.56-17,37.88-32.48A8,8,0,0,0,92,169.08c-.47-.27-43.91-26.34-44-96,16,13,45.25,33.17,78.67,38.79A8,8,0,0,0,136,104V88a32,32,0,0,1,9.6-22.92A30.94,30.94,0,0,1,167.9,56c12.66.16,24.49,7.88,29.44,19.21A8,8,0,0,0,204.67,80h16Z"></path></svg>
+</a>
+<a class="text-background-dark/60 dark:text-background-light/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+
+</body></html>

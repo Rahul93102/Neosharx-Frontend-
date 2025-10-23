@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "from": "index.html",
+      "to": "dist/index.html"
+    },
+    {
+      "from": "*.html",
+      "to": "dist/"
+    },
+    {
+      "from": "*.js",
+      "to": "dist/"
+    },
+    {
+      "from": "*.css",
+      "to": "dist/"
+    },
+    {
+      "from": "*.png",
+      "to": "dist/"
+    },
+    {
+      "from": "*.ico",
+      "to": "dist/"
+    },
+    {
+      "from": "assets/**/*",
+      "to": "dist/assets/"
+    },
+    {
+      "from": "auth/**/*",
+      "to": "dist/auth/"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment System Debug Test</title>
+</head>
+<body>
+    <h1>Comment System Debug Test</h1>
+    <div id="test-container"></div>
+    
+    <script src="comment-system.js"></script>
+    <script>
+        // Test comment system initialization
+        console.log("Testing CommentSystem initialization...");
+        
+        // Simulate some localStorage data
+        localStorage.setItem("authToken", "test-token-123");
+        localStorage.setItem("currentUser", JSON.stringify({
+            id: 123,
+            username: "testuser",
+            email: "test@example.com"
+        }));
+        
+        // Initialize comment system
+        const commentSystem = new CommentSystem(
+            "hackathon",
+            "test-hackathon",
+            "test-container",
+            {
+                apiBaseUrl: "http://localhost:8001/api/auth"
+            }
+        );
+        
+        console.log("CommentSystem initialized successfully");
+    </script>
+</body>
+</html>

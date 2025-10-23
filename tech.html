@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>What's Up Tech - Tech News | NeoSharX</title>
+    <link href="./dist/output.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .article-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .article-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .breaking-badge {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+      .category-badge {
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+      }
+      .trending-indicator {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .featured-gradient {
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      }
+      .tag-pill {
+        background: rgba(6, 127, 249, 0.1);
+        color: #067ff9;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <img src="logo27.png" alt="NeoSharX" class="h-8 w-8 mr-3" />
+            <span class="text-xl font-bold text-gray-800">NeoSharX</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <a
+              href="index.html"
+              class="text-gray-600 hover:text-blue-600 transition"
+              >Home</a
+            >
+            <a
+              href="startup.html"
+              class="text-gray-600 hover:text-blue-600 transition"
+              >Startup Stories</a
+            >
+            <a
+              href="neo.html"
+              class="text-gray-600 hover:text-blue-600 transition"
+              >Neo Stories</a
+            >
+            <a
+              href="hackathon.html"
+              class="text-gray-600 hover:text-blue-600 transition"
+              >SharXathons</a
+            >
+            <a href="tech-dynamic.html" class="text-blue-600 font-semibold"
+              >What's Up Tech</a
+            >
+            <a
+              href="login.html"
+              class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+              >Login</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section with Breaking News -->
+    <div
+      class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white py-16"
+    >
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-8">
+          <h1 class="text-5xl md:text-6xl font-bold mb-4">What's Up Tech</h1>
+          <p class="text-xl md:text-2xl opacity-90">
+            Stay Updated with the Latest in Technology
+          </p>
+        </div>
+
+        <!-- Breaking News Banner -->
+        <div
+          id="breakingNews"
+          class="bg-red-600 rounded-lg p-4 flex items-center"
+          style="display: none"
+        >
+          <span
+            class="breaking-badge bg-white text-red-600 px-3 py-1 rounded-full font-bold text-sm mr-4"
+          >
+            <i class="fas fa-bolt"></i> BREAKING
+          </span>
+          <div id="breakingNewsContent" class="flex-1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="bg-white border-b py-6">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div>
+            <div class="text-3xl font-bold text-blue-600" id="totalArticles">
+              -
+            </div>
+            <div class="text-gray-600 text-sm mt-1">Articles</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-green-600" id="featuredCount">
+              -
+            </div>
+            <div class="text-gray-600 text-sm mt-1">Featured</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-purple-600" id="categoryCount">
+              -
+            </div>
+            <div class="text-gray-600 text-sm mt-1">Categories</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-orange-600" id="totalViews">
+              -
+            </div>
+            <div class="text-gray-600 text-sm mt-1">Total Views</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Article -->
+    <div class="max-w-7xl mx-auto px-4 py-12">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+        <i class="fas fa-star text-yellow-500 mr-3"></i>
+        Featured Article
+      </h2>
+      <div
+        id="featuredArticle"
+        class="bg-white rounded-xl shadow-xl overflow-hidden"
+      >
+        <!-- Featured article will be inserted here -->
+      </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-2"
+              >Search</label
+            >
+            <div class="relative">
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Search articles..."
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 pl-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"
+              >Category</label
+            >
+            <select
+              id="categoryFilter"
+              class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"
+              >Priority</label
+            >
+            <select
+              id="priorityFilter"
+              class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">All Priorities</option>
+              <option value="breaking">Breaking News</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button
+            onclick="applyFilters()"
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-semibold"
+          >
+            <i class="fas fa-filter mr-2"></i>Apply Filters
+          </button>
+          <button
+            onclick="resetFilters()"
+            class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition font-semibold"
+          >
+            <i class="fas fa-redo mr-2"></i>Reset
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trending Articles -->
+    <div
+      id="trendingSection"
+      class="max-w-7xl mx-auto px-4 pb-8"
+      style="display: none"
+    >
+      <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+        <i class="fas fa-fire text-orange-500 mr-3"></i>
+        Trending Now
+      </h2>
+      <div id="trendingArticles" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <!-- Trending articles will be inserted here -->
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="max-w-7xl mx-auto px-4 text-center py-12">
+      <div
+        class="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto"
+      ></div>
+      <p class="mt-4 text-gray-600 text-lg">Loading articles...</p>
+    </div>
+
+    <!-- Articles Grid -->
+    <div
+      id="articlesContainer"
+      class="max-w-7xl mx-auto px-4 pb-12"
+      style="display: none"
+    >
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">Latest Articles</h2>
+      <div
+        id="articlesGrid"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
+        <!-- Article cards will be inserted here -->
+      </div>
+
+      <!-- Pagination -->
+      <div id="pagination" class="flex justify-center mt-12">
+        <!-- Pagination buttons will be inserted here -->
+      </div>
+    </div>
+
+    <!-- No Results -->
+    <div
+      id="noResults"
+      class="max-w-7xl mx-auto px-4 text-center py-12"
+      style="display: none"
+    >
+      <i class="fas fa-newspaper text-6xl text-gray-400 mb-4"></i>
+      <h3 class="text-2xl font-bold text-gray-800 mb-4">No Articles Found</h3>
+      <p class="text-gray-600 mb-6">
+        Try adjusting your filters or search terms.
+      </p>
+      <button
+        onclick="resetFilters()"
+        class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+      >
+        Reset Filters
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <p>&copy; 2025 NeoSharX. All rights reserved.</p>
+        <p class="mt-2 text-gray-400">Your source for the latest tech news</p>
+      </div>
+    </footer>
+
+    <script>
+      const API_BASE_URL = "http://127.0.0.1:8000/api/auth";
+      let allArticles = [];
+      let categories = [];
+
+      // Fetch all articles
+      async function fetchArticles() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/tech-news/`);
+          const data = await response.json();
+          allArticles = data.articles || [];
+
+          displayArticles(allArticles);
+          updateStats();
+          displayFeaturedArticle();
+          fetchBreakingNews();
+          fetchTrendingArticles();
+          fetchCategories();
+
+          document.getElementById("loadingState").style.display = "none";
+          document.getElementById("articlesContainer").style.display = "block";
+        } catch (error) {
+          console.error("Error fetching articles:", error);
+          document.getElementById("loadingState").innerHTML = `
+                    <div class="text-red-600">
+                        <i class="fas fa-exclamation-circle text-6xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">Unable to Load Articles</h3>
+                        <p>Please check if the backend server is running on port 8000.</p>
+                        <button onclick="location.reload()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                            Retry
+                        </button>
+                    </div>
+                `;
+        }
+      }
+
+      async function fetchBreakingNews() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/tech-news/breaking/`);
+          const articles = await response.json();
+          if (articles.length > 0) {
+            const article = articles[0];
+            document.getElementById("breakingNews").style.display = "flex";
+            document.getElementById("breakingNewsContent").innerHTML = `
+                        <a href="tech-detail.html?slug=${article.slug}" class="text-white hover:underline text-lg font-semibold">
+                            ${article.title}
+                        </a>
+                    `;
+          }
+        } catch (error) {
+          console.error("Error fetching breaking news:", error);
+        }
+      }
+
+      // Fetch trending articles
+      async function fetchTrendingArticles() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/tech-news/trending/`);
+          const articles = await response.json();
+          if (articles.length > 0) {
+            document.getElementById("trendingSection").style.display = "block";
+            document.getElementById("trendingArticles").innerHTML = articles
+              .map(
+                (article) => `
+                        <div class="article-card bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="relative">
+                                <img src="${
+                                  article.thumbnail_image ||
+                                  article.featured_image ||
+                                  "https://via.placeholder.com/400x250?text=Tech+News"
+                                }" 
+                                     alt="${article.title}" 
+                                     class="w-full h-32 object-cover">
+                                <div class="absolute top-2 right-2 trending-indicator text-white px-2 py-1 rounded text-xs font-bold">
+                                    <i class="fas fa-fire"></i> TRENDING
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="font-bold text-gray-900 mb-2 line-clamp-2">${
+                                  article.title
+                                }</h4>
+                                <div class="flex items-center text-xs text-gray-500">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    <span>${formatNumber(
+                                      article.views_count
+                                    )}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `
+              )
+              .join("");
+          }
+        } catch (error) {
+          console.error("Error fetching trending articles:", error);
+        }
+      }
+
+      // Fetch categories
+      async function fetchCategories() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/tech-news/categories/`);
+          const data = await response.json();
+          categories = data.categories || [];
+
+          const select = document.getElementById("categoryFilter");
+          categories.forEach((cat) => {
+            const option = document.createElement("option");
+            option.value = cat.value;
+            option.textContent = `${cat.label} (${cat.count})`;
+            select.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Error fetching categories:", error);
+        }
+      }
+
+      // Display featured article
+      function displayFeaturedArticle() {
+        const featured = allArticles.find((a) => a.is_featured);
+        if (!featured) {
+          return;
+        }
+
+        const container = document.getElementById("featuredArticle");
+        container.innerHTML = `
+                <div class="md:flex">
+                    <div class="md:w-1/2 relative">
+                        <img src="${
+                          featured.featured_image ||
+                          "https://via.placeholder.com/800x600?text=Featured+Article"
+                        }" 
+                             alt="${featured.title}" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 featured-gradient p-6">
+                            <span class="category-badge bg-blue-600 text-white">${
+                              featured.category_display
+                            }</span>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 p-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            ${
+                              featured.is_breaking
+                                ? '<span class="breaking-badge bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold"><i class="fas fa-bolt"></i> BREAKING</span>'
+                                : ""
+                            }
+                            ${
+                              featured.is_trending
+                                ? '<span class="trending-indicator text-white px-3 py-1 rounded-full text-xs font-bold"><i class="fas fa-fire"></i> TRENDING</span>'
+                                : ""
+                            }
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-4">${
+                          featured.title
+                        }</h3>
+                        ${
+                          featured.subtitle
+                            ? `<p class="text-xl text-gray-600 mb-4">${featured.subtitle}</p>`
+                            : ""
+                        }
+                        <p class="text-gray-700 mb-6">${featured.excerpt}</p>
+                        
+                        <div class="flex items-center gap-4 mb-6">
+                            ${
+                              featured.author_avatar
+                                ? `<img src="${featured.author_avatar}" alt="${featured.author_name}" class="w-12 h-12 rounded-full">`
+                                : ""
+                            }
+                            <div>
+                                <div class="font-semibold text-gray-900">${
+                                  featured.author_name
+                                }</div>
+                                <div class="text-sm text-gray-500">${formatDate(
+                                  featured.published_at
+                                )} · ${
+          featured.read_time_minutes
+        } min read</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-6 mb-6 text-gray-600">
+                            <div><i class="fas fa-eye mr-2"></i>${formatNumber(
+                              featured.views_count
+                            )} views</div>
+                            <div><i class="fas fa-heart mr-2"></i>${formatNumber(
+                              featured.likes_count
+                            )} likes</div>
+                            <div><i class="fas fa-share mr-2"></i>${formatNumber(
+                              featured.shares_count
+                            )} shares</div>
+                        </div>
+
+                        <a href="tech-detail.html?slug=${featured.slug}" 
+                           class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-bold">
+                            Read Full Article <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Display articles
+      function displayArticles(articles) {
+        const grid = document.getElementById("articlesGrid");
+
+        if (articles.length === 0) {
+          document.getElementById("articlesContainer").style.display = "none";
+          document.getElementById("noResults").style.display = "block";
+          return;
+        }
+
+        document.getElementById("articlesContainer").style.display = "block";
+        document.getElementById("noResults").style.display = "none";
+
+        grid.innerHTML = articles
+          .map((article) => createArticleCard(article))
+          .join("");
+      }
+
+      // Create article card
+      function createArticleCard(article) {
+        return `
+                <div class="article-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="${
+                          article.thumbnail_image ||
+                          article.featured_image ||
+                          "https://via.placeholder.com/400x250?text=Tech+News"
+                        }" 
+                             alt="${article.title}" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute top-3 left-3">
+                            <span class="category-badge bg-blue-600 text-white">${
+                              article.category_display
+                            }</span>
+                        </div>
+                        <div class="absolute top-3 right-3 flex gap-2">
+                            ${
+                              article.is_breaking
+                                ? '<span class="breaking-badge bg-red-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-bolt"></i></span>'
+                                : ""
+                            }
+                            ${
+                              article.is_trending
+                                ? '<span class="trending-indicator text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-fire"></i></span>'
+                                : ""
+                            }
+                            ${
+                              article.is_recent
+                                ? '<span class="bg-green-600 text-white px-2 py-1 rounded text-xs font-bold">NEW</span>'
+                                : ""
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 line-clamp-2">${
+                          article.title
+                        }</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">${
+                          article.excerpt
+                        }</p>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            ${
+                              article.author_avatar
+                                ? `<img src="${article.author_avatar}" alt="${article.author_name}" class="w-8 h-8 rounded-full">`
+                                : ""
+                            }
+                            <div class="text-xs text-gray-600">
+                                <div class="font-semibold">${
+                                  article.author_name
+                                }</div>
+                                <div>${formatDate(article.published_at)} · ${
+          article.read_time_minutes
+        } min</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 mb-4 text-sm text-gray-500">
+                            <span><i class="fas fa-eye mr-1"></i>${formatNumber(
+                              article.views_count
+                            )}</span>
+                            <span><i class="fas fa-heart mr-1"></i>${formatNumber(
+                              article.likes_count
+                            )}</span>
+                            <span><i class="fas fa-share mr-1"></i>${formatNumber(
+                              article.shares_count
+                            )}</span>
+                        </div>
+
+                        ${
+                          article.tags && article.tags.length > 0
+                            ? `
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                ${article.tags
+                                  .slice(0, 3)
+                                  .map(
+                                    (tag) =>
+                                      `<span class="tag-pill">${tag}</span>`
+                                  )
+                                  .join("")}
+                            </div>
+                        `
+                            : ""
+                        }
+
+                        <a href="tech-detail.html?slug=${article.slug}" 
+                           class="block w-full bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition font-semibold">
+                            Read More
+                        </a>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Update statistics
+      function updateStats() {
+        const total = allArticles.length;
+        const featured = allArticles.filter((a) => a.is_featured).length;
+        const categoryCount = new Set(allArticles.map((a) => a.category)).size;
+        const totalViews = allArticles.reduce(
+          (sum, a) => sum + a.views_count,
+          0
+        );
+
+        document.getElementById("totalArticles").textContent = total;
+        document.getElementById("featuredCount").textContent = featured;
+        document.getElementById("categoryCount").textContent = categoryCount;
+        document.getElementById("totalViews").textContent =
+          formatNumber(totalViews);
+      }
+
+      // Apply filters
+      function applyFilters() {
+        const category = document.getElementById("categoryFilter").value;
+        const priority = document.getElementById("priorityFilter").value;
+        const search = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+
+        let filtered = allArticles.filter((article) => {
+          const matchCategory = !category || article.category === category;
+          const matchPriority = !priority || article.priority === priority;
+          const matchSearch =
+            !search ||
+            article.title.toLowerCase().includes(search) ||
+            article.excerpt.toLowerCase().includes(search) ||
+            article.subtitle.toLowerCase().includes(search) ||
+            (article.tags &&
+              article.tags.some((tag) => tag.toLowerCase().includes(search)));
+
+          return matchCategory && matchPriority && matchSearch;
+        });
+
+        displayArticles(filtered);
+      }
+
+      // Reset filters
+      function resetFilters() {
+        document.getElementById("categoryFilter").value = "";
+        document.getElementById("priorityFilter").value = "";
+        document.getElementById("searchInput").value = "";
+        displayArticles(allArticles);
+      }
+
+      // Format date
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
+        const diffDays = Math.floor(diffHours / 24);
+
+        if (diffHours < 24) return `${diffHours}h ago`;
+        if (diffDays < 7) return `${diffDays}d ago`;
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      }
+
+      // Format number
+      function formatNumber(num) {
+        if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+        if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+        return num.toString();
+      }
+
+      // Initialize on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchArticles();
+      });
+    </script>
+  </body>
+</html>

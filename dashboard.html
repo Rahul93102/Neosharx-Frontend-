@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - NeoSharx</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="auth-styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .dashboard-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .user-info {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 0 auto 2rem;
+      }
+
+      .verification-status {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-left: 1rem;
+      }
+
+      .verified {
+        background: rgba(34, 197, 94, 0.1);
+        color: #16a34a;
+      }
+
+      .not-verified {
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+      }
+
+      .logout-btn {
+        background: #dc2626;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        margin-top: 1rem;
+      }
+
+      .logout-btn:hover {
+        background: #b91c1c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-header">
+      <h1>Welcome to NeoSharx Dashboard</h1>
+      <p>Manage your account and profile</p>
+    </div>
+
+    <div class="user-info">
+      <h2>Profile Information</h2>
+      <div id="userProfile">
+        <!-- User profile will be loaded here -->
+      </div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <script>
+      // Check if user is authenticated
+      if (!localStorage.getItem("authToken")) {
+        window.location.href = "login.html";
+      }
+
+      // Load user profile
+      async function loadUserProfile() {
+        try {
+          const response = await fetch(
+            "http://127.0.0.1:8000/api/auth/profile/",
+            {
+              headers: {
+                Authorization: `Token ${localStorage.getItem("authToken")}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const userData = await response.json();
+            displayUserProfile(userData);
+          } else {
+            throw new Error("Failed to load profile");
+          }
+        } catch (error) {
+          document.getElementById("message").textContent =
+            "Failed to load profile";
+          document.getElementById("message").className = "message error";
+          document.getElementById("message").style.display = "block";
+        }
+      }
+
+      function displayUserProfile(user) {
+        const profileDiv = document.getElementById("userProfile");
+
+        // Build profile HTML
+        let profileHTML = `
+                <p><strong>Username:</strong> ${user.username}</p>
+                <p><strong>Email:</strong> ${user.email}</p>`;
+
+        // Only show phone if user has one (LinkedIn users might not)
+        if (user.phone_number) {
+          profileHTML += `
+                <p><strong>Phone:</strong> ${user.phone_number}
+                    <span class="${
+                      user.is_phone_verified ? "verified" : "not-verified"
+                    } verification-status">
+                        ${
+                          user.is_phone_verified
+                            ? "✓ Verified"
+                            : "✗ Not Verified"
+                        }
+                    </span>
+                </p>`;
+        }
+
+        profileHTML += `
+                <p><strong>Member since:</strong> ${new Date(
+                  user.created_at
+                ).toLocaleDateString()}</p>`;
+
+        profileDiv.innerHTML = profileHTML;
+      }
+
+      function logout() {
+        // Clear all authentication data
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userData");
+        localStorage.removeItem("linkedin_state");
+        localStorage.removeItem("google_state");
+        window.location.href = "login.html";
+      }
+
+      // Load profile on page load
+      loadUserProfile();
+    </script>
+  </body>
+</html>

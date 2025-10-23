@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SharXathons - Innovation Challenges | NeoSharX</title>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./dist/output.css" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#000000",
+              "background-light": "#fafafa",
+              "content-light": "#111827",
+              "subtle-light": "#6b7280",
+            },
+            fontFamily: {
+              display: ["Newsreader"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #000000;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Color palette - black/gray/white only */
+      :root {
+        --black: #000000;
+        --white: #ffffff;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-600: #4b5563;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+      }
+
+      /* Featured Screens Slider */
+      .featured-screens-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: var(--white);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2.5rem;
+        border: 1px solid var(--gray-200);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .featured-slider {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        align-items: center;
+      }
+
+      .featured-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
+        background: var(--white);
+        border-radius: 0.75rem;
+        overflow: hidden;
+      }
+
+      .featured-media {
+        background: var(--gray-100);
+        min-height: 360px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .featured-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .featured-content {
+        padding: 2.5rem;
+        color: var(--gray-900);
+        background: var(--gray-50);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .featured-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: var(--black);
+        color: var(--white);
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.875rem;
+        letter-spacing: 0.025em;
+      }
+
+      .featured-title {
+        color: var(--black);
+        font-weight: 600;
+        font-size: 1.875rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.2;
+      }
+
+      .featured-description {
+        color: var(--gray-600);
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .featured-meta {
+        display: flex;
+        gap: 1.5rem;
+        color: var(--gray-500);
+        font-weight: 400;
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .featured-button {
+        display: inline-flex;
+        gap: 0.5rem;
+        align-items: center;
+        background: #007fff;
+        color: var(--white);
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
+        width: fit-content;
+      }
+
+      .featured-button:hover {
+        background: #0066cc;
+        transform: translateY(-1px);
+      }
+
+      /* Slider controls */
+      .slider-controls {
+        position: absolute;
+        inset: auto 16px 16px 16px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        z-index: 40;
+      }
+
+      .nav-btn {
+        background: rgba(0, 0, 0, 0.7);
+        color: var(--white);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1.25rem;
+      }
+
+      .nav-btn:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: scale(1.1);
+      }
+
+      .dots {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: var(--gray-300);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .dot:hover {
+        background: var(--gray-400);
+      }
+
+      .dot.active {
+        background: var(--black);
+        width: 24px;
+        border-radius: 4px;
+      }
+
+      /* Hackathon Cards */
+      .hackathons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .hackathon-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .hackathon-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      }
+
+      .hackathon-card-image-wrapper {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+        background: #f3f4f6;
+      }
+
+      .hackathon-card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .card-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+      }
+
+      .card-badge.live {
+        background: #10b981;
+        color: white;
+        animation: pulse-badge 2s ease-in-out infinite;
+      }
+
+      .card-badge.upcoming {
+        background: #000000;
+        color: white;
+      }
+
+      .card-badge.completed {
+        background: #6b7280;
+        color: white;
+      }
+
+      .hackathon-card-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .hackathon-card-category {
+        color: #6b7280;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .hackathon-card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2789c5ff;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+      }
+
+      .hackathon-card-description {
+        color: #6b7280;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+      }
+
+      .hackathon-card-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1rem;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .prize-amount {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #000;
+      }
+
+      @keyframes pulse-badge {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      /* Filter tabs */
+      .filter-tabs {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+        padding: 0.25rem;
+      }
+
+      .filter-tab {
+        padding: 0.875rem 1.75rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.2s;
+        white-space: nowrap;
+        border: 2px solid #e5e7eb;
+        background: white;
+        color: #374151;
+        font-size: 0.9375rem;
+      }
+
+      .filter-tab:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+      }
+
+      .filter-tab.active {
+        background: #000000;
+        color: white;
+        border-color: #000000;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hackathons-grid {
+          grid-template-columns: 1fr;
+        }
+        .featured-card {
+          grid-template-columns: 1fr;
+        }
+        .featured-media {
+          min-height: 240px;
+        }
+        .featured-content {
+          padding: 1.5rem;
+        }
+        .featured-title {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-background-light font-display text-content-light"
+    data-page="hackathons"
+  >
+    <div class="relative flex flex-col min-h-screen w-full">
+      <div id="nav-container"></div>
+
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="max-w-6xl mx-auto">
+          <!-- Header -->
+          <div class="text-center mb-12 mt-12">
+            <h1
+              class="text-5xl font-bold tracking-tight mb-4"
+              style="color: #007fff"
+            >
+              SharXathons
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-normal">
+              Join revolutionary hackathons and innovation challenges. Build,
+              compete, and win with NeoSharX community.
+            </p>
+          </div>
+
+          <!-- Featured Hackathons Carousel -->
+          <div id="featuredHackathonsSection" class="hidden">
+            <div class="featured-screens-container">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 1rem;
+                "
+              >
+                <h2
+                  style="
+                    font-weight: 600;
+                    font-size: 1.25rem;
+                    color: var(--black);
+                  "
+                >
+                  Featured Challenges
+                </h2>
+              </div>
+
+              <div id="featuredSlider" class="featured-slider">
+                <div
+                  id="featuredInner"
+                  class="featured-card"
+                  aria-live="polite"
+                >
+                  <!-- Single featured hackathon will render here -->
+                </div>
+                <div class="slider-controls"></div>
+                <div id="featuredDots" class="dots"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">
+              All Challenges
+            </button>
+            <button class="filter-tab" data-filter="live">Live Now</button>
+            <button class="filter-tab" data-filter="upcoming">Upcoming</button>
+            <button class="filter-tab" data-filter="completed">
+              Completed
+            </button>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loadingState" class="text-center py-20">
+            <div class="loading-spinner mx-auto"></div>
+            <p class="mt-4 text-gray-600">Loading challenges...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="hidden text-center py-20">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">
+              Unable to load hackathons
+            </h3>
+            <button
+              onclick="location.reload()"
+              class="bg-[#007fff] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#0056b3] transition-all duration-100 ease-in-out"
+            >
+              Retry
+            </button>
+          </div>
+
+          <!-- Hackathons Grid -->
+          <div id="hackathonsSection" class="hidden">
+            <div class="hackathons-grid" id="hackathonsGrid">
+              <!-- Hackathons will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === "function") {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton =
+                document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener("click", function (event) {
+                  if (
+                    !mobileMenuButton.contains(event.target) &&
+                    !mobileMenu.contains(event.target) &&
+                    isMenuOpen
+                  ) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  }
+                });
+              }
+            }
+          }, 100);
+
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () =>
+            console.log("Global auth loaded successfully");
+          authScript.onerror = () =>
+            console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      let allHackathons = [],
+        filteredHackathons = [],
+        currentFilter = "all";
+      let featuredHackathons = [],
+        currentFeaturedIndex = 0,
+        featuredInterval;
+
+      // Fetch hackathons from API
+      async function fetchHackathons() {
+        try {
+          const response = await fetch(
+            "http://localhost:8001/api/auth/hackathons/"
+          );
+          const data = await response.json();
+
+          if (data && data.hackathons) {
+            allHackathons = data.hackathons;
+            filteredHackathons = [...allHackathons];
+
+            // Separate featured hackathons
+            featuredHackathons = allHackathons
+              .filter((h) => h.is_featured)
+              .slice(0, 5);
+
+            document.getElementById("loadingState").classList.add("hidden");
+            document
+              .getElementById("hackathonsSection")
+              .classList.remove("hidden");
+
+            if (featuredHackathons.length > 0) {
+              document
+                .getElementById("featuredHackathonsSection")
+                .classList.remove("hidden");
+              renderFeaturedHackathons();
+              startFeaturedSlider();
+            }
+
+            renderHackathons();
+            setupFilters();
+          } else {
+            throw new Error("Invalid response format");
+          }
+        } catch (error) {
+          console.error("Error fetching hackathons:", error);
+          document.getElementById("loadingState").classList.add("hidden");
+          document.getElementById("errorState").classList.remove("hidden");
+        }
+      }
+
+      function getStatus(h) {
+        const now = new Date();
+        const start = new Date(h.start_datetime);
+        const end = new Date(h.end_datetime);
+        return now >= start && now <= end
+          ? "Live"
+          : now < start
+          ? "Upcoming"
+          : "Completed";
+      }
+
+      // Format date
+      function formatDate(dateString) {
+        if (!dateString) return "TBA";
+        const date = new Date(dateString);
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      }
+
+      // Render featured hackathons slider
+      function renderFeaturedHackathons() {
+        const inner = document.getElementById("featuredInner");
+        const dots = document.getElementById("featuredDots");
+
+        if (featuredHackathons.length === 0) return;
+
+        // Render current featured hackathon
+        const h = featuredHackathons[currentFeaturedIndex];
+        const status = getStatus(h);
+
+        inner.innerHTML = `
+          <div class="featured-media">
+            <img src="${
+              h.banner_image || h.image || "/api/placeholder/400/300"
+            }" alt="${h.name}" />
+            <span class="featured-badge">${status}</span>
+          </div>
+          <div class="featured-content">
+            <h3 class="featured-title">${h.name}</h3>
+            <p class="featured-description">${(h.description || "").substring(
+              0,
+              150
+            )}...</p>
+            <div class="featured-meta">
+              <span>Date: ${formatDate(h.start_datetime)}</span>
+              <span>Registration: ${h.participants_count || 0} </span>
+            </div>
+            <a href="hackathon-detail.html?slug=${
+              h.slug
+            }" class="featured-button">
+              <span class="material-symbols-outlined">arrow_forward</span>
+              View Challenge
+            </a>
+          </div>
+        `;
+
+        // Render dots
+        dots.innerHTML = featuredHackathons
+          .map(
+            (_, index) =>
+              `<div class="dot ${
+                index === currentFeaturedIndex ? "active" : ""
+              }" onclick="goToFeaturedSlide(${index})"></div>`
+          )
+          .join("");
+      }
+
+      // Start featured slider auto-rotation
+      function startFeaturedSlider() {
+        featuredInterval = setInterval(() => {
+          currentFeaturedIndex =
+            (currentFeaturedIndex + 1) % featuredHackathons.length;
+          renderFeaturedHackathons();
+        }, 5000);
+      }
+
+      // Go to specific featured slide
+      function goToFeaturedSlide(index) {
+        currentFeaturedIndex = index;
+        renderFeaturedHackathons();
+        clearInterval(featuredInterval);
+        startFeaturedSlider();
+      }
+
+      // Render hackathons grid
+      function renderHackathons() {
+        const grid = document.getElementById("hackathonsGrid");
+
+        if (filteredHackathons.length === 0) {
+          grid.innerHTML =
+            '<div class="col-span-full text-center py-20"><h3 class="text-2xl font-bold">No hackathons found</h3></div>';
+          return;
+        }
+
+        grid.innerHTML = filteredHackathons
+          .map((h) => {
+            const status = getStatus(h);
+            return `
+            <div class="hackathon-card" onclick="window.location.href='hackathon-detail.html?slug=${
+              h.slug
+            }'">
+              <div class="hackathon-card-image-wrapper">
+                <img src="${
+                  h.image || h.banner_image || "/api/placeholder/400/300"
+                }" alt="${h.name}" class="hackathon-card-image" />
+                <span class="card-badge ${status.toLowerCase()}">${status}</span>
+              </div>
+              <div class="hackathon-card-content">
+                <span class="hackathon-card-category">${
+                  h.category || "Hackathon"
+                }</span>
+                <h3 class="hackathon-card-title">${h.name}</h3>
+                <p class="hackathon-card-description">${(
+                  h.description ||
+                  h.tagline ||
+                  ""
+                ).substring(0, 100)}...</p>
+                <div class="hackathon-card-meta">
+                  <div class="text-sm text-gray-600">
+                    <div> Date: ${formatDate(h.start_datetime)}</div>
+                    <div>Registartion: ${
+                      h.participants_count || 0
+                    } Registered</div>
+                  </div>
+                  <div class="prize-amount">${h.prize_pool || "TBA"}</div>
+                </div>
+              </div>
+            </div>
+          `;
+          })
+          .join("");
+      }
+
+      function setupFilters() {
+        document.querySelectorAll(".filter-tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            document
+              .querySelectorAll(".filter-tab")
+              .forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            currentFilter = tab.dataset.filter;
+            applyFilters();
+          });
+        });
+      }
+
+      function applyFilters() {
+        filteredHackathons =
+          currentFilter === "all"
+            ? [...allHackathons]
+            : allHackathons.filter(
+                (h) => getStatus(h).toLowerCase() === currentFilter
+              );
+        renderHackathons();
+      }
+
+      // Featured slider controls
+      document.addEventListener("click", (e) => {
+        if (e.target.closest(".featured-prev")) {
+          currentFeaturedIndex =
+            currentFeaturedIndex > 0
+              ? currentFeaturedIndex - 1
+              : featuredHackathons.length - 1;
+          renderFeaturedHackathons();
+          clearInterval(featuredInterval);
+          startFeaturedSlider();
+        }
+        if (e.target.closest(".featured-next")) {
+          currentFeaturedIndex =
+            (currentFeaturedIndex + 1) % featuredHackathons.length;
+          renderFeaturedHackathons();
+          clearInterval(featuredInterval);
+          startFeaturedSlider();
+        }
+      });
+
+      // Initialize
+      fetchHackathons();
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Social Media -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+            <div class="flex gap-4">
+              <a
+                href="https://instagram.com/neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://linkedin.com/company/neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://twitter.com/neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://youtube.com/@neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-red-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Communities -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Join Communities</h3>
+            <div class="space-y-2">
+              <a
+                href="#"
+                class="block text-gray-300 hover:text-white transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                  Discord Community
+                </span>
+              </a>
+              <a
+                href="#"
+                class="block text-gray-300 hover:text-white transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                    />
+                  </svg>
+                  Slack Workspace
+                </span>
+              </a>
+              <a
+                href="#"
+                class="block text-gray-300 hover:text-white transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
+                  </svg>
+                  Telegram Group
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- About Us -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">About Us</h3>
+            <p class="text-gray-300 leading-relaxed text-sm">
+              NeoSharX empowers startups through innovation, collaboration, and
+              community-driven growth. Join our ecosystem of entrepreneurs and
+              innovators.
+            </p>
+            <a
+              href="about.html"
+              class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-medium"
+            >
+              Learn More
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Contact -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Contact</h3>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 text-gray-300">
+                <svg
+                  class="w-5 h-5 text-blue-400 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                <a
+                  href="mailto:hello@neosharx.com"
+                  class="hover:text-white transition-colors"
+                  >hello@neosharx.com</a
+                >
+              </div>
+              <div class="flex items-center gap-3 text-gray-300">
+                <svg
+                  class="w-5 h-5 text-blue-400 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
+                </svg>
+                <a
+                  href="tel:+1234567890"
+                  class="hover:text-white transition-colors"
+                  >+1 (234) 567-890</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-700 pt-8 mt-8">
+          <div
+            class="flex flex-col md:flex-row justify-between items-center gap-4"
+          >
+            <div class="flex items-center gap-2">
+              <img src="logo27.png" alt="NeoSharX Logo" class="h-6 w-6" />
+              <span class="text-gray-400 text-sm"
+                >© 2025 NeoSharX. All rights reserved.</span
+              >
+            </div>
+            <div class="flex items-center gap-2">
+              <svg
+                class="h-5 w-5 text-blue-400"
+                fill="none"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span class="text-gray-400 text-sm"
+                >Built with ❤️ for innovators</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Hackathon Detail</title>
+</head>
+<body>
+    <h1>Testing Hackathon Detail Page</h1>
+    <button onclick="testDetailPage()">Test Detail Page</button>
+    <div id="result"></div>
+
+    <script>
+        async function testDetailPage() {
+            const result = document.getElementById('result');
+            result.innerHTML = 'Testing...';
+
+            try {
+                // Test the listing API
+                const listResponse = await fetch('http://127.0.0.1:8000/hackathons/');
+                const listData = await listResponse.json();
+
+                if (listData.hackathons && listData.hackathons.length > 0) {
+                    const firstHackathon = listData.hackathons[0];
+                    result.innerHTML = `
+                        <p>✅ Listing API works!</p>
+                        <p>First hackathon: ${firstHackathon.name}</p>
+                        <p>Slug: ${firstHackathon.slug}</p>
+                        <p><a href="hackathon-detail.html?slug=${firstHackathon.slug}" target="_blank">Test Detail Page</a></p>
+                    `;
+                } else {
+                    result.innerHTML = '❌ No hackathons found in listing API';
+                }
+            } catch (error) {
+                result.innerHTML = `❌ Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html></content>
+<parameter name="filePath">/Users/vishaljha/neosharx/test-hackathon.html

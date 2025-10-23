@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API</title>
+</head>
+<body>
+    <h1>Testing API Access</h1>
+    <div id="result"></div>
+    <script>
+        fetch('http://localhost:8000/hackathons/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').textContent = 'API accessible: ' + (data.hackathons ? 'Yes' : 'No');
+                console.log('API Response:', data);
+            })
+            .catch(error => {
+                document.getElementById('result').textContent = 'API Error: ' + error.message;
+                console.error('API Error:', error);
+            });
+    </script>
+</body>
+</html></content>
+<parameter name="filePath">/Users/vishaljha/neosharx/test-api.html

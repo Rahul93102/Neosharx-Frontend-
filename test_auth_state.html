@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Auth State Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .nav-test {
+        margin-top: 30px;
+        padding: 20px;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Authentication State Test</h1>
+    <div id="auth-info"></div>
+
+    <div class="nav-test">
+      <h2>Navigation Test</h2>
+      <div id="nav-container"></div>
+    </div>
+
+    <script>
+      function checkAuthState() {
+        const token = localStorage.getItem("authToken");
+        const user = localStorage.getItem("currentUser");
+
+        let userObj = null;
+        try {
+          userObj = JSON.parse(user);
+        } catch (e) {
+          userObj = null;
+        }
+
+        const info = document.getElementById("auth-info");
+        info.innerHTML = `
+                <h2>Auth State:</h2>
+                <p><strong>Token:</strong> ${
+                  token ? token.substring(0, 20) + "..." : "None"
+                }</p>
+                <p><strong>User:</strong> ${
+                  userObj
+                    ? userObj.username || userObj.email || "No name"
+                    : "None"
+                }</p>
+                <p><strong>User ID:</strong> ${
+                  userObj ? userObj.id : "None"
+                }</p>
+                <p><strong>Full User:</strong> <pre>${JSON.stringify(
+                  userObj,
+                  null,
+                  2
+                )}</pre></p>
+                <button onclick="simulateLogin()">Simulate Login</button>
+                <button onclick="simulateLogout()">Simulate Logout</button>
+            `;
+      }
+
+      function simulateLogin() {
+        // Simulate login by setting fake auth data
+        localStorage.setItem("authToken", "fake_token_123");
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify({
+            id: 1,
+            username: "testuser",
+            email: "test@example.com",
+            login_method: "google",
+          })
+        );
+        checkAuthState();
+        // Trigger auth state change
+        document.dispatchEvent(
+          new CustomEvent("authStateChanged", {
+            detail: { action: "login" },
+          })
+        );
+      }
+
+      function simulateLogout() {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("currentUser");
+        checkAuthState();
+        // Trigger auth state change
+        document.dispatchEvent(
+          new CustomEvent("authStateChanged", {
+            detail: { action: "logout" },
+          })
+        );
+      }
+
+      checkAuthState();
+      setInterval(checkAuthState, 2000); // Check every 2 seconds
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+          // Load global auth script after navigation is loaded
+          const script = document.createElement("script");
+          script.src = "global-auth.js";
+          document.head.appendChild(script);
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+    </script>
+  </body>
+</html>

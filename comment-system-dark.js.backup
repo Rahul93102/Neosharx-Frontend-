@@ -1,0 +1,832 @@
+/**
+ * Universal Comment System for NeoSharX
+ * Works across all content types: RoboSharX, Neo Stories, Tech News, etc.
+ */
+
+class CommentSystem {
+  constructor(contentType, contentSlug, containerId, options = {}) {
+    this.contentType = contentType;
+    this.contentSlug = contentSlug;
+    this.containerId = containerId;
+    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8001/api/auth";
+    this.authToken = localStorage.getItem("authToken") || null;
+    this.currentUser = JSON.parse(
+      localStorage.getItem("currentUser") || "null"
+    );
+    this.comments = [];
+    this.isLoading = false;
+    this.options = {
+      showLoginPrompt: true,
+      enableReplies: true,
+      enableLikes: true,
+      enableFlags: true,
+      maxDepth: 3,
+      ...options,
+    };
+
+    this.init();
+  }
+
+  init() {
+    this.renderContainer();
+    this.loadComments();
+    this.bindEvents();
+
+    // Listen for auth state changes
+    document.addEventListener("authStateChanged", (e) => {
+      console.log("CommentSystem: Auth state changed", e.detail);
+      this.refreshAuth();
+    });
+  }
+
+  // Refresh authentication state
+  refreshAuth() {
+    this.authToken = localStorage.getItem("authToken") || null;
+    this.currentUser = JSON.parse(
+      localStorage.getItem("currentUser") || "null"
+    );
+
+    console.log("CommentSystem: Refreshing auth state", {
+      hasToken: !!this.authToken,
+      hasUser: !!this.currentUser,
+      userDetails: this.currentUser,
+    });
+
+    // Re-render the comment form with updated auth state
+    const formContainer = document.getElementById("comment-form-container");
+    if (formContainer) {
+      formContainer.innerHTML = this.renderCommentForm();
+      this.bindCommentFormEvents();
+    }
+  }
+
+  renderContainer() {
+    const container = document.getElementById(this.containerId);
+    if (!container) {
+      console.error(`Comment container ${this.containerId} not found`);
+      return;
+    }
+
+    container.innerHTML = `
+            <div class="comments-section">
+                <div class="comments-header">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                        Comments
+                        <span id="comment-count" class="text-sm font-normal text-gray-500 dark:text-gray-400">(Loading...)</span>
+                    </h3>
+                </div>
+                
+                <div id="comment-form-container">
+                    ${this.renderCommentForm()}
+                </div>
+                
+                <div id="comments-list" class="mt-6">
+                    ${this.renderLoadingState()}
+                </div>
+                
+                <div id="load-more-container" class="mt-4 text-center" style="display: none;">
+                    <button id="load-more-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        Load More Comments
+                    </button>
+                </div>
+            </div>
+        `;
+  }
+
+  renderCommentForm() {
+    if (!this.currentUser) {
+      return `
+                <div class="comment-form-login bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>
+                        </svg>
+                        <div>
+                            <p class="text-sm text-blue-800 dark:text-blue-200 font-medium">Join the conversation!</p>
+                            <p class="text-xs text-blue-600 dark:text-blue-300">Please <a href="login.html" class="underline hover:no-underline">login</a> to post comments.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+    }
+
+    return `
+            <div class="comment-form bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-4">
+                <div class="flex gap-3">
+                    <div class="flex-shrink-0">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                            ${this.getInitials(
+                              this.currentUser.username ||
+                                this.currentUser.email
+                            )}
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <form id="comment-form">
+                            <textarea 
+                                id="comment-text" 
+                                placeholder="Share your thoughts..." 
+                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                rows="3"
+                                maxlength="1000"
+                            ></textarea>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs text-gray-500 dark:text-gray-400">
+                                    <span id="char-count">0</span>/1000 characters
+                                </span>
+                                <div class="flex gap-2">
+                                    <button type="button" id="cancel-comment" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors" style="display: none;">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" id="submit-comment" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                        Post Comment
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        `;
+  }
+
+  renderLoadingState() {
+    return `
+            <div class="loading-comments text-center py-8">
+                <div class="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                    <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Loading comments...
+                </div>
+            </div>
+        `;
+  }
+
+  renderComment(comment, level = 0) {
+    const isOwner = this.currentUser && comment.user === this.currentUser.id;
+    const canDelete = comment.can_delete;
+    const timeAgo = this.formatTimeAgo(comment.created_at);
+
+    return `
+            <div class="comment ${
+              level > 0 ? "comment-reply" : ""
+            }" data-comment-id="${comment.id}" style="margin-left: ${
+      level * 20
+    }px;">
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-3">
+                    <div class="flex gap-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                                ${this.getInitials(comment.user_name)}
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium text-gray-900 dark:text-white">${
+                                  comment.user_name
+                                }</span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400">${timeAgo}</span>
+                                ${
+                                  comment.is_flagged
+                                    ? '<span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">Flagged</span>'
+                                    : ""
+                                }
+                            </div>
+                            
+                            <div class="comment-text text-gray-700 dark:text-gray-300 mb-3">
+                                ${this.formatCommentText(comment.text)}
+                            </div>
+                            
+                            <div class="comment-actions flex items-center gap-4 text-sm">
+                                ${this.renderLikeButtons(comment)}
+                                
+                                ${
+                                  this.options.enableReplies &&
+                                  level < this.options.maxDepth
+                                    ? `
+                                    <button class="reply-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors" data-comment-id="${comment.id}">
+                                        Reply
+                                    </button>
+                                `
+                                    : ""
+                                }
+                                
+                                ${
+                                  canDelete
+                                    ? `
+                                    <button class="delete-btn text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200 transition-colors" data-comment-id="${comment.id}">
+                                        Delete
+                                    </button>
+                                `
+                                    : ""
+                                }
+                                
+                                ${
+                                  this.currentUser &&
+                                  !isOwner &&
+                                  this.options.enableFlags
+                                    ? `
+                                    <button class="flag-btn text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors" data-comment-id="${comment.id}">
+                                        Flag
+                                    </button>
+                                `
+                                    : ""
+                                }
+                            </div>
+                            
+                            <div id="reply-form-${
+                              comment.id
+                            }" class="reply-form mt-3" style="display: none;">
+                                ${this.renderReplyForm(comment.id)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="replies">
+                    ${
+                      comment.replies
+                        ? comment.replies
+                            .map((reply) =>
+                              this.renderComment(reply, level + 1)
+                            )
+                            .join("")
+                        : ""
+                    }
+                </div>
+            </div>
+        `;
+  }
+
+  renderLikeButtons(comment) {
+    if (!this.options.enableLikes) return "";
+
+    const userReaction = comment.user_reaction;
+    const likeActive =
+      userReaction === "like"
+        ? "text-blue-600 dark:text-blue-400"
+        : "text-gray-500 dark:text-gray-400";
+    const dislikeActive =
+      userReaction === "dislike"
+        ? "text-red-600 dark:text-red-400"
+        : "text-gray-500 dark:text-gray-400";
+
+    return `
+            <div class="flex items-center gap-1">
+                <button class="like-btn flex items-center gap-1 ${likeActive} hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-comment-id="${
+      comment.id
+    }" data-reaction="like">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                    </svg>
+                    <span>${comment.likes_count || 0}</span>
+                </button>
+                <button class="dislike-btn flex items-center gap-1 ${dislikeActive} hover:text-red-600 dark:hover:text-red-400 transition-colors" data-comment-id="${
+      comment.id
+    }" data-reaction="dislike">
+                    <svg class="w-4 h-4 transform rotate-180" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                    </svg>
+                    <span>${comment.dislikes_count || 0}</span>
+                </button>
+            </div>
+        `;
+  }
+
+  renderReplyForm(parentId) {
+    if (!this.currentUser) return "";
+
+    return `
+            <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-3">
+                <form class="reply-form-inner" data-parent-id="${parentId}">
+                    <textarea 
+                        placeholder="Write a reply..." 
+                        class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                        rows="2"
+                        maxlength="500"
+                    ></textarea>
+                    <div class="flex justify-end gap-2 mt-2">
+                        <button type="button" class="cancel-reply px-3 py-1 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                            Reply
+                        </button>
+                    </div>
+                </form>
+            </div>
+        `;
+  }
+
+  bindEvents() {
+    const container = document.getElementById(this.containerId);
+
+    // Comment form submission
+    container.addEventListener("submit", (e) => {
+      if (e.target.id === "comment-form") {
+        e.preventDefault();
+        this.submitComment();
+      } else if (e.target.classList.contains("reply-form-inner")) {
+        e.preventDefault();
+        this.submitReply(e.target);
+      }
+    });
+
+    // Character count for main comment form
+    const commentText = container.querySelector("#comment-text");
+    if (commentText) {
+      commentText.addEventListener("input", (e) => {
+        const charCount = container.querySelector("#char-count");
+        if (charCount) {
+          charCount.textContent = e.target.value.length;
+        }
+      });
+    }
+
+    // Event delegation for dynamic elements
+    container.addEventListener("click", (e) => {
+      if (
+        e.target.classList.contains("like-btn") ||
+        e.target.closest(".like-btn")
+      ) {
+        const btn = e.target.classList.contains("like-btn")
+          ? e.target
+          : e.target.closest(".like-btn");
+        this.toggleLike(btn.dataset.commentId, btn.dataset.reaction);
+      } else if (
+        e.target.classList.contains("dislike-btn") ||
+        e.target.closest(".dislike-btn")
+      ) {
+        const btn = e.target.classList.contains("dislike-btn")
+          ? e.target
+          : e.target.closest(".dislike-btn");
+        this.toggleLike(btn.dataset.commentId, btn.dataset.reaction);
+      } else if (e.target.classList.contains("reply-btn")) {
+        this.showReplyForm(e.target.dataset.commentId);
+      } else if (e.target.classList.contains("cancel-reply")) {
+        this.hideReplyForm(e.target);
+      } else if (e.target.classList.contains("delete-btn")) {
+        this.deleteComment(e.target.dataset.commentId);
+      } else if (e.target.classList.contains("flag-btn")) {
+        this.flagComment(e.target.dataset.commentId);
+      } else if (e.target.id === "load-more-btn") {
+        this.loadMoreComments();
+      }
+    });
+  }
+
+  async loadComments(offset = 0) {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+    const commentsContainer = document.getElementById("comments-list");
+
+    if (offset === 0) {
+      commentsContainer.innerHTML = this.renderLoadingState();
+    }
+
+    try {
+      const response = await fetch(
+        `${this.apiBaseUrl}/comments/?content_type=${this.contentType}&content_slug=${this.contentSlug}&limit=10&offset=${offset}`,
+        {
+          headers: this.getHeaders(),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      if (offset === 0) {
+        this.comments = data.results;
+        this.renderComments();
+      } else {
+        this.comments = [...this.comments, ...data.results];
+        this.renderComments();
+      }
+
+      this.updateCommentCount(data.count);
+      this.updateLoadMoreButton(data.count, offset + data.results.length);
+    } catch (error) {
+      console.error("Error loading comments:", error);
+      if (offset === 0) {
+        commentsContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <p class="text-red-600 dark:text-red-400">Failed to load comments. Please try again.</p>
+                        <button onclick="window.commentSystem.loadComments()" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Retry
+                        </button>
+                    </div>
+                `;
+      }
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  renderComments() {
+    const commentsContainer = document.getElementById("comments-list");
+
+    if (this.comments.length === 0) {
+      commentsContainer.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="text-gray-500 dark:text-gray-400">
+                        <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        <p>No comments yet. Be the first to share your thoughts!</p>
+                    </div>
+                </div>
+            `;
+    } else {
+      commentsContainer.innerHTML = this.comments
+        .map((comment) => this.renderComment(comment))
+        .join("");
+    }
+  }
+
+  async submitComment() {
+    const commentText = document.getElementById("comment-text");
+    const submitBtn = document.getElementById("submit-comment");
+
+    // Check authentication
+    if (!this.currentUser || !this.authToken) {
+      this.showAlert("Please log in to post comments", "warning");
+      this.refreshAuth(); // Refresh to show login prompt
+      return;
+    }
+
+    if (!commentText.value.trim()) {
+      this.showAlert("Please enter a comment", "warning");
+      return;
+    }
+
+    console.log("CommentSystem: Submitting comment", {
+      user: this.currentUser.username,
+      hasToken: !!this.authToken,
+      textLength: commentText.value.trim().length,
+    });
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Posting...";
+
+    try {
+      const response = await fetch(`${this.apiBaseUrl}/comments/`, {
+        method: "POST",
+        headers: this.getHeaders(),
+        body: JSON.stringify({
+          content_type: this.contentType,
+          content_slug: this.contentSlug,
+          text: commentText.value.trim(),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("CommentSystem: Error response", errorData);
+
+        // Handle authentication errors specifically
+        if (response.status === 401 || response.status === 403) {
+          this.showAlert("Please log in to post comments", "warning");
+          this.refreshAuth();
+          return;
+        }
+
+        throw new Error(
+          errorData.error || errorData.detail || "Failed to post comment"
+        );
+      }
+
+      const newComment = await response.json();
+
+      // Add new comment to the beginning of the list
+      this.comments.unshift(newComment);
+      this.renderComments();
+      this.updateCommentCount(this.comments.length);
+
+      // Clear form
+      commentText.value = "";
+      document.getElementById("char-count").textContent = "0";
+
+      this.showAlert("Comment posted successfully!", "success");
+    } catch (error) {
+      console.error("Error posting comment:", error);
+      this.showAlert(error.message, "error");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Post Comment";
+    }
+  }
+
+  async submitReply(form) {
+    const textarea = form.querySelector("textarea");
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const parentId = form.dataset.parentId;
+
+    if (!textarea.value.trim()) {
+      this.showAlert("Please enter a reply", "warning");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Posting...";
+
+    try {
+      const response = await fetch(`${this.apiBaseUrl}/comments/`, {
+        method: "POST",
+        headers: this.getHeaders(),
+        body: JSON.stringify({
+          content_type: this.contentType,
+          content_slug: this.contentSlug,
+          text: textarea.value.trim(),
+          parent: parseInt(parentId),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to post reply");
+      }
+
+      const newReply = await response.json();
+
+      // Find parent comment and add reply
+      const parentComment = this.findCommentById(
+        this.comments,
+        parseInt(parentId)
+      );
+      if (parentComment) {
+        if (!parentComment.replies) {
+          parentComment.replies = [];
+        }
+        parentComment.replies.push(newReply);
+        parentComment.reply_count = (parentComment.reply_count || 0) + 1;
+      }
+
+      this.renderComments();
+      this.hideReplyForm(form.querySelector(".cancel-reply"));
+
+      this.showAlert("Reply posted successfully!", "success");
+    } catch (error) {
+      console.error("Error posting reply:", error);
+      this.showAlert(error.message, "error");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Reply";
+    }
+  }
+
+  async toggleLike(commentId, reaction) {
+    if (!this.currentUser) {
+      this.showAlert("Please login to like comments", "warning");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${this.apiBaseUrl}/comments/like/`, {
+        method: "POST",
+        headers: this.getHeaders(),
+        body: JSON.stringify({
+          comment_id: parseInt(commentId),
+          reaction: reaction,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to update reaction");
+      }
+
+      const data = await response.json();
+
+      // Update comment in local state
+      const comment = this.findCommentById(this.comments, parseInt(commentId));
+      if (comment) {
+        comment.likes_count = data.likes_count;
+        comment.dislikes_count = data.dislikes_count;
+        comment.user_reaction = data.user_reaction;
+      }
+
+      this.renderComments();
+    } catch (error) {
+      console.error("Error toggling like:", error);
+      this.showAlert(error.message, "error");
+    }
+  }
+
+  async deleteComment(commentId) {
+    if (!confirm("Are you sure you want to delete this comment?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${this.apiBaseUrl}/comments/${commentId}/`,
+        {
+          method: "DELETE",
+          headers: this.getHeaders(),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to delete comment");
+      }
+
+      // Remove comment from local state
+      this.removeCommentById(this.comments, parseInt(commentId));
+      this.renderComments();
+      this.updateCommentCount(this.comments.length);
+
+      this.showAlert("Comment deleted successfully", "success");
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      this.showAlert(error.message, "error");
+    }
+  }
+
+  async flagComment(commentId) {
+    const reason = prompt(
+      "Please specify the reason for flagging this comment:"
+    );
+    if (!reason) return;
+
+    try {
+      const response = await fetch(
+        `${this.apiBaseUrl}/comments/${commentId}/flag/`,
+        {
+          method: "POST",
+          headers: this.getHeaders(),
+          body: JSON.stringify({ reason }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to flag comment");
+      }
+
+      this.showAlert("Comment flagged for review", "success");
+    } catch (error) {
+      console.error("Error flagging comment:", error);
+      this.showAlert(error.message, "error");
+    }
+  }
+
+  showReplyForm(commentId) {
+    // Hide all other reply forms
+    document.querySelectorAll(".reply-form").forEach((form) => {
+      form.style.display = "none";
+    });
+
+    // Show the specific reply form
+    const replyForm = document.getElementById(`reply-form-${commentId}`);
+    if (replyForm) {
+      replyForm.style.display = "block";
+      replyForm.querySelector("textarea").focus();
+    }
+  }
+
+  hideReplyForm(cancelBtn) {
+    const replyForm = cancelBtn.closest(".reply-form");
+    if (replyForm) {
+      replyForm.style.display = "none";
+      replyForm.querySelector("textarea").value = "";
+    }
+  }
+
+  updateCommentCount(count) {
+    const commentCount = document.getElementById("comment-count");
+    if (commentCount) {
+      commentCount.textContent = `(${count})`;
+    }
+  }
+
+  updateLoadMoreButton(totalCount, loadedCount) {
+    const loadMoreContainer = document.getElementById("load-more-container");
+    if (loadMoreContainer) {
+      if (loadedCount < totalCount) {
+        loadMoreContainer.style.display = "block";
+      } else {
+        loadMoreContainer.style.display = "none";
+      }
+    }
+  }
+
+  loadMoreComments() {
+    this.loadComments(this.comments.length);
+  }
+
+  // Utility methods
+  getHeaders() {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (this.authToken) {
+      headers["Authorization"] = `Token ${this.authToken}`;
+    }
+
+    return headers;
+  }
+
+  getInitials(name) {
+    if (!name) return "?";
+    return name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .substring(0, 2)
+      .toUpperCase();
+  }
+
+  formatTimeAgo(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    if (diffInSeconds < 60) return "just now";
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)}h ago`;
+    if (diffInSeconds < 2592000)
+      return `${Math.floor(diffInSeconds / 86400)}d ago`;
+
+    return date.toLocaleDateString();
+  }
+
+  formatCommentText(text) {
+    // Basic text formatting - replace newlines with <br>
+    return text.replace(/\n/g, "<br>");
+  }
+
+  findCommentById(comments, id) {
+    for (const comment of comments) {
+      if (comment.id === id) {
+        return comment;
+      }
+      if (comment.replies) {
+        const found = this.findCommentById(comment.replies, id);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+
+  removeCommentById(comments, id) {
+    for (let i = 0; i < comments.length; i++) {
+      if (comments[i].id === id) {
+        comments.splice(i, 1);
+        return true;
+      }
+      if (comments[i].replies) {
+        if (this.removeCommentById(comments[i].replies, id)) {
+          comments[i].reply_count = Math.max(
+            0,
+            (comments[i].reply_count || 0) - 1
+          );
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  showAlert(message, type = "info") {
+    // Create a simple alert system
+    const alertColors = {
+      success: "bg-green-50 text-green-800 border-green-200",
+      error: "bg-red-50 text-red-800 border-red-200",
+      warning: "bg-yellow-50 text-yellow-800 border-yellow-200",
+      info: "bg-blue-50 text-blue-800 border-blue-200",
+    };
+
+    const alert = document.createElement("div");
+    alert.className = `fixed top-4 right-4 z-50 p-4 border rounded-lg ${alertColors[type]} max-w-sm`;
+    alert.innerHTML = `
+            <div class="flex items-center justify-between">
+                <span>${message}</span>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-gray-500 hover:text-gray-700">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        `;
+
+    document.body.appendChild(alert);
+
+    setTimeout(() => {
+      if (alert.parentElement) {
+        alert.remove();
+      }
+    }, 5000);
+  }
+}
+
+// Make CommentSystem available globally
+window.CommentSystem = CommentSystem;

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hackathon Detail Test</title>
+  </head>
+  <body>
+    <h1>Hackathon Detail Test</h1>
+    <div id="result"></div>
+
+    <script>
+      // Simulate the URL parameter extraction
+      function getUrlParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+
+      // Test the API call
+      async function testAPI() {
+        const result = document.getElementById("result");
+        result.innerHTML = "Testing API call...";
+
+        try {
+          const response = await fetch("http://localhost:8000/hackathons/");
+          const data = await response.json();
+
+          if (data.hackathons && data.hackathons.length > 0) {
+            const firstHackathon = data.hackathons[0];
+            result.innerHTML = `
+                        <p>✅ API works! Found ${data.hackathons.length} hackathons</p>
+                        <p>First hackathon: ${firstHackathon.name}</p>
+                        <p>Slug: ${firstHackathon.slug}</p>
+                        <p><a href="hackathon-detail.html?slug=${firstHackathon.slug}" target="_blank">Test Detail Page</a></p>
+                    `;
+          } else {
+            result.innerHTML = "❌ No hackathons found in API response";
+          }
+        } catch (error) {
+          result.innerHTML = `❌ API Error: ${error.message}`;
+        }
+      }
+
+      // Test URL parameter extraction
+      const slug = getUrlParameter("slug");
+      if (slug) {
+        document.getElementById(
+          "result"
+        ).innerHTML = `URL slug parameter: ${slug}`;
+        testAPI();
+      } else {
+        document.getElementById("result").innerHTML =
+          'No slug parameter in URL. <button onclick="testAPI()">Test API</button>';
+      }
+    </script>
+  </body>
+</html>

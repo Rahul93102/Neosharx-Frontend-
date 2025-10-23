@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube-Style Comments Demo - NeoSharX</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", "Arial", sans-serif;
+        background: #f9f9f9;
+        padding: 20px;
+      }
+
+      .demo-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .demo-header {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .demo-header h1 {
+        font-size: 28px;
+        color: #0f0f0f;
+        margin-bottom: 10px;
+      }
+
+      .demo-header p {
+        font-size: 16px;
+        color: #606060;
+      }
+
+      .demo-section {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .demo-badge {
+        display: inline-block;
+        background: #065fd4;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .feature-card {
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 8px;
+      }
+
+      .feature-card h3 {
+        font-size: 16px;
+        color: #0f0f0f;
+        margin-bottom: 8px;
+      }
+
+      .feature-card p {
+        font-size: 14px;
+        color: #606060;
+        line-height: 1.5;
+      }
+
+      .feature-icon {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+
+        .demo-header,
+        .demo-section {
+          padding: 20px;
+        }
+
+        .demo-header h1 {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-container">
+      <div class="demo-header">
+        <h1>🎨 YouTube-Style Comments Demo</h1>
+        <p>Professional, responsive, and fully functional comment section</p>
+      </div>
+
+      <div class="demo-section">
+        <span class="demo-badge">✨ New Design</span>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>YouTube-Authentic</h3>
+            <p>Clean, minimal design matching YouTube's 2024 interface</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>Fully Responsive</h3>
+            <p>Optimized for mobile, tablet, and desktop screens</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Fast & Smooth</h3>
+            <p>Optimized rendering with subtle animations</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🔐</div>
+            <h3>Auth Integrated</h3>
+            <p>Seamless login integration with real-time updates</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comment Section Demo -->
+      <div style="margin-top: 30px">
+        <div id="demo-comments"></div>
+      </div>
+    </div>
+
+    <!-- Load Comment System -->
+    <script src="comment-system.js"></script>
+    <script>
+      // Initialize YouTube-style comment system
+      const demoComments = new CommentSystem(
+        "demo",
+        "youtube-style-test",
+        "demo-comments",
+        {
+          apiBaseUrl: "http://localhost:8001/api/auth",
+          showLoginPrompt: true,
+          enableReplies: true,
+          enableLikes: true,
+          maxDepth: 3,
+        }
+      );
+
+      // Display auth status
+      console.log(
+        "%c🎨 YouTube-Style Comments Loaded!",
+        "color: #065fd4; font-size: 16px; font-weight: bold;"
+      );
+      console.log("%cAuth Status:", "font-weight: bold;");
+
+      const authToken = localStorage.getItem("authToken");
+      const currentUser = localStorage.getItem("currentUser");
+
+      if (authToken && currentUser) {
+        const user = JSON.parse(currentUser);
+        console.log(
+          "%c✓ Logged in as:",
+          "color: green;",
+          user.username || user.email
+        );
+      } else {
+        console.log("%c✗ Not logged in", "color: orange;");
+        console.log("Sign in to comment!");
+      }
+    </script>
+  </body>
+</html>

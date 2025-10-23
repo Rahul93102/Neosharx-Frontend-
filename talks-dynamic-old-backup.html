@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>NeoSharX Talks - Podcast Hub</title>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./dist/output.css" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#067ff9",
+              "background-light": "#f5f7f8",
+              "content-light": "#111418",
+              "subtle-light": "#5f758c",
+            },
+            fontFamily: {
+              display: ["Newsreader"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "0.75rem",
+              xl: "1rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #067ff9;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Featured Screens Slider - black/gray/white only */
+      :root {
+        --black: #000000;
+        --white: #ffffff;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-600: #4b5563;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+      }
+
+      /* Lighter font weights throughout */
+      .page-enforce-light {
+        color: var(--gray-900);
+      }
+      .page-enforce-light h1 {
+        font-weight: 700;
+        color: var(--black);
+      }
+      .page-enforce-light h2,
+      .page-enforce-light h3 {
+        font-weight: 600;
+        color: var(--gray-900);
+      }
+      .page-enforce-light p,
+      .page-enforce-light span {
+        font-weight: 400;
+        color: var(--gray-700);
+      }
+      .page-enforce-light a {
+        font-weight: 500;
+        color: var(--gray-900);
+      }
+
+      .featured-screens-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: var(--white);
+        border-radius: 1rem;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        border: 1px solid #eef3f7;
+      }
+
+      .featured-slider {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        align-items: center;
+      }
+
+      /* Single item view container */
+      .featured-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
+        background: var(--white);
+        border-radius: 0.75rem;
+        overflow: hidden;
+      }
+
+      .featured-media {
+        background: #000;
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .featured-media img,
+      .featured-media iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .featured-content {
+        padding: 2rem;
+        color: var(--black);
+      }
+
+      .featured-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--blue-accent);
+        color: var(--white);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+
+      .featured-epnum {
+        color: var(--blue-accent);
+        font-weight: 800;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+
+      .featured-title {
+        color: var(--black) !important;
+        font-weight: 900 !important;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .featured-header {
+        color: var(--black);
+        font-weight: 700;
+        opacity: 0.85;
+        margin-bottom: 1rem;
+      }
+
+      .meta-row {
+        display: flex;
+        gap: 1.5rem;
+        color: var(--black);
+        font-weight: 700;
+        margin-bottom: 1.25rem;
+        align-items: center;
+      }
+
+      .watch-btn {
+        display: inline-flex;
+        gap: 0.6rem;
+        align-items: center;
+        background: var(--blue-accent);
+        color: var(--white);
+        padding: 12px 22px;
+        border-radius: 12px;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      /* Slider controls */
+      .slider-controls {
+        position: absolute;
+        inset: auto 12px 12px 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        z-index: 40;
+      }
+
+      .nav-btn {
+        background: rgba(0, 0, 0, 0.6);
+        color: var(--white);
+        border: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .type-filter {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 0.75rem;
+        align-items: center;
+      }
+
+      .filter-btn {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: var(--white);
+        border: 1px solid #e6eef7;
+        color: var(--black);
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .dots {
+        display: flex;
+        gap: 6px;
+        margin-top: 0.75rem;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        background: #cfdff0;
+        border-radius: 999px;
+      }
+
+      .dot.active {
+        background: var(--blue-accent);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .featured-card {
+          grid-template-columns: 1fr;
+        }
+        .featured-media {
+          min-height: 220px;
+        }
+        .featured-content {
+          padding: 1rem;
+        }
+        .featured-title {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-background-light font-display text-content-light page-enforce-black"
+  >
+    <div class="relative flex flex-col min-h-screen w-full">
+      <div id="nav-container"></div>
+
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-8">
+            <h1 class="text-5xl font-extrabold tracking-tighter mb-4">
+              NeoSharX Talks
+            </h1>
+            <p class="text-lg text-subtle-light max-w-2xl mx-auto">
+              Conversations that inspire innovation. Join industry leaders and
+              innovators as they share insights on technology, entrepreneurship,
+              and the future.
+            </p>
+          </div>
+
+          <!-- Featured Screens Carousel -->
+          <div id="featuredScreensSection" class="hidden">
+            <div class="featured-screens-container">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 8px;
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 10px">
+                  <span style="font-weight: 900; color: var(--black)"
+                    >Featured Highlights</span
+                  >
+                  <div class="type-filter" id="featuredTypeFilter">
+                    <button class="filter-btn" data-type="all">All</button>
+                    <button class="filter-btn" data-type="image">Image</button>
+                    <button class="filter-btn" data-type="video">Video</button>
+                  </div>
+                </div>
+                <div style="color: var(--muted); font-weight: 700"></div>
+              </div>
+
+              <div id="featuredSlider" class="featured-slider">
+                <div
+                  id="featuredInner"
+                  class="featured-card"
+                  aria-live="polite"
+                >
+                  <!-- Single featured item will render here -->
+                </div>
+                <div class="slider-controls"></div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 12px;
+                  "
+                >
+                  <div id="featuredDots" class="dots"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+            <select
+              id="sortFilter"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-full hover:bg-gray-50 transition-colors cursor-pointer"
+            >
+              <option value="recent">Sort by: Recent</option>
+              <option value="episode">Episode Number</option>
+              <option value="duration">Duration</option>
+            </select>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loadingState" class="text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-subtle-light">Loading episodes...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="hidden text-center py-12">
+            <p class="text-red-500 text-lg mb-4">Failed to load episodes</p>
+            <button
+              onclick="location.reload()"
+              class="bg-primary text-white font-bold px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+
+          <!-- Featured Episode -->
+          <div id="featuredEpisode" class="mb-16 hidden">
+            <!-- Featured episode will be loaded here -->
+          </div>
+        </div>
+
+        <!-- More Episodes Section -->
+        <h2 class="text-3xl font-bold tracking-tight text-center mb-10">
+          More Episodes
+        </h2>
+        <div
+          id="moreEpisodes"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <!-- Episodes will be loaded here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-12">
+          <p class="text-xl text-subtle-light">No episodes found</p>
+          <p class="text-subtle-light mt-2">Check back soon for new episodes</p>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="max-w-4xl mx-auto mt-16">
+          <div id="comments-section"></div>
+        </div>
+      </main>
+
+      <footer class="bg-background-light border-t border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div
+            class="flex flex-col md:flex-row justify-between items-center gap-6"
+          >
+            <div class="flex items-center gap-2 text-primary">
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+              <h2 class="text-lg font-bold">NeoSharX</h2>
+            </div>
+            <div
+              class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+            >
+              <a
+                class="text-sm text-subtle-light hover:text-primary transition-colors"
+                href="#"
+                >About</a
+              >
+              <a
+                class="text-sm text-subtle-light hover:text-primary transition-colors"
+                href="#"
+                >Contact</a
+              >
+              <a
+                class="text-sm text-subtle-light hover:text-primary transition-colors"
+                href="#"
+                >Terms of Service</a
+              >
+              <a
+                class="text-sm text-subtle-light hover:text-primary transition-colors"
+                href="#"
+                >Privacy Policy</a
+              >
+            </div>
+            <p class="text-sm text-subtle-light">
+              © 2023 NeoSharX. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const API_BASE_URL = "http://localhost:8001/api/auth";
+      let allEpisodes = [];
+
+      async function loadEpisodes() {
+        const loadingState = document.getElementById("loadingState");
+        const errorState = document.getElementById("errorState");
+        const emptyState = document.getElementById("emptyState");
+        const featuredEpisodeContainer =
+          document.getElementById("featuredEpisode");
+        const moreEpisodesContainer = document.getElementById("moreEpisodes");
+
+        try {
+          console.log(
+            "Fetching episodes from:",
+            `${API_BASE_URL}/talk-episodes/`
+          );
+          const response = await fetch(`${API_BASE_URL}/talk-episodes/`);
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          console.log("Episodes loaded:", data);
+
+          allEpisodes = data.episodes || [];
+
+          if (allEpisodes.length === 0) {
+            loadingState.classList.add("hidden");
+            emptyState.classList.remove("hidden");
+            return;
+          }
+
+          // Load featured screens from all episodes
+          loadFeaturedScreens(allEpisodes);
+
+          // Show featured episode (first one)
+          const featuredEp = allEpisodes[0];
+          if (featuredEp) {
+            renderFeaturedEpisode(featuredEp);
+            featuredEpisodeContainer.classList.remove("hidden");
+          }
+
+          // Show remaining episodes
+          const remainingEpisodes = allEpisodes.slice(1);
+          renderMoreEpisodes(remainingEpisodes);
+
+          loadingState.classList.add("hidden");
+
+          // Initialize comment system
+          initializeCommentSystem();
+          // set default filter active (All)
+          setTimeout(() => {
+            const allBtn = document.querySelector(
+              '#featuredTypeFilter .filter-btn[data-type="all"]'
+            );
+            if (allBtn) allBtn.style.borderColor = "var(--blue-accent)";
+          }, 50);
+        } catch (error) {
+          console.error("Error loading episodes:", error);
+          loadingState.classList.add("hidden");
+          errorState.classList.remove("hidden");
+        }
+      }
+
+      function loadFeaturedScreens(episodes) {
+        // Collect all featured screens from all episodes
+        const allScreens = [];
+        episodes.forEach((episode) => {
+          if (episode.featured_screens && episode.featured_screens.length > 0) {
+            // Allow featured_screens to be either string URLs or objects {url,type,episode}
+            episode.featured_screens.forEach((s) => {
+              if (typeof s === "string") {
+                // infer type from url
+                const isVideo = s.includes("youtube") || s.includes("vimeo");
+                allScreens.push({
+                  url: s,
+                  type: isVideo ? "video" : "image",
+                  episode,
+                });
+              } else if (s && s.url) {
+                allScreens.push({
+                  url: s.url,
+                  type:
+                    s.type || (s.url.includes("youtube") ? "video" : "image"),
+                  episode,
+                });
+              }
+            });
+          }
+        });
+
+        if (allScreens.length === 0) return;
+
+        // State for slider
+        window._featuredState = {
+          items: allScreens,
+          filtered: allScreens,
+          index: 0,
+          type: "all",
+        };
+
+        const section = document.getElementById("featuredScreensSection");
+        section.classList.remove("hidden");
+
+        renderFeaturedItem();
+        setupFeaturedControls();
+      }
+
+      function renderFeaturedItem() {
+        const state = window._featuredState;
+        if (!state || !state.filtered || state.filtered.length === 0) return;
+        const idx = Math.max(
+          0,
+          Math.min(state.index, state.filtered.length - 1)
+        );
+        const item = state.filtered[idx];
+
+        const inner = document.getElementById("featuredInner");
+        const dots = document.getElementById("featuredDots");
+
+        // Build media HTML: if video (youtube) embed iframe, else image
+        let mediaHtml = "";
+        if (item.type === "video") {
+          let embed = item.url;
+          // convert youtube watch to embed if necessary
+          if (embed.includes("youtube.com/watch")) {
+            const v = new URL(embed).searchParams.get("v");
+            if (v) embed = `https://www.youtube.com/embed/${v}`;
+          } else if (embed.includes("youtu.be/")) {
+            const parts = embed.split("youtu.be/");
+            embed = `https://www.youtube.com/embed/${parts[1]}`;
+          }
+          mediaHtml = `<iframe src="${embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        } else {
+          mediaHtml = `<img src="${item.url}" alt="Featured screen" loading="lazy" />`;
+        }
+
+        // content on right uses episode data if available
+        const episode = item.episode || {};
+
+        inner.innerHTML = `
+          <div class="featured-media">
+            <div class="featured-badge">Featured</div>
+            ${mediaHtml}
+          </div>
+          <div class="featured-content">
+            <div class="featured-epnum">Episode ${
+              episode.episode_number || ""
+            }</div>
+            <div class="featured-title">${
+              episode.title || "Featured Highlight"
+            }</div>
+            <div class="featured-header">${episode.header || ""}</div>
+            <div class="meta-row">
+              <div>${
+                episode.duration_minutes
+                  ? episode.duration_minutes + " min"
+                  : ""
+              }</div>
+              <div>${
+                episode.published_at
+                  ? new Date(episode.published_at).toLocaleDateString()
+                  : ""
+              }</div>
+            </div>
+            <a href="${
+              episode.slug ? `talks-detail.html?slug=${episode.slug}` : "#"
+            }" class="watch-btn">Watch Episode ▶</a>
+          </div>
+        `;
+
+        // render dots
+        dots.innerHTML = "";
+        state.filtered.forEach((i, k) => {
+          const d = document.createElement("div");
+          d.className = "dot" + (k === idx ? " active" : "");
+          d.addEventListener("click", () => {
+            state.index = k;
+            renderFeaturedItem();
+          });
+          dots.appendChild(d);
+        });
+      }
+
+      function setupFeaturedControls() {
+        const prev = document.getElementById("prevFeatured");
+        const next = document.getElementById("nextFeatured");
+        const filterBtns = document.querySelectorAll(
+          "#featuredTypeFilter .filter-btn"
+        );
+
+        prev.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.filtered) return;
+          s.index = (s.index - 1 + s.filtered.length) % s.filtered.length;
+          renderFeaturedItem();
+        };
+
+        next.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.filtered) return;
+          s.index = (s.index + 1) % s.filtered.length;
+          renderFeaturedItem();
+        };
+
+        filterBtns.forEach((btn) => {
+          btn.onclick = () => {
+            const type = btn.dataset.type;
+            const s = window._featuredState;
+            s.type = type;
+            if (type === "all") s.filtered = s.items.slice();
+            else s.filtered = s.items.filter((it) => it.type === type);
+            s.index = 0;
+            // update active styles
+            filterBtns.forEach((b) => (b.style.borderColor = "#e6eef7"));
+            btn.style.borderColor = "var(--blue-accent)";
+            renderFeaturedItem();
+          };
+        });
+      }
+
+      function renderFeaturedEpisode(episode) {
+        const container = document.getElementById("featuredEpisode");
+        const publishedDate = new Date(episode.published_at);
+
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="grid md:grid-cols-2 gap-0">
+              <div class="relative h-80 md:h-auto">
+                <img
+                  src="${episode.thumbnail_url}"
+                  alt="${episode.title}"
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <span class="absolute top-4 left-4 px-3 py-1 bg-primary text-white text-sm font-bold rounded-full">
+                  Featured
+                </span>
+              </div>
+              <div class="p-8 flex flex-col justify-center">
+                <div class="mb-4">
+                  <span class="text-primary font-bold text-sm uppercase tracking-wider">
+                    Episode ${episode.episode_number}
+                  </span>
+                </div>
+                <h2 class="text-3xl font-extrabold mb-4 leading-tight">
+                  ${episode.title}
+                </h2>
+                <p class="text-subtle-light text-lg mb-6">
+                  ${episode.header}
+                </p>
+                <div class="flex items-center gap-6 text-sm text-subtle-light mb-6">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg">schedule</span>
+                    <span>${episode.duration_minutes} min</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg">calendar_today</span>
+                    <span>${publishedDate.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}</span>
+                  </div>
+                </div>
+                <a
+                  href="talks-detail.html?slug=${episode.slug}"
+                  class="inline-flex items-center gap-2 bg-primary text-white font-bold px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
+                >
+                  <span>Watch Episode</span>
+                  <span class="material-symbols-outlined">play_circle</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderMoreEpisodes(episodes) {
+        const container = document.getElementById("moreEpisodes");
+
+        container.innerHTML = episodes
+          .map((episode) => {
+            const publishedDate = new Date(episode.published_at);
+            return `
+            <a
+              href="talks-detail.html?slug=${episode.slug}"
+              class="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <div class="relative h-48 overflow-hidden">
+                <img
+                  src="${episode.thumbnail_url}"
+                  alt="${episode.title}"
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <span class="absolute top-3 left-3 px-2 py-1 bg-primary text-white text-xs font-bold rounded-full">
+                  EP ${episode.episode_number}
+                </span>
+              </div>
+                <div class="p-6 page-enforce-black">
+                <h3 class="text-xl mb-2 line-clamp-2 transition-colors" style="color:var(--black); font-weight:900;">
+                  ${episode.title}
+                </h3>
+                <p class="text-sm mb-4 line-clamp-2" style="color:var(--black); font-weight:700;">
+                  ${episode.header}
+                </p>
+                <div class="flex items-center justify-between text-xs" style="color:var(--black); font-weight:700;">
+                  <div class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">schedule</span>
+                    <span>${episode.duration_minutes} min</span>
+                  </div>
+                  <span>${publishedDate.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })}</span>
+                </div>
+              </div>
+            </a>
+          `;
+          })
+          .join("");
+      }
+
+      function initializeCommentSystem() {
+        const commentsSection = document.getElementById("comments-section");
+        commentsSection.innerHTML = '<div id="comments-container"></div>';
+
+        // Initialize comment system for the talks page
+        if (typeof CommentSystem !== "undefined") {
+          new CommentSystem(
+            "talk_episode",
+            "talks-page",
+            "comments-container",
+            {
+              apiBaseUrl: API_BASE_URL,
+              showLoginPrompt: true,
+              enableReplies: true,
+              enableLikes: true,
+            }
+          );
+        }
+      }
+
+      // Sort functionality
+      document.getElementById("sortFilter")?.addEventListener("change", (e) => {
+        const sortBy = e.target.value;
+        let sortedEpisodes = [...allEpisodes];
+
+        switch (sortBy) {
+          case "episode":
+            sortedEpisodes.sort((a, b) => a.episode_number - b.episode_number);
+            break;
+          case "duration":
+            sortedEpisodes.sort(
+              (a, b) => b.duration_minutes - a.duration_minutes
+            );
+            break;
+          case "recent":
+          default:
+            sortedEpisodes.sort(
+              (a, b) => new Date(b.published_at) - new Date(a.published_at)
+            );
+            break;
+        }
+
+        // Re-render
+        if (sortedEpisodes.length > 0) {
+          renderFeaturedEpisode(sortedEpisodes[0]);
+          renderMoreEpisodes(sortedEpisodes.slice(1));
+        }
+      });
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      // Load episodes on page load
+      document.addEventListener("DOMContentLoaded", loadEpisodes);
+    </script>
+
+    <!-- Comment System -->
+    <script src="comment-system.js"></script>
+  </body>
+</html>

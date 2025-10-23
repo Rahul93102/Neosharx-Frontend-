@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auth State Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .status {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      .success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      pre {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Authentication State Test</h1>
+    <div id="status"></div>
+    <h2>LocalStorage Contents</h2>
+    <pre id="localStorage"></pre>
+
+    <script>
+      function updateStatus() {
+        const statusDiv = document.getElementById("status");
+        const lsDiv = document.getElementById("localStorage");
+
+        const authToken = localStorage.getItem("authToken");
+        const currentUser = localStorage.getItem("currentUser");
+        const userData = localStorage.getItem("userData");
+        const userId = localStorage.getItem("userId");
+
+        let statusHtml = "";
+
+        if (authToken && currentUser) {
+          statusHtml +=
+            '<div class="status success">✓ Authentication state is consistent</div>';
+        } else if (authToken && !currentUser) {
+          statusHtml +=
+            '<div class="status error">✗ Token exists but no currentUser - this will break comments</div>';
+        } else if (!authToken && currentUser) {
+          statusHtml +=
+            '<div class="status error">✗ currentUser exists but no token</div>';
+        } else {
+          statusHtml += '<div class="status error">✗ Not logged in</div>';
+        }
+
+        if (userData) {
+          statusHtml +=
+            '<div class="status error">✗ Found old userData key - should be currentUser</div>';
+        }
+
+        if (userId) {
+          statusHtml +=
+            '<div class="status error">✗ Found old userId key - should be in currentUser</div>';
+        }
+
+        statusDiv.innerHTML = statusHtml;
+
+        const lsData = {};
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          lsData[key] = localStorage.getItem(key);
+        }
+        lsDiv.textContent = JSON.stringify(lsData, null, 2);
+      }
+
+      updateStatus();
+
+      // Listen for auth state changes
+      document.addEventListener("authStateChanged", () => {
+        console.log("Auth state changed, updating...");
+        setTimeout(updateStatus, 100);
+      });
+    </script>
+  </body>
+</html>

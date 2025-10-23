@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Story Detail - NeoSharX</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./dist/output.css" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#067ff9",
+              "background-light": "#f5f7f8",
+              "background-dark": "#0f1923",
+              "content-light": "#111418",
+              "content-dark": "#f5f7f8",
+              "subtle-light": "#5f758c",
+              "subtle-dark": "#a0aec0",
+            },
+            fontFamily: {
+              display: ["Newsreader"],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <style>
+      .prose {
+        color: #111418;
+        max-width: 65ch;
+      }
+      .dark .prose {
+        color: #f5f7f8;
+      }
+      .prose h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-top: 2.5rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.3;
+      }
+      .prose h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-top: 2rem;
+        margin-bottom: 1.25rem;
+      }
+      .prose p {
+        margin-bottom: 1.5rem;
+        line-height: 1.75;
+        font-size: 1.125rem;
+      }
+      .prose img,
+      .prose video {
+        margin: 2.5rem 0;
+        border-radius: 0.75rem;
+        width: 100%;
+      }
+      .prose ul,
+      .prose ol {
+        margin: 1.5rem 0;
+        padding-left: 1.75rem;
+      }
+      .prose li {
+        margin-bottom: 0.75rem;
+        line-height: 1.75;
+   
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark font-display text-content-light dark:text-content-dark"
+    data-page="neo-detail"
+  >
+    <div class="relative flex flex-col min-h-screen w-full">
+      <div id="nav-container"></div>
+
+      <!-- Main Content -->
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-12">
+          <div
+            class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"
+          ></div>
+          <p class="mt-4 text-subtle-light dark:text-subtle-dark">
+            Loading story...
+          </p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="hidden text-center py-12">
+          <p class="text-red-500 text-lg mb-4">Story not found</p>
+          <a
+            href="neo-dynamic.html"
+            class="inline-block bg-primary text-white font-bold px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            Back to Stories
+          </a>
+        </div>
+
+        <!-- Story Content -->
+        <article id="storyContent" class="max-w-4xl mx-auto hidden">
+          <!-- Hero Image -->
+          <div
+            id="heroImage"
+            class="w-full h-96 bg-cover bg-center rounded-2xl mb-8"
+          ></div>
+
+          <!-- Story Header -->
+          <div class="mb-8">
+            <div class="flex items-center gap-4 mb-4">
+              <span
+                id="categoryBadge"
+                class="px-3 py-1 bg-primary/10 text-primary text-sm font-bold rounded-full uppercase tracking-wider"
+              ></span>
+            </div>
+            <h1
+              id="storyHeading"
+              class="text-5xl font-extrabold tracking-tight mb-4"
+            ></h1>
+            <p
+              id="storyIntroduction"
+              class="text-2xl text-subtle-light dark:text-subtle-dark mb-6"
+            ></p>
+
+            <div
+              class="flex items-center gap-6 text-sm text-subtle-light dark:text-subtle-dark mb-8"
+            >
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg">person</span>
+                <span id="authorName"></span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg"
+                  >calendar_today</span
+                >
+                <span id="publishedDate"></span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg">schedule</span>
+                <span id="readTime"></span> min read
+              </div>
+            </div>
+          </div>
+
+          <!-- Story Sections -->
+          <div id="storySections" class="prose prose-lg max-w-none mb-12"></div>
+
+          <!-- Tags -->
+          <div id="tagsContainer" class="flex flex-wrap gap-2 mb-8"></div>
+
+          <!-- Back to Stories -->
+          <div
+            class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
+          >
+            <a
+              href="neo-dynamic.html"
+              class="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
+            >
+              <span class="material-symbols-outlined">arrow_back</span>
+              <span>Back to Neo Stories</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Comments Section -->
+        <div class="mt-16 max-w-4xl mx-auto">
+          <h2 class="text-4xl font-bold mb-8 flex items-center gap-3">
+            <i class="fas fa-comments text-primary"></i>
+            Comments
+          </h2>
+          <div id="comments-container"></div>
+        </div>
+
+        
+
+    <script>
+      const API_BASE_URL = "http://localhost:8000/api/auth";
+
+      // Get slug from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const slug = urlParams.get("slug");
+
+      async function loadStory() {
+        const loadingState = document.getElementById("loadingState");
+        const errorState = document.getElementById("errorState");
+        const storyContent = document.getElementById("storyContent");
+
+        if (!slug) {
+          console.error("No slug provided in URL");
+          loadingState.classList.add("hidden");
+          errorState.classList.remove("hidden");
+          return;
+        }
+
+        try {
+          console.log("Fetching story with slug:", slug);
+          const response = await fetch(`${API_BASE_URL}/neo-stories/${slug}/`);
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const story = await response.json();
+          console.log("Story data loaded:", story);
+
+          loadingState.classList.add("hidden");
+          storyContent.classList.remove("hidden");
+          renderStory(story);
+
+          // Initialize comment system after story is loaded
+          if (typeof CommentSystem !== "undefined") {
+            const commentSystem = new CommentSystem(
+              "neo_story",
+              slug,
+              "comments-container",
+              {
+                apiBaseUrl: "http://localhost:8001/api/auth",
+                showLoginPrompt: true,
+                enableReplies: true,
+                enableLikes: true,
+                theme: "light",
+              }
+            );
+          }
+        } catch (error) {
+          console.error("Error loading story:", error);
+          loadingState.classList.add("hidden");
+          errorState.classList.remove("hidden");
+        }
+      }
+
+      function renderStory(story) {
+        // Update page title
+        const storyTitle = story.header || story.title || "Neo Story";
+        document.title = `${storyTitle} - NeoSharX`;
+
+        // Hero Image
+        const heroImage = document.getElementById("heroImage");
+        heroImage.style.backgroundImage = `url('${story.main_image || ""}')`;
+
+        // Category Badge
+        const categoryBadge = document.getElementById("categoryBadge");
+        categoryBadge.textContent = story.category || "Story";
+
+        // Header & Introduction
+        document.getElementById("storyHeading").textContent = storyTitle;
+        document.getElementById("storyIntroduction").textContent =
+          story.introduction || story.summary || "";
+
+        // Author Info
+        document.getElementById("authorName").textContent =
+          story.author_name || "NeoSharX Team";
+
+        // Date & Read Time
+        const publishedDate = story.published_at
+          ? new Date(story.published_at).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          : "Recently published";
+        document.getElementById("publishedDate").textContent = publishedDate;
+        document.getElementById("readTime").textContent = story.read_time || 5;
+
+        // Story Sections - CRITICAL: Parse JSON string
+        const sectionsContainer = document.getElementById("storySections");
+        let sectionsHTML = "";
+
+        try {
+          // The API returns sections as a JSON STRING, not an array
+          let sections = [];
+
+          if (typeof story.sections === "string") {
+            // Parse the JSON string
+            sections = JSON.parse(story.sections);
+            console.log("Parsed sections:", sections);
+          } else if (Array.isArray(story.sections)) {
+            // Already an array
+            sections = story.sections;
+          }
+
+          if (sections && sections.length > 0) {
+            sectionsHTML = sections
+              .map((section) => {
+                let html = "";
+
+                // Add subheading if present
+                if (section.subheading || section.heading) {
+                  html += `<h2>${section.subheading || section.heading}</h2>`;
+                }
+
+                // Add paragraph/content
+                if (section.paragraph || section.content) {
+                  const content = section.paragraph || section.content;
+                  // Split by double newlines to create separate paragraphs
+                  const paragraphs = content.split("\n\n");
+                  html += paragraphs
+                    .map((p) => (p.trim() ? `<p>${p.trim()}</p>` : ""))
+                    .join("");
+                }
+
+                // Add media (image or video)
+                if (section.media_type === "image" && section.media_url) {
+                  html += `<img src="${section.media_url}" alt="${
+                    section.media_caption || section.subheading || "Story image"
+                  }" />`;
+                  if (section.media_caption) {
+                    html += `<p class="text-sm text-subtle-light dark:text-subtle-dark text-center -mt-6 mb-6"><em>${section.media_caption}</em></p>`;
+                  }
+                } else if (
+                  section.media_type === "video" &&
+                  section.media_url
+                ) {
+                  // Handle YouTube videos
+                  let videoUrl = section.media_url;
+                  if (videoUrl.includes("youtube.com/watch")) {
+                    const videoId = new URL(videoUrl).searchParams.get("v");
+                    videoUrl = `https://www.youtube.com/embed/${videoId}`;
+                  } else if (videoUrl.includes("youtu.be/")) {
+                    const videoId = videoUrl
+                      .split("youtu.be/")[1]
+                      .split("?")[0];
+                    videoUrl = `https://www.youtube.com/embed/${videoId}`;
+                  }
+
+                  html += `
+                    <div class="aspect-video my-8">
+                      <iframe src="${videoUrl}" 
+                              class="w-full h-full rounded-xl" 
+                              frameborder="0" 
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                              allowfullscreen>
+                      </iframe>
+                    </div>
+                  `;
+                  if (section.media_caption) {
+                    html += `<p class="text-sm text-subtle-light dark:text-subtle-dark text-center -mt-6 mb-6"><em>${section.media_caption}</em></p>`;
+                  }
+                }
+
+                return html;
+              })
+              .join("");
+          } else {
+            sectionsHTML =
+              '<p class="text-subtle-light dark:text-subtle-dark italic">Story content will be available soon...</p>';
+          }
+        } catch (error) {
+          console.error("Error parsing sections:", error);
+          sectionsHTML =
+            '<p class="text-red-500">Error loading story content. Please try again.</p>';
+        }
+
+        sectionsContainer.innerHTML = sectionsHTML;
+
+        // Tags
+        const tagsContainer = document.getElementById("tagsContainer");
+        if (story.tags) {
+          const tagsArray = story.tags.split(",").map((t) => t.trim());
+          tagsContainer.innerHTML = tagsArray
+            .map(
+              (tag) =>
+                `<span class="px-3 py-1 bg-background-dark/5 dark:bg-background-light/5 text-sm rounded-full border border-subtle-light/20 dark:border-subtle-dark/20">${
+                  tag.startsWith("#") ? tag : "#" + tag
+                }</span>`
+            )
+            .join("");
+        }
+      }
+
+      // Function to update social media button colors based on login status
+      function updateSocialButtonColors() {
+        const isLoggedIn =
+          localStorage.getItem("authToken") &&
+          localStorage.getItem("currentUser");
+        const socialButtons = document.querySelectorAll(".bg-gray-800");
+
+        socialButtons.forEach((button) => {
+          if (isLoggedIn) {
+            // Change to red background when logged in
+            button.classList.remove("bg-gray-800");
+            button.classList.add("bg-red-600");
+          } else {
+            // Keep gray background when not logged in
+            button.classList.remove("bg-red-600");
+            button.classList.add("bg-gray-800");
+          }
+        });
+      }
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === "function") {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton =
+                document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener("click", function (event) {
+                  if (
+                    !mobileMenuButton.contains(event.target) &&
+                    !mobileMenu.contains(event.target) &&
+                    isMenuOpen
+                  ) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  }
+                });
+              }
+            }
+          }, 100);
+
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () =>
+            console.log("Global auth loaded successfully");
+          authScript.onerror = () =>
+            console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      // Update button colors on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        loadStory();
+        updateSocialButtonColors();
+      });
+
+      // Listen for auth state changes
+      document.addEventListener("authStateChanged", updateSocialButtonColors);
+      window.addEventListener("storage", (e) => {
+        if (e.key === "authToken" || e.key === "currentUser") {
+          updateSocialButtonColors();
+        }
+      });
+    </script>
+    <script src="comment-system-light.js"></script>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Social Media -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+            <div class="flex gap-4">
+              <a
+                href="https://instagram.com/neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://linkedin.com/company/neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://twitter.com/neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://youtube.com/@neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-red-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Communities -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Join Communities</h3>
+            <div class="space-y-2">
+              <a
+                href="#"
+                class="block text-gray-300 hover:text-white transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                  Discord Community
+                </span>
+              </a>
+              <a
+                href="#"
+                class="block text-gray-300 hover:text-white transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                    />
+                  </svg>
+                  Slack Workspace
+                </span>
+              </a>
+              <a
+                href="#"
+                class="block text-gray-300 hover:text-white transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
+                  </svg>
+                  Telegram Group
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- About Us -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">About Us</h3>
+            <p class="text-gray-300 leading-relaxed text-sm">
+              NeoSharX empowers startups through innovation, collaboration, and
+              community-driven growth. Join our ecosystem of entrepreneurs and
+              innovators.
+            </p>
+            <a
+              href="about.html"
+              class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-medium"
+            >
+              Learn More
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Contact -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Contact</h3>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 text-gray-300">
+                <svg
+                  class="w-5 h-5 text-blue-400 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                <a
+                  href="mailto:hello@neosharx.com"
+                  class="hover:text-white transition-colors"
+                  >hello@neosharx.com</a
+                >
+              </div>
+              <div class="flex items-center gap-3 text-gray-300">
+                <svg
+                  class="w-5 h-5 text-blue-400 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
+                </svg>
+                <a
+                  href="tel:+1234567890"
+                  class="hover:text-white transition-colors"
+                  >+91 7380405969</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-700 pt-8 mt-8">
+          <div
+            class="flex flex-col md:flex-row justify-between items-center gap-4"
+          >
+            <div class="flex items-center gap-2">
+              <img src="logo27.png" alt="NeoSharX Logo" class="h-6 w-6" />
+              <span class="text-gray-400 text-sm"
+                >© 2025 NeoSharX. All rights reserved.</span
+              >
+            </div>
+            <div class="flex items-center gap-2">
+              <svg
+                class="h-5 w-5 text-blue-400"
+                fill="none"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span class="text-gray-400 text-sm"
+                >Built with ❤️ for innovators</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

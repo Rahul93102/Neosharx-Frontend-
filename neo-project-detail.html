@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neo Project - NeoSharX</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./dist/output.css" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: { primary: "#067ff9" },
+            fontFamily: { display: ["Space Grotesk"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      .prose {
+        max-width: none;
+        line-height: 1.8;
+      }
+      .prose p {
+        margin-bottom: 1.25em;
+      }
+      .prose ul,
+      .prose ol {
+        margin: 1.25em 0;
+        padding-left: 1.5em;
+      }
+      .prose li {
+        margin-bottom: 0.5em;
+      }
+      .badge {
+        transition: all 0.3s ease;
+      }
+      .badge:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900 font-display">
+    <!-- Shared Navigation -->
+    <div id="nav-container"></div>
+
+    <div id="loading" class="flex items-center justify-center min-h-screen">
+      <div class="text-center">
+        <div
+          class="animate-spin rounded-full h-20 w-20 border-b-4 border-primary mx-auto"
+        ></div>
+        <p class="mt-6 text-gray-600 dark:text-gray-400 text-lg font-semibold">
+          Loading project details...
+        </p>
+      </div>
+    </div>
+
+    <div
+      id="error"
+      class="hidden flex items-center justify-center min-h-screen"
+    >
+      <div class="text-center max-w-md mx-auto px-6">
+        <i class="fas fa-exclamation-triangle text-7xl text-red-500 mb-6"></i>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          Project Not Found
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          The project you are looking for does not exist or has been removed.
+        </p>
+        <a
+          href="neo-projects.html"
+          class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary/90 transition-colors"
+        >
+          <i class="fas fa-arrow-left"></i>
+          Back to Projects
+        </a>
+      </div>
+    </div>
+
+    <article id="content" class="hidden">
+      <div
+        class="relative h-screen max-h-[600px] bg-cover bg-center"
+        id="hero-image"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"
+        ></div>
+        <div class="absolute inset-0 flex items-end">
+          <div class="w-full max-w-7xl mx-auto px-6 pb-12">
+            <div class="flex items-center gap-3 mb-4 flex-wrap">
+              <span
+                id="category-badge"
+                class="px-4 py-2 rounded-full text-sm font-bold"
+              ></span>
+              <span
+                id="status-badge"
+                class="px-4 py-2 rounded-full text-sm font-bold"
+              ></span>
+              <span
+                id="license-badge"
+                class="px-4 py-2 rounded-full text-sm font-bold bg-gray-700 text-white"
+              ></span>
+              <span
+                id="opensource-badge"
+                class="hidden px-4 py-2 rounded-full text-sm font-bold bg-green-600 text-white"
+              >
+                <i class="fas fa-code-branch mr-1"></i>Open Source
+              </span>
+            </div>
+            <h1
+              id="project-title"
+              class="text-5xl md:text-6xl font-bold text-white mb-4 leading-tight"
+            ></h1>
+            <p
+              id="project-description"
+              class="text-xl text-white/90 mb-6 max-w-4xl"
+            ></p>
+            <div
+              class="flex items-center gap-8 text-white/90 text-base flex-wrap"
+            >
+              <div id="developer-section" class="flex items-center gap-2">
+                <i class="fas fa-user-circle text-blue-400"></i>
+                <div class="flex flex-col">
+                  <span class="font-medium text-white"></span>
+                  <span
+                    class="text-sm text-white/70"
+                    id="developer-email"
+                  ></span>
+                </div>
+              </div>
+              <span id="version-badge" class="flex items-center gap-2">
+                <i class="fas fa-code-branch"></i>
+                <span class="font-medium"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-6 py-12">
+        <div class="grid lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-2 space-y-8">
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-info-circle text-primary"></i>
+                About This Project
+              </h2>
+              <div
+                id="detailed-description"
+                class="prose dark:prose-invert text-gray-700 dark:text-gray-300 text-lg"
+              ></div>
+            </div>
+
+            <div
+              id="features-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-star text-yellow-500"></i>
+                Key Features
+              </h2>
+              <ul id="features-list" class="space-y-3"></ul>
+            </div>
+
+            <div
+              id="tech-stack-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-code text-primary"></i>
+                Technology Stack
+              </h2>
+              <div id="tech-stack" class="flex flex-wrap gap-3"></div>
+            </div>
+
+            <div
+              id="screenshots-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-images text-primary"></i>
+                Screenshots
+              </h2>
+              <div
+                id="screenshots-grid"
+                class="grid md:grid-cols-2 gap-4"
+              ></div>
+            </div>
+
+            <div
+              id="installation-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-download text-green-600"></i>
+                Installation Instructions
+              </h2>
+              <div
+                id="installation-content"
+                class="prose dark:prose-invert text-gray-700 dark:text-gray-300"
+              ></div>
+            </div>
+
+            <div
+              id="usage-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-play-circle text-blue-600"></i>
+                Usage Instructions
+              </h2>
+              <div
+                id="usage-content"
+                class="prose dark:prose-invert text-gray-700 dark:text-gray-300"
+              ></div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div
+              class="bg-gradient-to-br from-primary to-blue-600 rounded-2xl shadow-xl p-6 text-white"
+            >
+              <h3 class="text-2xl font-bold mb-4">Quick Actions</h3>
+              <div class="space-y-3">
+                <a
+                  id="github-link"
+                  href="#"
+                  target="_blank"
+                  class="hidden flex items-center gap-3 bg-white/20 hover:bg-white/30 transition-colors rounded-xl p-4"
+                >
+                  <i class="fab fa-github text-2xl"></i>
+                  <div>
+                    <p class="font-bold">View Source</p>
+                    <p class="text-sm opacity-90">GitHub Repository</p>
+                  </div>
+                </a>
+                <a
+                  id="demo-link"
+                  href="#"
+                  target="_blank"
+                  class="hidden flex items-center gap-3 bg-white/20 hover:bg-white/30 transition-colors rounded-xl p-4"
+                >
+                  <i class="fas fa-external-link-alt text-2xl"></i>
+                  <div>
+                    <p class="font-bold">Live Demo</p>
+                    <p class="text-sm opacity-90">Try it now</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-100 dark:border-gray-700"
+            >
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fas fa-chart-bar text-primary"></i>
+                Project Stats
+              </h3>
+              <div class="space-y-4">
+                <div
+                  class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg"
+                >
+                  <span
+                    class="text-gray-600 dark:text-gray-400 flex items-center gap-2"
+                  >
+                    <i class="fas fa-signal"></i>
+                    Status
+                  </span>
+                  <span id="status-text" class="font-bold"></span>
+                </div>
+                <div
+                  class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg"
+                >
+                  <span
+                    class="text-gray-600 dark:text-gray-400 flex items-center gap-2"
+                  >
+                    <i class="fas fa-layer-group"></i>
+                    Difficulty
+                  </span>
+                  <span id="difficulty-text" class="font-bold"></span>
+                </div>
+                <div
+                  class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg"
+                >
+                  <span
+                    class="text-gray-600 dark:text-gray-400 flex items-center gap-2"
+                  >
+                    <i class="fas fa-tag"></i>
+                    Version
+                  </span>
+                  <span id="version-text" class="font-bold"></span>
+                </div>
+                <div
+                  class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg"
+                >
+                  <span
+                    class="text-gray-600 dark:text-gray-400 flex items-center gap-2"
+                  >
+                    <i class="fas fa-balance-scale"></i>
+                    License
+                  </span>
+                  <span id="license-text" class="font-bold"></span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="developer-profile-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-100 dark:border-gray-700"
+            >
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fas fa-user-tie text-primary"></i>
+                Project Lead
+              </h3>
+              <div
+                id="developer-profile"
+                class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800"
+              >
+                <div class="flex items-start gap-4">
+                  <div
+                    class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-2xl font-bold"
+                  >
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <div class="flex-1">
+                    <h4
+                      id="dev-name"
+                      class="text-lg font-bold text-gray-900 dark:text-white mb-1"
+                    ></h4>
+                    <p
+                      id="dev-role"
+                      class="text-blue-600 dark:text-blue-400 font-medium mb-2"
+                    >
+                      Project Lead Developer
+                    </p>
+                    <div
+                      class="space-y-2 text-sm text-gray-600 dark:text-gray-400"
+                    >
+                      <div class="flex items-center gap-2">
+                        <i class="fas fa-envelope text-blue-500"></i>
+                        <span id="dev-email"></span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <i class="fas fa-map-marker-alt text-green-500"></i>
+                        <span id="dev-location">NeoSharX Headquarters</span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <i class="fas fa-briefcase text-purple-500"></i>
+                        <span id="dev-experience">5+ Years Experience</span>
+                      </div>
+                    </div>
+                    <div class="mt-3 flex gap-2">
+                      <button
+                        id="dev-contact-btn"
+                        class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors cursor-pointer"
+                      >
+                        <i class="fas fa-envelope mr-1"></i>Contact
+                      </button>
+                      <button
+                        id="dev-profile-btn"
+                        class="px-3 py-1 bg-gray-600 hover:bg-gray-700 text-white text-sm rounded-lg transition-colors cursor-pointer"
+                      >
+                        <i class="fas fa-external-link-alt mr-1"></i>Profile
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="collaborators-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-100 dark:border-gray-700"
+            >
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fas fa-users text-primary"></i>
+                Collaborators
+              </h3>
+              <div id="collaborators-list" class="space-y-3"></div>
+            </div>
+
+            <div
+              id="tags-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-100 dark:border-gray-700"
+            >
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fas fa-tags text-primary"></i>
+                Tags
+              </h3>
+              <div id="tags-list" class="flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="related-section" class="mt-16">
+          <h2 class="text-4xl font-bold mb-8 flex items-center gap-3">
+            <i class="fas fa-layer-group text-primary"></i>
+            Related Projects
+          </h2>
+          <div id="related-grid" class="grid md:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-16 max-w-4xl mx-auto">
+          <h2 class="text-4xl font-bold mb-8 flex items-center gap-3">
+            <i class="fas fa-comments text-primary"></i>
+            Comments
+          </h2>
+          <div id="comments-container"></div>
+        </div>
+      </div>
+    </article>
+
+    <script>
+      const API_URL = "http://localhost:8001/api/auth/neo-projects/";
+      let currentProject = null;
+      let hasStarred = false;
+
+      async function loadProject() {
+        const params = new URLSearchParams(window.location.search);
+        const slug = params.get("slug");
+
+        if (!slug) {
+          window.location.href = "neo-projects.html";
+          return;
+        }
+
+        try {
+          const response = await fetch(API_URL);
+          const data = await response.json();
+          const project = data.find(function (p) {
+            return p.slug === slug;
+          });
+
+          if (!project) {
+            showError();
+            return;
+          }
+
+          currentProject = project;
+          displayProject(project);
+          loadRelatedProjects(data, project.id);
+
+          document.getElementById("loading").classList.add("hidden");
+          document.getElementById("content").classList.remove("hidden");
+
+          // Initialize comment system after project is loaded
+          if (typeof CommentSystem !== "undefined") {
+            const commentSystem = new CommentSystem(
+              "neo_project",
+              slug,
+              "comments-container",
+              {
+                apiBaseUrl: "http://localhost:8001/api/auth",
+                showLoginPrompt: true,
+                enableReplies: true,
+                enableLikes: true,
+                theme: "light",
+              }
+            );
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          showError();
+        }
+      }
+
+      function showError() {
+        document.getElementById("loading").classList.add("hidden");
+        document.getElementById("error").classList.remove("hidden");
+      }
+
+      function displayProject(p) {
+        document.title = p.title + " - NeoSharX Neo Projects";
+
+        document.getElementById("hero-image").style.backgroundImage =
+          "url(" +
+          (p.featured_image ||
+            "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200") +
+          ")";
+        document.getElementById("project-title").textContent = p.title;
+        document.getElementById("project-description").textContent =
+          p.description;
+
+        const categoryColors = {
+          ai_ml: "bg-purple-600 text-white",
+          blockchain: "bg-yellow-600 text-white",
+          iot: "bg-green-600 text-white",
+          ar_vr: "bg-pink-600 text-white",
+          data_science: "bg-blue-600 text-white",
+        };
+        const catColor = categoryColors[p.category] || "bg-gray-600 text-white";
+        document.getElementById("category-badge").className =
+          "px-4 py-2 rounded-full text-sm font-bold badge " + catColor;
+        document.getElementById("category-badge").textContent = formatCategory(
+          p.category
+        );
+
+        const statusColors = {
+          completed: "bg-green-600 text-white",
+          in_development: "bg-yellow-600 text-white",
+          beta: "bg-blue-600 text-white",
+          maintained: "bg-emerald-600 text-white",
+        };
+        const statusColor = statusColors[p.status] || "bg-gray-600 text-white";
+        document.getElementById("status-badge").className =
+          "px-4 py-2 rounded-full text-sm font-bold badge " + statusColor;
+        document.getElementById("status-badge").textContent = formatStatus(
+          p.status
+        );
+
+        document.getElementById("license-badge").textContent =
+          p.license || "MIT";
+
+        if (p.is_open_source) {
+          document
+            .getElementById("opensource-badge")
+            .classList.remove("hidden");
+        }
+
+        document
+          .getElementById("developer-section")
+          .querySelector("span").textContent =
+          p.developer_name || "NeoSharX Team";
+        document.getElementById("developer-email").textContent =
+          p.developer_email || "contact@neosharx.com";
+
+        // Populate developer profile section
+        document.getElementById("dev-name").textContent =
+          p.developer_name || "NeoSharX Team";
+        document.getElementById("dev-email").textContent =
+          p.developer_email || "contact@neosharx.com";
+        document
+          .getElementById("version-badge")
+          .querySelector("span").textContent = "v" + (p.version || "1.0.0");
+
+        document.getElementById("detailed-description").innerHTML =
+          formatContent(p.detailed_description || p.description);
+
+        if (p.features && p.features.length > 0) {
+          document.getElementById("features-list").innerHTML = p.features
+            .map(function (f) {
+              return (
+                '<li class="flex items-start gap-3 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700">' +
+                '<i class="fas fa-check-circle text-primary text-xl mt-1 flex-shrink-0"></i>' +
+                '<span class="text-gray-700 dark:text-gray-300 text-lg">' +
+                f +
+                "</span>" +
+                "</li>"
+              );
+            })
+            .join("");
+        } else {
+          document.getElementById("features-section").classList.add("hidden");
+        }
+
+        if (p.technology_list && p.technology_list.length > 0) {
+          document.getElementById("tech-stack").innerHTML = p.technology_list
+            .map(function (tech) {
+              return (
+                '<span class="badge px-4 py-2 bg-primary/10 text-primary rounded-xl font-semibold text-base border-2 border-primary/20">' +
+                tech +
+                "</span>"
+              );
+            })
+            .join("");
+        } else {
+          document.getElementById("tech-stack-section").classList.add("hidden");
+        }
+
+        if (p.screenshots && p.screenshots.length > 0) {
+          document.getElementById("screenshots-grid").innerHTML = p.screenshots
+            .map(function (img) {
+              return (
+                '<div class="group relative overflow-hidden rounded-xl cursor-pointer" onclick="window.open(' +
+                "'" +
+                img +
+                "'" +
+                ", " +
+                "'_blank'" +
+                ')">' +
+                '<img src="' +
+                img +
+                '" class="w-full h-64 object-cover transition-transform group-hover:scale-110" />' +
+                '<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">' +
+                '<i class="fas fa-expand text-white text-3xl"></i>' +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("");
+        } else {
+          document
+            .getElementById("screenshots-section")
+            .classList.add("hidden");
+        }
+
+        if (p.installation_instructions) {
+          document.getElementById("installation-content").innerHTML =
+            formatInstructions(p.installation_instructions);
+        } else {
+          document
+            .getElementById("installation-section")
+            .classList.add("hidden");
+        }
+
+        if (p.usage_instructions) {
+          document.getElementById("usage-content").innerHTML =
+            formatInstructions(p.usage_instructions);
+        } else {
+          document.getElementById("usage-section").classList.add("hidden");
+        }
+
+        if (p.github_url) {
+          document.getElementById("github-link").href = p.github_url;
+          document.getElementById("github-link").classList.remove("hidden");
+        }
+
+        if (p.demo_url) {
+          document.getElementById("demo-link").href = p.demo_url;
+          document.getElementById("demo-link").classList.remove("hidden");
+        }
+
+        document.getElementById("status-text").textContent = formatStatus(
+          p.status
+        );
+        document.getElementById("difficulty-text").textContent =
+          formatDifficulty(p.difficulty_level);
+        document.getElementById("version-text").textContent =
+          p.version || "1.0.0";
+        document.getElementById("license-text").textContent =
+          p.license || "MIT";
+
+        if (p.collaborator_list && p.collaborator_list.length > 0) {
+          document.getElementById("collaborators-list").innerHTML =
+            p.collaborator_list
+              .map(function (collab, idx) {
+                // Extract name parts for better display
+                const nameParts = collab.trim().split(" ");
+                const firstName = nameParts[0] || "";
+                const lastName = nameParts.slice(1).join(" ") || "";
+                const fullName = collab;
+
+                // Generate more realistic profile data
+                const roles = [
+                  "Lead Developer",
+                  "Data Scientist",
+                  "ML Engineer",
+                  "Full Stack Developer",
+                  "DevOps Engineer",
+                  "UI/UX Designer",
+                ];
+                const role = roles[idx % roles.length];
+
+                const expertise = [
+                  "Machine Learning",
+                  "Data Science",
+                  "AI Research",
+                  "Software Engineering",
+                  "Cloud Architecture",
+                  "Product Design",
+                ];
+                const expert = expertise[idx % expertise.length];
+
+                return (
+                  '<div class="flex items-start gap-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-xl border border-blue-100 dark:border-gray-600 hover:shadow-md transition-all duration-300">' +
+                  '<div class="relative">' +
+                  '<img src="https://i.pravatar.cc/150?img=' +
+                  (idx + 10) +
+                  '" class="w-16 h-16 rounded-full border-3 border-white dark:border-gray-600 shadow-lg" />' +
+                  '<div class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white dark:border-gray-800 flex items-center justify-center">' +
+                  '<i class="fas fa-check text-white text-xs"></i>' +
+                  "</div>" +
+                  "</div>" +
+                  '<div class="flex-1 min-w-0">' +
+                  '<div class="flex items-center gap-2 mb-1">' +
+                  '<h4 class="font-bold text-lg text-gray-900 dark:text-white truncate">' +
+                  collab +
+                  "</h4>" +
+                  '<span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-medium rounded-full">' +
+                  role +
+                  "</span>" +
+                  "</div>" +
+                  '<p class="text-sm text-gray-600 dark:text-gray-300 mb-2">' +
+                  "Specializes in " +
+                  expert +
+                  " with expertise in advanced analytics and machine learning solutions." +
+                  "</p>" +
+                  '<div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">' +
+                  '<div class="flex items-center gap-1">' +
+                  '<i class="fas fa-code"></i>' +
+                  "<span>5+ years experience</span>" +
+                  "</div>" +
+                  '<div class="flex items-center gap-1">' +
+                  '<i class="fas fa-map-marker-alt"></i>' +
+                  "<span>San Francisco, CA</span>" +
+                  "</div>" +
+                  '<div class="flex items-center gap-1">' +
+                  '<i class="fas fa-envelope"></i>' +
+                  "<span>" +
+                  (firstName.toLowerCase() +
+                    "." +
+                    lastName.toLowerCase().replace(" ", "") +
+                    "@datatech.com") +
+                  "</span>" +
+                  "</div>" +
+                  "</div>" +
+                  '<div class="flex gap-2 mt-3">' +
+                  '<button class="collaborator-connect-btn px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors cursor-pointer" data-email="' +
+                  (firstName.toLowerCase() +
+                    "." +
+                    lastName.toLowerCase().replace(" ", "") +
+                    "@datatech.com") +
+                  '" data-name="' +
+                  fullName +
+                  '">' +
+                  '<i class="fas fa-user-plus mr-1"></i>Connect' +
+                  "</button>" +
+                  '<button class="collaborator-profile-btn px-3 py-1 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 text-xs rounded-lg transition-colors cursor-pointer" data-name="' +
+                  fullName +
+                  '">' +
+                  '<i class="fas fa-external-link-alt mr-1"></i>Profile' +
+                  "</button>" +
+                  "</div>" +
+                  "</div>" +
+                  "</div>"
+                );
+              })
+              .join("");
+        } else {
+          document
+            .getElementById("collaborators-section")
+            .classList.add("hidden");
+        }
+
+        if (p.tag_list && p.tag_list.length > 0) {
+          document.getElementById("tags-list").innerHTML = p.tag_list
+            .map(function (tag) {
+              return (
+                '<span class="badge px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">' +
+                tag +
+                "</span>"
+              );
+            })
+            .join("");
+        } else {
+          document.getElementById("tags-section").classList.add("hidden");
+        }
+      }
+
+      function formatCategory(cat) {
+        const names = {
+          ai_ml: "AI & Machine Learning",
+          blockchain: "Blockchain",
+          iot: "Internet of Things",
+          ar_vr: "AR/VR",
+          data_science: "Data Science",
+        };
+        return names[cat] || cat;
+      }
+
+      function formatStatus(status) {
+        return (status || "")
+          .replace("_", " ")
+          .split(" ")
+          .map(function (w) {
+            return w.charAt(0).toUpperCase() + w.slice(1);
+          })
+          .join(" ");
+      }
+
+      function formatDifficulty(diff) {
+        return (
+          (diff || "intermediate").charAt(0).toUpperCase() +
+          (diff || "intermediate").slice(1)
+        );
+      }
+
+      function formatNumber(num) {
+        if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+        if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+        return num.toString();
+      }
+
+      function formatContent(content) {
+        if (!content)
+          return '<p class="text-gray-500">No detailed description available.</p>';
+
+        var formatted = content.replace(/\n\n/g, '</p><p class="mb-4">');
+        formatted = '<p class="mb-4">' + formatted + "</p>";
+        formatted = formatted.replace(
+          /\*\*(.*?)\*\*/g,
+          '<strong class="font-bold text-gray-900 dark:text-white">$1</strong>'
+        );
+        formatted = formatted.replace(/\*(.*?)\*/g, "<em>$1</em>");
+
+        return formatted;
+      }
+
+      function formatInstructions(text) {
+        if (!text)
+          return '<p class="text-gray-500">No instructions available.</p>';
+
+        var lines = text.split("\n");
+        var formatted = '<ol class="list-decimal list-inside space-y-2">';
+        lines.forEach(function (line) {
+          if (line.trim()) {
+            formatted +=
+              '<li class="text-gray-700 dark:text-gray-300 pl-2">' +
+              line.replace(/^\d+\.\s*/, "") +
+              "</li>";
+          }
+        });
+        formatted += "</ol>";
+
+        return formatted;
+      }
+
+      function loadRelatedProjects(allProjects, currentId) {
+        const related = allProjects
+          .filter(function (p) {
+            return p.id !== currentId && p.category === currentProject.category;
+          })
+          .slice(0, 3);
+
+        if (related.length === 0) {
+          const anyOther = allProjects
+            .filter(function (p) {
+              return p.id !== currentId;
+            })
+            .slice(0, 3);
+          if (anyOther.length > 0) {
+            displayRelated(anyOther);
+          } else {
+            document.getElementById("related-section").classList.add("hidden");
+          }
+        } else {
+          displayRelated(related);
+        }
+      }
+
+      function displayRelated(projects) {
+        document.getElementById("related-grid").innerHTML = projects
+          .map(function (p) {
+            return (
+              '<a href="neo-project-detail.html?slug=' +
+              p.slug +
+              '" class="group block bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 border border-gray-100 dark:border-gray-700">' +
+              '<div class="aspect-video bg-cover bg-center" style="background-image: url(' +
+              (p.featured_image || "https://via.placeholder.com/400x300") +
+              ')"></div>' +
+              '<div class="p-5">' +
+              '<span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold">' +
+              formatCategory(p.category) +
+              "</span>" +
+              '<h3 class="text-xl font-bold mt-3 mb-2 group-hover:text-primary transition-colors line-clamp-2">' +
+              p.title +
+              "</h3>" +
+              '<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">' +
+              p.description +
+              "</p>" +
+              "</div>" +
+              "</a>"
+            );
+          })
+          .join("");
+      }
+
+      // Button event listeners
+      function initializeButtonListeners() {
+        // Developer contact button
+        const devContactBtn = document.getElementById("dev-contact-btn");
+        if (devContactBtn) {
+          devContactBtn.addEventListener("click", function () {
+            const email = document.getElementById("dev-email").textContent;
+            const name = document.getElementById("dev-name").textContent;
+            const subject = encodeURIComponent(
+              `Collaboration Inquiry - ${document.title}`
+            );
+            const body = encodeURIComponent(
+              `Hi ${name},\n\nI'm interested in collaborating on this project. Please let me know how we can work together.\n\nBest regards,\n[Your Name]`
+            );
+            window.open(`mailto:${email}?subject=${subject}&body=${body}`);
+          });
+        }
+
+        // Developer profile button
+        const devProfileBtn = document.getElementById("dev-profile-btn");
+        if (devProfileBtn) {
+          devProfileBtn.addEventListener("click", function () {
+            const name = document.getElementById("dev-name").textContent;
+            // For now, show an alert - in a real app this would link to their profile page
+            alert(
+              `Opening ${name}'s profile page...\n\n(This would navigate to their full profile in a complete application)`
+            );
+          });
+        }
+
+        // Collaborator buttons (using event delegation since they're dynamically generated)
+        document.addEventListener("click", function (e) {
+          // Connect button
+          if (
+            e.target.classList.contains("collaborator-connect-btn") ||
+            e.target.closest(".collaborator-connect-btn")
+          ) {
+            const button = e.target.classList.contains(
+              "collaborator-connect-btn"
+            )
+              ? e.target
+              : e.target.closest(".collaborator-connect-btn");
+            const name = button.getAttribute("data-name");
+            const email = button.getAttribute("data-email");
+
+            const subject = encodeURIComponent("Collaboration Request");
+            const body = encodeURIComponent(
+              `Hi ${name},\n\nI'd like to connect with you regarding this project. I'm interested in your expertise and would love to discuss potential collaboration opportunities.\n\nBest regards,\n[Your Name]`
+            );
+            window.open(`mailto:${email}?subject=${subject}&body=${body}`);
+          }
+
+          // Profile button
+          if (
+            e.target.classList.contains("collaborator-profile-btn") ||
+            e.target.closest(".collaborator-profile-btn")
+          ) {
+            const button = e.target.classList.contains(
+              "collaborator-profile-btn"
+            )
+              ? e.target
+              : e.target.closest(".collaborator-profile-btn");
+            const name = button.getAttribute("data-name");
+
+            // For now, show an alert - in a real app this would link to their profile page
+            alert(
+              `Opening ${name}'s profile page...\n\n(This would navigate to their full profile in a complete application)`
+            );
+          }
+        });
+      }
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === "function") {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton =
+                document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener("click", function (event) {
+                  if (
+                    !mobileMenuButton.contains(event.target) &&
+                    !mobileMenu.contains(event.target) &&
+                    isMenuOpen
+                  ) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  }
+                });
+              }
+            }
+          }, 100);
+
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () =>
+            console.log("Global auth loaded successfully");
+          authScript.onerror = () =>
+            console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      document.addEventListener("DOMContentLoaded", function () {
+        loadProject();
+        // Initialize button listeners after a short delay to ensure DOM is ready
+        setTimeout(initializeButtonListeners, 100);
+      });
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="comment-system-light.js"></script>
+    <script src="test-buttons.js"></script>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Social Media -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+            <div class="flex gap-4">
+              <a
+                href="https://instagram.com/neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://linkedin.com/company/neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://twitter.com/neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417a9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://youtube.com/@neosharx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gray-800 hover:bg-red-600 p-3 rounded-full transition-all duration-200 transform hover:scale-110"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Communities -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Join Communities</h3>
+            <div class="space-y-2">
+              <a
+                href="#"
+                class="block text-gray-300 hover:text-white transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                  Discord Community
+                </span>
+              </a>
+              <a
+                href="#"
+                class="block text-gray-300 hover:text-white transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                    />
+                  </svg>
+                  Slack Workspace
+                </span>
+              </a>
+              <a
+                href="#"
+                class="block text-gray-300 hover:text-white transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
+                  </svg>
+                  Telegram Group
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- About Us -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">About Us</h3>
+            <p class="text-gray-300 leading-relaxed text-sm">
+              NeoSharX empowers startups through innovation, collaboration, and
+              community-driven growth. Join our ecosystem of entrepreneurs and
+              innovators.
+            </p>
+            <a
+              href="about.html"
+              class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-medium"
+            >
+              Learn More
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Contact -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold mb-4">Contact</h3>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 text-gray-300">
+                <svg
+                  class="w-5 h-5 text-blue-400 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                <a
+                  href="mailto:hello@neosharx.com"
+                  class="hover:text-white transition-colors"
+                  >hello@neosharx.com</a
+                >
+              </div>
+              <div class="flex items-center gap-3 text-gray-300">
+                <svg
+                  class="w-5 h-5 text-blue-400 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
+                </svg>
+                <a
+                  href="tel:+1234567890"
+                  class="hover:text-white transition-colors"
+                  >+1 (234) 567-890</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-700 pt-8 mt-8">
+          <div
+            class="flex flex-col md:flex-row justify-between items-center gap-4"
+          >
+            <p class="text-gray-400 text-sm text-center md:text-left">
+              <img
+                src="logo27.png"
+                alt="NeoSharX Logo"
+                class="h-6 w-6 inline mr-2"
+              />© 2025 NeoSharX. All rights reserved.
+            </p>
+            <div class="flex items-center gap-2">
+              <svg
+                class="h-5 w-5 text-blue-400"
+                fill="none"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span class="text-gray-400 text-sm"
+                >Built with ❤️ for innovators</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
